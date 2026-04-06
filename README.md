@@ -1,1 +1,1 @@
-# CSIT228-Capstone
+# CSIT228 - Capstone
