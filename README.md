@@ -3,17 +3,18 @@
 - Daniel Aguilar
 - Gabriel Elorde
 - Heron Jay Conde
-- Joel Theo
+- Joel Theo Gallarde
 - Renz Gabriel Etcuban
 
 ## Project Description
-Brief description of the system and the problem it solves.
+A desktop application solving communication friction in boarding houses by automating chore schedules and bill splitting to reduce social anxiety.
 
 ## Proposed Features
-- Feature 1
-- Feature 2
-- Feature 3
-
+- Automated Chore Rotation
+- Chore Tracking
+- Shared Expense and Utility Splitter
+- Nudge Notifications (Automated alerts)
+  
 ## Planned Technologies
 - Java
 - JavaFX
@@ -21,7 +22,11 @@ Brief description of the system and the problem it solves.
 - Database (SQLite)
 
 ## Evaluation Criteria Mapping (Initial)
-- OOP: Planned use of classes such as ...
-- GUI: JavaFX with FXML views
-- UML: Use Case and Class Diagram included
-- Design Pattern: (Tentative, e.g., Singleton for DB connection)
+- **OOP:** Implementation of inheritance (Roommate extends User) and encapsulation for sensitive financial data.
+- **Multithreading:** Background tasks will handle scheduled "Nudges" and database saves to keep the GUI responsive.
+- **GUI:** Interactive JavaFX interface using FXML and event-driven button handlers.
+- **Database:** SQLite integration for local persistence of household records.
+- **Java Generics:** Use of List<Chore> and Map<User, Double> for flexible data handling. *(Maybe)*
+  ### Design Pattern/s:
+- **Singleton Pattern** for the Database Connection
+- **Observer Pattern** for real-time dashboard updates.
