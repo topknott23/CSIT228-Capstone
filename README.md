@@ -1,4 +1,4 @@
-# CSIT228 - Capstone (Name still to be decided)
+# CSIT228 - Capstone DoBoard
 ## Group Members
 - Daniel Aguilar
 - Gabriel Elorde
