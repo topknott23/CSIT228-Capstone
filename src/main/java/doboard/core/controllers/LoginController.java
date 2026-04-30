@@ -36,8 +36,34 @@ public class LoginController {
 
     @FXML
     private void handleSignIn(ActionEvent event) {
-        // TODO: Implement logic
+        String email = emailField.getText();
+        String password = passwordField.getText();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            showAlert(javafx.scene.control.Alert.AlertType.ERROR, "Login Failed", "Please enter both email and password.");
+            return;
+        }
+
+        doboard.core.dao.UserDAO userDAO = new doboard.core.dao.UserDAO();
+        doboard.core.models.User loggedInUser = userDAO.authenticateUser(email, password);
+
+        if (loggedInUser != null) {
+            // Save user to session
+            doboard.core.util.UserSession.getInstance().setCurrentUser(loggedInUser);
+            
+            // Go to Main Menu
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            SceneLoader.loadScene(stage, "/com/doboard/view/main-menu.fxml", "DoBoard - Dashboard");
+        } else {
+            showAlert(javafx.scene.control.Alert.AlertType.ERROR, "Login Failed", "Invalid email or password.");
+        }
     }
 
-
+    private void showAlert(javafx.scene.control.Alert.AlertType alertType, String title, String message) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

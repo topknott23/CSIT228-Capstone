@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" stylesheets="@../../styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.core.controllers.BillsController">
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="220.0" spacing="15.0" style="-fx-background-color: #406AAF;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="30.0" />
+            </padding>
+            <Label text="DoBoard" textFill="#ffd94c">
+                <font>
+                    <Font name="System Bold" size="24.0" />
+                </font>
+                <VBox.margin>
+                    <Insets bottom="30.0" />
+                </VBox.margin>
+            </Label>
+            
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#goToDashboard" styleClass="navBtn" text="Dashboard" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#goToDormitory" styleClass="navBtn" text="My Dorm" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#goToChores" styleClass="navBtn" text="Chores" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" styleClass="navBtn" text="Bills" />
+            
+            <VBox VBox.vgrow="ALWAYS" />
+            
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#logout" styleClass="navBtn" text="Logout" />
+        </VBox>
+    </left>
+    
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="20.0" style="-fx-background-color: #F4F6F9;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
+            
+            <Label text="Dormitory Bills" textFill="#406aaf">
+                <font>
+                    <Font name="System Bold" size="28.0" />
+                </font>
+            </Label>
+
+            <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+                <!-- BILLS LIST -->
+                <VBox prefWidth="400.0" spacing="10.0" styleClass="dashboardCard" HBox.hgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                    <Label text="Upcoming Bills" textFill="#406aaf">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <ListView fx:id="billsListView" VBox.vgrow="ALWAYS" />
+                </VBox>
+                
+                <!-- CREATE BILL (ADMIN ONLY) -->
+                <VBox fx:id="adminPanel" prefWidth="300.0" spacing="10.0" styleClass="dashboardCard" visible="false" managed="false">
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                    </padding>
+                    <Label text="Create a Bill" textFill="#406aaf">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Label>
+                    <Label text="This will automatically split the cost among all members." textFill="#666666" wrapText="true" />
+                    
+                    <TextField fx:id="titleField" promptText="Utility (e.g. Electricity)" styleClass="input-field" />
+                    <TextField fx:id="amountField" promptText="Total Amount (e.g. 1500.50)" styleClass="input-field" />
+                    <DatePicker fx:id="dueDatePicker" promptText="Due Date" maxWidth="Infinity" />
+                    
+                    <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#handleCreateBill" styleClass="entryBtn" text="Split Bill">
+                        <VBox.margin>
+                            <Insets top="10.0" />
+                        </VBox.margin>
+                    </Button>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
