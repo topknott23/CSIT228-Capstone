@@ -11,33 +11,29 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class LoginController {
-
-    @FXML private TextField emailField;
-    @FXML private PasswordField passwordField;
-    @FXML private Button signInButton;
+public class RegisterController {
     @FXML private StackPane rootPane;
     @FXML private ImageView backgroundView;
+    @FXML private TextField emailField;
+    @FXML private TextField fullNameField;
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private Button registerButton;
 
     @FXML
     private void initialize(){
-        backgroundView.fitHeightProperty().bind(rootPane.heightProperty());
         backgroundView.fitWidthProperty().bind(rootPane.widthProperty());
+        backgroundView.fitHeightProperty().bind(rootPane.heightProperty());
     }
 
     @FXML
-    private void goRegister(ActionEvent event){
+    private void goLogin(ActionEvent event){
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SceneLoader.loadScene(stage, "/com/doboard/view/register-view.fxml", "TEST");
+        SceneLoader.loadScene(stage, "/com/doboard/view/login-view.fxml", "TEST");
     }
 
     @FXML
-    private void handleSignIn(ActionEvent event) {
-        // TODO: Implement logic
+    private void handleRegister(ActionEvent event){
+        // TODO: Implement Logic
     }
-
-
 }

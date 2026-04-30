@@ -1,0 +1,38 @@
+
+
+/* ENTRY */
+.entryCard {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+.entryHdr {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFD94C;
+}
+.entryBtn {
+    -fx-background-color: #406AAF;
+    -fx-text-fill: #FFD94C;
+    -fx-background-radius: 12;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.entryBtn:hover{
+    -fx-background-color: derive(#406AAF, 20%);
+    -fx-border-color: transparent;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: derive(#FFD94C, 10%);
+}
+.input-field {
+    -fx-background-color: #E7E7E7;
+    -fx-background-radius: 20;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 0, 0, -1, 2);
+}
+.hyperlink{
+    -fx-text-fill: #427AB5;
+    -fx-font-weight: bold;
+}
