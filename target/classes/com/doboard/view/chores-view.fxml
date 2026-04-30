@@ -64,6 +64,16 @@
                         </font>
                     </Label>
                     <ListView fx:id="choresListView" VBox.vgrow="ALWAYS" />
+                    
+                    <Label text="Recently Completed" textFill="#888888">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                        <VBox.margin>
+                            <Insets top="10.0" />
+                        </VBox.margin>
+                    </Label>
+                    <ListView fx:id="completedChoresListView" VBox.vgrow="ALWAYS" />
                 </VBox>
                 
                 <!-- CREATE CHORE (ADMIN ONLY) -->
@@ -84,6 +94,12 @@
                     <ComboBox fx:id="assigneeBox" promptText="Assign To" maxWidth="Infinity" />
                     
                     <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#handleCreateChore" styleClass="entryBtn" text="Assign Chore">
+                        <VBox.margin>
+                            <Insets top="10.0" />
+                        </VBox.margin>
+                    </Button>
+                    
+                    <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#handleBatchAssign" style="-fx-background-color: #E25D5D; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Batch Assign Presets">
                         <VBox.margin>
                             <Insets top="10.0" />
                         </VBox.margin>

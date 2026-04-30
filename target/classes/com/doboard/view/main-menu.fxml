@@ -50,59 +50,61 @@
             </Label>
             
             <!-- DASHBOARD CARDS -->
-            <HBox spacing="20.0">
+            <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                 <!-- Chores Card -->
-                <VBox prefHeight="200.0" prefWidth="300.0" styleClass="dashboardCard">
+                <VBox prefHeight="200.0" prefWidth="400.0" styleClass="dashboardCard" HBox.hgrow="ALWAYS">
                     <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
-                    <Label text="Pending Chores" textFill="#406aaf">
+                    <Label text="My Pending Chores" textFill="#406aaf">
                         <font>
                             <Font name="System Bold" size="18.0" />
                         </font>
                     </Label>
-                    <Label text="You have 0 pending chores." textFill="#666666">
+                    <javafx.scene.control.ListView fx:id="dashboardChoresList" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets top="10.0" />
                         </VBox.margin>
-                    </Label>
+                    </javafx.scene.control.ListView>
                 </VBox>
                 
                 <!-- Bills Card -->
-                <VBox prefHeight="200.0" prefWidth="300.0" styleClass="dashboardCard">
+                <VBox prefHeight="200.0" prefWidth="400.0" styleClass="dashboardCard" HBox.hgrow="ALWAYS">
                     <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
-                    <Label text="Upcoming Bills" textFill="#406aaf">
+                    <Label text="My Unpaid Bills" textFill="#406aaf">
                         <font>
                             <Font name="System Bold" size="18.0" />
                         </font>
                     </Label>
-                    <Label text="You owe $0.00 this month." textFill="#666666">
+                    <javafx.scene.control.ListView fx:id="dashboardBillsList" VBox.vgrow="ALWAYS">
                         <VBox.margin>
                             <Insets top="10.0" />
                         </VBox.margin>
-                    </Label>
+                    </javafx.scene.control.ListView>
                 </VBox>
             </HBox>
             
-            <VBox prefHeight="250.0" prefWidth="600.0" styleClass="dashboardCard">
+            <VBox prefHeight="150.0" prefWidth="600.0" styleClass="dashboardCard">
                 <padding>
                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                 </padding>
                 <VBox.margin>
                     <Insets top="10.0" />
                 </VBox.margin>
-                <Label text="Recent Activity" textFill="#406aaf">
+                <Label text="Quick Actions" textFill="#406aaf">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <Label text="No recent activity to display." textFill="#666666">
+                <HBox spacing="10.0">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
-                </Label>
+                    <Button mnemonicParsing="false" onAction="#goToChores" styleClass="entryBtn" text="Manage Chores" />
+                    <Button mnemonicParsing="false" onAction="#goToBills" styleClass="entryBtn" text="Pay Bills" />
+                </HBox>
             </VBox>
         </VBox>
     </center>

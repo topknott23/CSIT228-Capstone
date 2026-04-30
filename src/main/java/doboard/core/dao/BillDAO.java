@@ -91,9 +91,9 @@ public class BillDAO {
         return bills;
     }
 
-    public List<String> getUserBillSummaries(int dormId, int userId) {
-        List<String> summaries = new ArrayList<>();
-        String sql = "SELECT b.title, b.total_amount, b.due_date, s.amount_owed, s.is_paid " +
+    public List<doboard.core.models.BillDisplay> getUserBills(int dormId, int userId) {
+        List<doboard.core.models.BillDisplay> bills = new ArrayList<>();
+        String sql = "SELECT b.title, b.total_amount, b.due_date, s.split_id, s.amount_owed, s.is_paid " +
                      "FROM bills b JOIN bill_splits s ON b.bill_id = s.bill_id " +
                      "WHERE b.dorm_id = ? AND s.user_id = ?";
 
@@ -104,20 +104,31 @@ public class BillDAO {
             pstmt.setInt(2, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    String title = rs.getString("title");
-                    double total = rs.getDouble("total_amount");
-                    double owed = rs.getDouble("amount_owed");
-                    LocalDate due = rs.getDate("due_date").toLocalDate();
-                    boolean isPaid = rs.getBoolean("is_paid");
-                    
-                    String status = isPaid ? "[PAID]" : "[UNPAID]";
-                    summaries.add(String.format("%s - Total: $%.2f | You Owe: $%.2f (Due: %s) %s", 
-                                  title, total, owed, due.toString(), status));
+                    bills.add(new doboard.core.models.BillDisplay(
+                        rs.getInt("split_id"),
+                        rs.getString("title"),
+                        rs.getDouble("total_amount"),
+                        rs.getDouble("amount_owed"),
+                        rs.getDate("due_date").toLocalDate(),
+                        rs.getBoolean("is_paid")
+                    ));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return summaries;
+        return bills;
+    }
+
+    public boolean markBillAsPaid(int splitId) {
+        String sql = "UPDATE bill_splits SET is_paid = true WHERE split_id = ?";
+        try (Connection conn = Database.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, splitId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

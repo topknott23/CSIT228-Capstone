@@ -18,7 +18,7 @@ import java.util.List;
 
 public class BillsController {
 
-    @FXML private ListView<String> billsListView;
+    @FXML private ListView<doboard.core.models.BillDisplay> billsListView;
     @FXML private VBox adminPanel;
     
     @FXML private TextField titleField;
@@ -43,16 +43,63 @@ public class BillsController {
                     adminPanel.setVisible(true);
                     adminPanel.setManaged(true);
                 }
+                setupListView();
                 loadBills();
             }
         }
     }
 
+    private void setupListView() {
+        billsListView.setCellFactory(param -> new ListCell<doboard.core.models.BillDisplay>() {
+            @Override
+            protected void updateItem(doboard.core.models.BillDisplay bill, boolean empty) {
+                super.updateItem(bill, empty);
+                if (empty || bill == null) {
+                    setText(null);
+                    setGraphic(null);
+                    setStyle("-fx-background-color: transparent;");
+                } else {
+                    javafx.scene.layout.HBox root = new javafx.scene.layout.HBox(10);
+                    root.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+                    root.setStyle("-fx-padding: 10px; -fx-background-color: #E25D5D; -fx-background-radius: 5px;");
+
+                    String displayText = String.format("%s - Total: $%.2f | You Owe: $%.2f (Due: %s)", 
+                        bill.getTitle(), bill.getTotalAmount(), bill.getAmountOwed(), bill.getDueDate());
+                    
+                    Label billLabel = new Label(displayText);
+                    billLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold;");
+                    javafx.scene.layout.HBox.setHgrow(billLabel, javafx.scene.layout.Priority.ALWAYS);
+                    billLabel.setMaxWidth(Double.MAX_VALUE);
+
+                    Button payBtn = new Button("Pay My Share");
+                    payBtn.setStyle("-fx-background-color: #1A1A1A; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
+                    
+                    if (bill.isPaid()) {
+                        payBtn.setText("Paid");
+                        payBtn.setDisable(true);
+                        root.setStyle("-fx-padding: 10px; -fx-background-color: #888888; -fx-background-radius: 5px;");
+                    } else {
+                        payBtn.setOnAction(e -> {
+                            if (billDAO.markBillAsPaid(bill.getSplitId())) {
+                                doboard.core.util.AppEventBus.getInstance().notifyObservers();
+                                loadBills();
+                            }
+                        });
+                    }
+
+                    root.getChildren().addAll(billLabel, payBtn);
+                    setGraphic(root);
+                    setStyle("-fx-background-color: transparent; -fx-padding: 5px 0px;");
+                }
+            }
+        });
+    }
+
     private void loadBills() {
         int userId = UserSession.getInstance().getCurrentUser().getUser_id();
-        List<String> summaries = billDAO.getUserBillSummaries(currentDorm.getDorm_id(), userId);
+        List<doboard.core.models.BillDisplay> bills = billDAO.getUserBills(currentDorm.getDorm_id(), userId);
         billsListView.getItems().clear();
-        billsListView.getItems().addAll(summaries);
+        billsListView.getItems().addAll(bills);
     }
 
     @FXML
