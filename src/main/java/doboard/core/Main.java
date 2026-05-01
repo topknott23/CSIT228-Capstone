@@ -20,7 +20,10 @@ public class Main extends Application {
         User savedUser = SessionHandler.loadSession();
         if(savedUser != null) {
             Popup.show("Welcome Back", "Session restored: welcome back " + savedUser.getUsername());
-            //TODO: Redirect to dashboard with the user logged in
+            //TODO: Ierase ni inig naa na ang dashboard
+            /*
+            SceneLoader.loadScene(stage, "/com/doboard/view/main-menu.fxml", "DoBoard - Dashboard");
+            */
         } else {
             showLogInScreen(stage);
         }
