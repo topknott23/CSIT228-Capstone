@@ -10,9 +10,14 @@ public class Chore {
     String description;
     Frequency frequency;
     LocalDate due_date;
-    boolean status;
+    Status status;
 
-    public Chore(int chore_id, String description, Frequency frequency, LocalDate due_date, boolean status) {
+    public enum Status {
+        PENDING,
+        COMPLETE
+    }
+
+    public Chore(int chore_id, String description, Frequency frequency, LocalDate due_date, Status status) {
         this.chore_id = chore_id;
         this.description = description;
         this.frequency = frequency;
@@ -38,7 +43,7 @@ public class Chore {
         return due_date;
     }
 
-    public boolean isStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -60,7 +65,7 @@ public class Chore {
         this.due_date = due_date;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

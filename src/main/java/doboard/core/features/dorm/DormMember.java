@@ -1,5 +1,6 @@
 package doboard.core.features.dorm;
 
+//This class simply simulates the relationship between a member and their dorm joined
 public class DormMember {
     private int dorm_id;
     private int user_id;

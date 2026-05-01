@@ -60,7 +60,7 @@ public class LoginController {
             SceneLoader.loadScene(stage, "/com/doboard/view/main-menu.fxml", "DoBoard - Dashboard");
             */
         } else {
-            Popup.show("Login failed: Username or password is incorrect.", "Login failed.");
+            Popup.show("Login failed!", "Login failed: Username or password is incorrect.");
         }
     }
 
