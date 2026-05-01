@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 public class Chore {
     final int chore_id;
+    private int dorm_id;
     String title;
     String description;
     Frequency frequency;
@@ -17,16 +18,24 @@ public class Chore {
         COMPLETE
     }
 
-    public Chore(int chore_id, String description, Frequency frequency, LocalDate due_date, Status status) {
+    public Chore(int chore_id, int dorm_id, String title, String description, Frequency frequency, LocalDate due_date, Status status) {
         this.chore_id = chore_id;
+        this.dorm_id = dorm_id;
+        this.title = title;
         this.description = description;
         this.frequency = frequency;
         this.due_date = due_date;
         this.status = status;
     }
 
-
     //GETTERS
+    public int getChore_id() {
+        return chore_id;
+    }
+
+    public int getDorm_id() {
+        return dorm_id;
+    }
     public String getTitle() {
         return title;
     }

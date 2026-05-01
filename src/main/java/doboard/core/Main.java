@@ -24,6 +24,7 @@ public class Main extends Application {
             /*
             SceneLoader.loadScene(stage, "/com/doboard/view/main-menu.fxml", "DoBoard - Dashboard");
             */
+            showLogInScreen(stage);
         } else {
             showLogInScreen(stage);
         }

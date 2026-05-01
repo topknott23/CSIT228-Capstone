@@ -7,11 +7,11 @@ public class Bill {
     private final int bill_id;
     private int dorm_id;
     private String title;
-    private String total_amount;
+    private double total_amount;
     private LocalDate bill_due_date;
     private Instant created_at;
 
-    public Bill(int bill_id, int dorm_id, String title, String total_amount, LocalDate bill_due_date) {
+    public Bill(int bill_id, int dorm_id, String title, double total_amount, LocalDate bill_due_date) {
         this.bill_id = bill_id;
         this.dorm_id = dorm_id;
         this.title = title;
@@ -34,7 +34,7 @@ public class Bill {
         return title;
     }
 
-    public String getTotal_amount() {
+    public double getTotal_amount() {
         return total_amount;
     }
 
@@ -56,7 +56,7 @@ public class Bill {
         this.title = title;
     }
 
-    public void setTotal_amount(String total_amount) {
+    public void setTotal_amount(double total_amount) {
         this.total_amount = total_amount;
     }
 
