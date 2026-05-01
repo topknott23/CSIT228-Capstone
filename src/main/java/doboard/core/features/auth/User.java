@@ -7,6 +7,7 @@ public class User implements Serializable {
     private final int user_id;
     private String username;
     private String email;
+    private String full_name;
     private transient String password;
     private final Instant created_at; //Timestamp
 
@@ -18,14 +19,23 @@ public class User implements Serializable {
         created_at = Instant.now();
     }
 
+    //This constructor should be only called when logging in an existing user, see Authenticator.Login
+    public User() {
+        this.user_id = -1;
+        this.username = null;
+        this.email = null;
+        this.password = null;
+        this.created_at = null;
+    }
+
 
     //GETTERS
     public int getUser_id() {
         return user_id;
     }
 
-    public Instant getCreated_at() {
-        return created_at;
+    public long getCreated_at() {
+        return created_at.getEpochSecond();
     }
 
     public String getEmail() {
@@ -36,6 +46,14 @@ public class User implements Serializable {
         return username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFull_name() {
+        return full_name;
+    }
+
 
     //SETTERS
     public void setUsername(String username) {
@@ -44,5 +62,13 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 }
