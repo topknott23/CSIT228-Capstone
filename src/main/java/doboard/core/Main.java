@@ -16,3 +16,4 @@ public class Main extends Application {
         stage.show();
     }
 }
+//dapat on ang xampp og ni insert ka atong jdbc sql sa project structure
