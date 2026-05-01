@@ -12,9 +12,16 @@ public class SceneLoader {
     public static void loadScene(Stage stage, String fxmlPath, String title) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(SceneLoader.class.getResource(fxmlPath)));
-            Scene scene = new Scene(root);
+            Scene currentScene = stage.getScene();
+            if (currentScene != null) {
+                // If a scene already exists, igo ra iswap the root to preserve window size/fullscreen state
+                currentScene.setRoot(root);
+            } else {
+                // First time setup (like initial app launch)
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+            }
             stage.setTitle(title);
-            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             System.err.println("Could not load FXML: " + fxmlPath);

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 public class User implements Serializable {
-    private final int user_id;
+    private int user_id;
     private String username;
     private String email;
     private String full_name;
@@ -35,8 +35,8 @@ public class User implements Serializable {
         return user_id;
     }
 
-    public long getCreated_at() {
-        return created_at.getEpochSecond();
+    public Instant getCreated_at() {
+        return this.created_at;
     }
 
     public String getEmail() {
@@ -57,6 +57,11 @@ public class User implements Serializable {
 
 
     //SETTERS
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+    
     public void setUsername(String username) {
         this.username = username;
     }

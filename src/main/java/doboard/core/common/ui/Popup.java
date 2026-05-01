@@ -1,6 +1,7 @@
 package doboard.core.common.ui;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 public class Popup {
     private static Popup instance;
@@ -19,6 +20,9 @@ public class Popup {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
         alert.showAndWait();
     }
+
 }

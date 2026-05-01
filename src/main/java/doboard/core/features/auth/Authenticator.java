@@ -17,12 +17,14 @@ public class Authenticator {
             s.setString(2, password);
             ResultSet r = s.executeQuery();
 
-            String full_name = null;
+            String full_name;
             if(r.next()){
-                User user = new User();
-                user.setUsername(r.getString("username"));
-                user.setEmail(r.getString("email"));
-                user.setPassword(r.getString("password"));
+                User user = new User(
+                        r.getInt("user_id"),
+                        r.getString("username"),
+                        r.getString("email"),
+                        r.getString("password")
+                );
                 user.setFull_name(r.getString("full_name"));
 
                 full_name = r.getString("full_name");
@@ -33,6 +35,7 @@ public class Authenticator {
             e.printStackTrace();
         }
         //If this method returns null it means incorrect password @topknott23
+        //hahaha sige
         return null;
     }
 
@@ -44,11 +47,14 @@ public class Authenticator {
             s.setString(1, user.getUsername());
             s.setString(2, user.getEmail());
             s.setString(3, user.getPassword());
-            s.setLong(4, user.getCreated_at());
+            s.setTimestamp(4, java.sql.Timestamp.from(user.getCreated_at()));
+            s.setString(5, user.getFull_name());
 
             int affectedRows = s.executeUpdate();
             if(affectedRows == 0){
                 System.out.printf("Register failed!\n");
+            } else {
+                System.out.printf("Register successful! Registered: " + user.getFull_name() + "\n");
             }
         } catch (SQLException e) {
             e.printStackTrace();
