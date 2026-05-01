@@ -28,7 +28,7 @@ public class LoginController {
     @FXML
     private void goRegister(ActionEvent event){
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SceneLoader.loadScene(stage, "/com/doboard/view/register-view.fxml", "TEST");
+        SceneLoader.loadScene(stage, "/com/doboard/view/register-view.fxml", "Register");
     }
 
     @FXML
