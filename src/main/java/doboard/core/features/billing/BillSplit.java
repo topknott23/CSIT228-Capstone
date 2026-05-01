@@ -1,4 +1,4 @@
-package doboard.core.models;
+package doboard.core.features.billing;
 
 public class BillSplit {
     private int split_id;

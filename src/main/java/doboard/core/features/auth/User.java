@@ -1,4 +1,4 @@
-package doboard.core.models;
+package doboard.core.features.auth;
 
 import java.io.Serializable;
 import java.time.Instant;

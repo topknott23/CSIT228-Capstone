@@ -1,4 +1,4 @@
-package doboard.core.models;
+package doboard.core.features.billing;
 
 import java.time.LocalDate;
 import java.time.Instant;

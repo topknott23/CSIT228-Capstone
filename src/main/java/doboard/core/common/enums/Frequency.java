@@ -1,4 +1,4 @@
-package doboard.core.models;
+package doboard.core.common.enums;
 
 public enum Frequency {
     DAILY,

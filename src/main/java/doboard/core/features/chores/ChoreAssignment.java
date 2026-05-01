@@ -1,4 +1,4 @@
-package doboard.core.models;
+package doboard.core.features.chores;
 
 public class ChoreAssignment {
     private int chore_id;

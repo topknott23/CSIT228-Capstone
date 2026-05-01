@@ -1,4 +1,6 @@
-package doboard.core.models;
+package doboard.core.features.chores;
+
+import doboard.core.common.enums.Frequency;
 
 import java.time.LocalDate;
 

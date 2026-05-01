@@ -1,4 +1,4 @@
-package doboard.core.util;
+package doboard.core.common.ui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

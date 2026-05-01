@@ -1,6 +1,6 @@
-package doboard.core.controllers;
+package doboard.core.features.auth;
 
-import doboard.core.util.SceneLoader;
+import doboard.core.common.ui.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

@@ -1,4 +1,4 @@
-package doboard.core.models;
+package doboard.core.features.dorm;
 
 public class DormMember {
     private int dorm_id;

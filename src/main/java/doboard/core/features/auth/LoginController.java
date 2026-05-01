@@ -1,6 +1,6 @@
-package doboard.core.controllers;
+package doboard.core.features.auth;
 
-import doboard.core.util.SceneLoader;
+import doboard.core.common.ui.SceneLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,9 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class LoginController {
 
