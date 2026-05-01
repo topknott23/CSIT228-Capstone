@@ -19,7 +19,8 @@ public class User implements Serializable {
         created_at = Instant.now();
     }
 
-    //This constructor should be only called when logging in an existing user, see Authenticator.Login
+    //This constructor should be only called when logging in an existing user or reloading an active session (deserialization)
+    //Returns a dummy user
     public User() {
         this.user_id = -1;
         this.username = null;
