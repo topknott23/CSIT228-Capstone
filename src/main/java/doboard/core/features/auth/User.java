@@ -11,8 +11,7 @@ public class User implements Serializable {
     private transient String password;
     private final Instant created_at; //Timestamp
 
-    public User(int user_id, String username, String email, String password) {
-        this.user_id = user_id;
+    public User(String username, String email, String full_name, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -21,6 +20,14 @@ public class User implements Serializable {
 
     //This constructor should be only called when logging in an existing user or reloading an active session (deserialization)
     //Returns a dummy user
+    public User(int user_id, String username, String email, String full_name, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        created_at = Instant.now();
+    }
+
+
     public User() {
         this.user_id = -1;
         this.username = null;

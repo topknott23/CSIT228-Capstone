@@ -24,7 +24,7 @@ public class SceneLoader {
             stage.setTitle(title);
             stage.show();
         } catch (IOException e) {
-            System.err.println("Could not load FXML: " + fxmlPath);
+            System.out.println("Could not load FXML: " + fxmlPath);
             e.printStackTrace();
         }
     }
