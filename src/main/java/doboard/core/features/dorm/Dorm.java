@@ -15,6 +15,12 @@ public class Dorm {
         this.created_at = Instant.now();
     }
 
+    public Dorm(int dorm_id, String dorm_name, String join_code,  Instant created_at) {
+        this.dorm_id = dorm_id;
+        this.dorm_name = dorm_name;
+        this.join_code = join_code;
+        this.created_at = created_at;
+    }
 
     //GETTERS
     public int getDorm_id() {

@@ -6,6 +6,7 @@ public class DormMember {
     private int user_id;
     private Role role;
 
+
     public enum Role  {
         ADMIN,
         RESIDENT

@@ -18,8 +18,7 @@ public class User implements Serializable {
         created_at = Instant.now();
     }
 
-    //This constructor should be only called when logging in an existing user or reloading an active session (deserialization)
-    //Returns a dummy user
+
     public User(int user_id, String username, String email, String full_name, String password) {
         this.username = username;
         this.email = email;
