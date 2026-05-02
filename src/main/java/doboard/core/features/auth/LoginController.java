@@ -46,8 +46,8 @@ public class LoginController {
         }
 
         //TODO:
-        // 1. Call Authenticator.login(username, password) to verify credentials.
-        User loggedInUser = Authenticator.Login(usernameInput, passwordInput);
+        // 1. Call UserDAO.login(username, password) to verify credentials.
+        User loggedInUser = UserDAO.Login(usernameInput, passwordInput);
 
         // 2. If the user is found, call SessionHandler.saveSession(user) to persist the login.
         if(loggedInUser != null){

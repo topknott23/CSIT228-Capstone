@@ -9,47 +9,55 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    public User findByUsernameAndPassword(String email, String password) {
-        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
-        try (Connection c = SQLConnector.getConnection();
-                PreparedStatement s = c.prepareStatement(query)) {
-
-            // bugo heron
-            s.setString(1, email);
+    public static User Login(String username, String password) {
+        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
+        try(Connection c = SQLConnector.getConnection();
+            PreparedStatement s = c.prepareStatement(query);
+        ) {
+            s.setString(1, username);
             s.setString(2, password);
             ResultSet r = s.executeQuery();
 
-            if (r.next()) {
+            String full_name;
+            if(r.next()){
                 User user = new User(
                         r.getInt("user_id"),
                         r.getString("username"),
                         r.getString("email"),
-                        r.getString("password"));
-                user.setFull_name(r.getString("full_name"));
+                        r.getString("full_name"),
+                        r.getString("password")
+                );
+
+                full_name = r.getString("full_name");
+                System.out.println("User logged in: " + full_name);
                 return user;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("debug nganong dili mani mogana kayawa gwapaha aning sarah");
         return null;
     }
 
-    public boolean insert(User user) {
-        String query = "INSERT INTO users(username, email, password, created_at, full_name) VALUES(?, ?, ?, ?, ?)";
-        try (Connection c = SQLConnector.getConnection();
-                PreparedStatement s = c.prepareStatement(query)) {
 
+    public static void Register(User user) {
+        String query = "INSERT INTO users(username, email, password, created_at, full_name) VALUES(?, ?, ?, ?, ?)";
+        try(Connection c = SQLConnector.getConnection();
+            PreparedStatement s = c.prepareStatement(query);
+        ) {
             s.setString(1, user.getUsername());
             s.setString(2, user.getEmail());
             s.setString(3, user.getPassword());
             s.setTimestamp(4, java.sql.Timestamp.from(user.getCreated_at()));
             s.setString(5, user.getFull_name());
 
-            return s.executeUpdate() > 0;
+            int affectedRows = s.executeUpdate();
+            if(affectedRows == 0) {
+                System.out.printf("Register failed!\n");
+            } else {
+                System.out.printf("Register successful! Registered: " + user.getFull_name() + "\n");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 }

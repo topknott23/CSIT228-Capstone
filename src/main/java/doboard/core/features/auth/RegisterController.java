@@ -49,11 +49,10 @@ public class RegisterController {
             return;
         }
         //TODO:
-        // 1. Call Authenticator.register(username, password) to verify credentials.
-        User newUser = new User(-1, usernameInput, emailInput, passwordInput);
-        newUser.setFull_name(fullNameInput);
+        // 1. Call UserDAO.register(username, password) to verify credentials.
+        User newUser = new User(usernameInput, emailInput, fullNameInput, passwordInput);
 
-        Authenticator.Register(newUser);
+        UserDAO.Register(newUser);
         Popup.show("Success", "Account created successfully! You can now log in.");
 
         // 2. Trigger the scene switch to the Login view.
