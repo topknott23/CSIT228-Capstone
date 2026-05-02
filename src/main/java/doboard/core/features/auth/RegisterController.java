@@ -53,8 +53,13 @@ public class RegisterController {
         User newUser = new User(usernameInput, emailInput, fullNameInput, passwordInput);
 
         UserDAO.Register(newUser);
-        Popup.show("Success", "Account created successfully! You can now log in.");
-
+        boolean isRegistered = UserDAO.Register(newUser);
+        if(isRegistered) {
+            doboard.core.common.ui.Popup.show("Success", "Account created successfully! You can now log in.");
+            goLogin(event);
+        } else {
+            doboard.core.common.ui.Popup.show("Registration Failed", "Username may already exist or database error.");
+        }
         // 2. Trigger the scene switch to the Login view.
          goLogin(event);
     }

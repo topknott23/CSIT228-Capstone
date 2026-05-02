@@ -15,6 +15,7 @@ public class User implements Serializable {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.full_name = full_name;
         created_at = Instant.now();
     }
 
