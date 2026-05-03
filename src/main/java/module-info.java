@@ -4,8 +4,16 @@ module doboard.core {
     requires java.sql;
     requires mysql.connector.j;
 
-    // This allows JavaFX to find FXML files
-    opens doboard.core to javafx.fxml;
-    exports doboard.core;
-    opens doboard.core.features.auth to javafx.fxml;
+    // JavaFX read
+    opens doboard.auth to javafx.fxml;
+    opens doboard.dorm to javafx.fxml;
+    opens doboard.chores to javafx.fxml;
+    opens doboard.billing to javafx.fxml;
+    opens images to javafx.graphics, javafx.fxml;
+    opens styles to javafx.graphics, javafx.fxml;
+
+    exports doboard.auth;
+    exports doboard.dorm;
+    exports doboard.common.util;
+    exports doboard;
 }
