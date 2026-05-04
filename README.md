@@ -1,7 +1,12 @@
-<img width="800" height="400" alt="Image" src="https://github.com/user-attachments/assets/761b8a90-51f6-405a-b113-07c47e40d2bd" />
+<div align="center">
+
+<img width="600" height="200" alt="Image" src="https://github.com/user-attachments/assets/761b8a90-51f6-405a-b113-07c47e40d2bd" />
+
 # CSIT228 - Maintenant
 
 > A desktop application solving communication friction in boarding houses by automating chore schedules and bill splitting to formalize responsibilities. And a dedicated manager screen for overseeing payments, balance tracking, and maintaining tenant accountability.
+
+</div>
 
 ---
 
