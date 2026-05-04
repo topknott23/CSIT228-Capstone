@@ -1,4 +1,4 @@
-# CSIT228 - NotMyDishes
+# CSIT228 - Maintenant
 
 > A desktop application solving communication friction in boarding houses by automating chore schedules and bill splitting to formalize responsibilities. And a dedicated manager screen for overseeing payments, balance tracking, and maintaining tenant accountability.
 
