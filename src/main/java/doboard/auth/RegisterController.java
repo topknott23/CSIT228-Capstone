@@ -52,7 +52,6 @@ public class RegisterController {
         // 1. Call UserDAO.register(username, password) to verify credentials.
         User newUser = new User(usernameInput, emailInput, fullNameInput, passwordInput);
 
-        UserDAO.Register(newUser);
         boolean isRegistered = UserDAO.Register(newUser);
         if(isRegistered) {
             Popup.show("Success", "Account created successfully! You can now log in.");
