@@ -6,16 +6,12 @@ import doboard.common.util.Popup;
 import doboard.auth.User;
 import doboard.common.util.SceneLoader;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.sql.Connection;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         //Attempt to restore previous session
         User savedUser = SessionHandler.loadSession();
         if(savedUser != null) {
@@ -37,8 +33,9 @@ public class Main extends Application {
         }
     }
 
-    public void showLogInScreen(Stage stage) throws IOException {
-        SceneLoader.loadScene(stage, Main.class, "/doboard/auth/login-view.fxml", "DoBoard");
+    public void showLogInScreen(Stage stage) {
+        // change per needed, ako rana g dashboard for testing purposes
+        SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard");
         stage.setAlwaysOnTop(true);
     }
 }

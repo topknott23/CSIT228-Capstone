@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="task-item"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <Label fx:id="choreTitleLabel" text="Chore Name"/>
+    <Region HBox.hgrow="ALWAYS" />
+    <Button fx:id="doneBtn" onAction="markAsDone" styleClass="btn-small" text="Done" />
+</HBox>

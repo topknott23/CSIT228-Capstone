@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="contentArea" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.ContentController">
+    <HBox alignment="CENTER_LEFT" styleClass="dashboard-header-bar">
+        <Label text="DASHBOARD">
+            <HBox.margin>
+                <Insets top="15.0" />
+            </HBox.margin>
+            <styleClass>
+                <String fx:value="text-xl" />
+                <String fx:value="font-bold" />
+            </styleClass></Label>
+        <Region HBox.hgrow="ALWAYS" />
+        <!-- Navigation Tabs -->
+        <HBox alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
+            <Button mnemonicParsing="false" styleClass="nav-tab-active">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/house-chimney.png" />
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Dashboard" />
+                    </VBox>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#goChores" styleClass="nav-tab">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/broom.png" />
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Chores" />
+                    </VBox>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#goExpenses" styleClass="nav-tab">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/expense.png" />
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Expenses" />
+                    </VBox>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#goSignals" styleClass="nav-tab">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/ghost.png" />
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Signals" />
+                    </VBox>
+                </graphic>
+            </Button>
+            <styleClass>
+                <String fx:value="bg-white" />
+                <String fx:value="br-blue" />
+            </styleClass>
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </HBox>
+    </HBox>
+
+    <!-- GRID SECTIONS -->
+    <VBox alignment="TOP_CENTER" spacing="15.0">
+        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">
+            <styleClass>
+                <String fx:value="font-bold" />
+                <String fx:value="text-lg" />
+            </styleClass>
+        </Label>
+        <HBox spacing="15.0">
+            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass></Label>
+                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2">
+                    <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                    </VBox.margin>
+                    <VBox fx:id="systemNotifContainer" spacing="5.0">
+
+                    </VBox>
+                </ScrollPane>
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
+            </VBox>
+            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label maxWidth="Infinity" text="NUDGES">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2">
+                    <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                    </VBox.margin>
+                    <VBox fx:id="nudgeNotifContainer" spacing="5.0">
+
+                    </VBox>
+                </ScrollPane>
+            </VBox>
+        </HBox>
+
+        <Separator />
+
+        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="UTILITIES">
+            <styleClass>
+                <String fx:value="font-bold" />
+                <String fx:value="text-lg" />
+            </styleClass></Label>
+        <HBox minHeight="250.0" spacing="15.0" VBox.vgrow="ALWAYS">
+            <VBox maxHeight="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="CHORE">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <VBox>
+                    <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="spacing-2" />
+                    </styleClass>
+                    <Label text="Next Due:">
+                        <styleClass>
+                            <String fx:value="text-sm" />
+                            <String fx:value="text-gray" />
+                        </styleClass>
+                        <VBox.margin>
+                            <Insets left="5.0" />
+                        </VBox.margin>
+                    </Label>
+                    <VBox fx:id="dueChoreContainer">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="task-item">
+                            <Label text="Clean Kitchen" />
+                            <Region prefHeight="21.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
+                            <Button onAction="#markAsDone" styleClass="btn-small" text="Done" />
+                        </HBox>
+                    </VBox>
+
+                    <Separator />
+
+                    <Label text="Upcoming:">
+                        <styleClass>
+                            <String fx:value="text-sm" />
+                            <String fx:value="text-gray" />
+                        </styleClass>
+                        <VBox.margin>
+                            <Insets left="5.0" />
+                        </VBox.margin>
+                    </Label>
+                    <VBox fx:id="upcomingChoreContainer">
+                        <HBox styleClass="task-item" />
+                    </VBox>
+                </VBox>
+            </VBox>
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="EXPENSES">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <VBox alignment="CENTER_LEFT">
+                    <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="spacing-2" />
+                    </styleClass>
+                    <Label text="Balance:">
+                        <styleClass>
+                            <String fx:value="text-sm" />
+                            <String fx:value="text-gray" />
+                        </styleClass>
+                        <VBox.margin>
+                            <Insets left="5.0" />
+                        </VBox.margin>
+                    </Label>
+                    <HBox>
+                        <padding>
+                            <Insets left="5.0" right="5.0" />
+                        </padding>
+                        <Label text="₱">
+                            <styleClass>
+                                <String fx:value="text-lg" />
+                                <String fx:value="font-bold" />
+                            </styleClass>
+                        </Label>
+                        <Label fx:id="balanceValue" text="0.00">
+                            <styleClass>
+                                <String fx:value="text-lg" />
+                                <String fx:value="font-bold" />
+                            </styleClass>
+                        </Label>
+                    </HBox>
+                    <Button maxWidth="Infinity" onAction="#goExpenses" styleClass="btn-action" text="View &amp; Settle Payments" />
+                    <Separator />
+                    <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2">
+                        <VBox fx:id="expensesAlertContainer" spacing="5.0">
+                        </VBox>
+                    </ScrollPane>
+                </VBox>
+            </VBox>
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" prefWidth="215.0" spacing="8.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SEND SIGNALS">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <VBox alignment="CENTER">
+                    <styleClass>
+                        <String fx:value="p-2" />
+                        <String fx:value="spacing-2" />
+                    </styleClass>
+                    <Button fx:id="signalBtnShrtct1" maxWidth="Infinity" onAction="#signalAct1" styleClass="btn-action" text="Noise level" />
+                    <Button fx:id="signalBtnShrtct2" maxWidth="Infinity" onAction="#signalAct2" styleClass="btn-action" text="Messy kitchen" />
+                    <Button fx:id="signalBtnShrtct3" maxWidth="Infinity" onAction="#signalAct3" styleClass="btn-action" text="Take out trash" />
+                    <Button fx:id="signalBtnShrtct4" maxWidth="Infinity" onAction="#signalAct4" styleClass="btn-action" text="Wash dishes" />
+                    <Separator prefWidth="200.0" />
+                    <Button alignment="CENTER" mnemonicParsing="false" onAction="#goSignals" styleClass="btn-small" text="Signal Details" />
+                </VBox>
+            </VBox>
+        </HBox>
+    </VBox>
+    <styleClass>
+        <String fx:value="shadow-sm" />
+        <String fx:value="rounded-xl" />
+        <String fx:value="br-linear-y-b" />
+        <String fx:value="bg-gray-light" />
+    </styleClass>
+    <HBox.margin>
+        <Insets />
+    </HBox.margin>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
+</VBox>

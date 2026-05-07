@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<?import java.lang.String?>
+<HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="notif-item"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <styleClass>
+        <String fx:value="notif-item"/>
+        <String fx:value="rounded-md"/>
+        <String fx:value="bg-white"/>
+    </styleClass>
+    <VBox prefWidth="4.0" style="-fx-background-color: #406AAF; -fx-background-radius: 2;"/>
+    <VBox spacing="2.0">
+        <Label fx:id="transactionTitle" text="Paid: Electricity Bill" styleClass="text-sm, font-bold"/>
+        <Label fx:id="transactionDate" text="Completed on May 07, 2026" styleClass="text-ssm, text-gray"/>
+    </VBox>
+    <Region HBox.hgrow="ALWAYS"/>
+    <VBox alignment="CENTER_RIGHT">
+        <Label fx:id="transactionAmount" text="-₱1,200.00" styleClass="text-md, font-bold" style="-fx-text-fill: #e74c3c;"/>
+    </VBox>
+</HBox>

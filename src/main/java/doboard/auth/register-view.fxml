@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
@@ -18,19 +19,43 @@
         <Image url="@../../images/background.png" />
     </ImageView>
 
-    <Label text="[L] Brand Name" StackPane.alignment="TOP_LEFT">
+    <Label StackPane.alignment="TOP_LEFT">
         <StackPane.margin>
             <Insets left="20" top="20" />
         </StackPane.margin>
+      <graphic>
+         <HBox alignment="CENTER">
+            <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../images/logo.png" />
+                  </image>
+               </ImageView>
+               <Label alignment="CENTER" text="MAINTENANT">
+                  <styleClass>
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-lg" />
+                     <String fx:value="text-white" />
+                  </styleClass>
+               </Label>
+            </children>
+         </HBox>
+      </graphic>
     </Label>
 
-    <VBox alignment="CENTER" maxHeight="400.0" maxWidth="400.0" prefWidth="400.0" styleClass="entryCard">
+    <VBox alignment="CENTER" maxHeight="400.0" maxWidth="400.0" prefWidth="400.0" styleClass="card">
         <padding>
             <Insets bottom="30.0" left="40.0" right="40.0" top="20.0" />
         </padding>
-        <Label styleClass="entryHdr" text="Create an Account" />
+        <Label text="Create an Account">
+            <styleClass>
+                <String fx:value="text-xl" />
+                <String fx:value="font-bold" />
+                <String fx:value="text-brand-yellow" />
+            </styleClass>
+        </Label>
 
-        <VBox spacing="5.0">
+        <VBox styleClass="spacing-2">
             <Label text="Email:">
                 <opaqueInsets>
                     <Insets />
@@ -38,16 +63,18 @@
                 <VBox.margin>
                     <Insets left="10.0" />
                 </VBox.margin>
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                </styleClass>
             </Label>
-            <TextField fx:id="emailField" promptText="Enter your email" styleClass="input-field" />
+            <TextField fx:id="emailField" promptText="Enter your email" styleClass="input-pill" />
             <VBox.margin>
                 <Insets top="10.0" />
             </VBox.margin>
         </VBox>
-        <VBox spacing="5.0">
+
+        <VBox styleClass="spacing-2">
             <VBox.margin>
                 <Insets top="20.0" />
             </VBox.margin>
@@ -58,13 +85,15 @@
                 <VBox.margin>
                     <Insets left="10.0" />
                 </VBox.margin>
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                </styleClass>
             </Label>
-            <TextField fx:id="fullNameField" promptText="Enter full name" styleClass="input-field" />
+            <TextField fx:id="fullNameField" promptText="Enter full name" styleClass="input-pill" />
         </VBox>
-        <VBox spacing="5.0">
+
+        <VBox styleClass="spacing-2">
             <VBox.margin>
                 <Insets top="20.0" />
             </VBox.margin>
@@ -75,29 +104,31 @@
                 <VBox.margin>
                     <Insets left="10.0" />
                 </VBox.margin>
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                </styleClass>
             </Label>
-            <TextField fx:id="usernameField" promptText="Enter username" styleClass="input-field" />
+            <TextField fx:id="usernameField" promptText="Enter username" styleClass="input-pill" />
         </VBox>
 
-        <VBox spacing="5.0">
+        <VBox styleClass="spacing-2">
             <Label text="Password:">
                 <VBox.margin>
                     <Insets left="10.0" />
                 </VBox.margin>
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                </styleClass>
             </Label>
-            <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-field" />
+            <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-pill" />
             <VBox.margin>
                 <Insets top="20.0" />
             </VBox.margin>
         </VBox>
 
-        <Button fx:id="registerButton" onAction="#handleRegister" prefWidth="180.0" styleClass="entryBtn" text="Create Account">
+        <Button fx:id="registerButton" onAction="#handleRegister" prefWidth="180.0" styleClass="btn-primary" text="Create Account">
             <VBox.margin>
                 <Insets top="40.0" />
             </VBox.margin>

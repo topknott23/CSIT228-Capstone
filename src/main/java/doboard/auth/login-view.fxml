@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.auth.LoginController">
+<StackPane fx:id="rootPane" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.auth.LoginController">
     <ImageView fx:id="backgroundView" pickOnBounds="true">
-        <Image url="@../../images/background.png" />
+      <image>
+         <Image url="@../../images/background.png" />
+      </image>
     </ImageView>
 
-    <Label text="[L] Brand Name" StackPane.alignment="TOP_LEFT">
+    <Label StackPane.alignment="TOP_LEFT">
         <StackPane.margin>
             <Insets left="20" top="20" />
         </StackPane.margin>
+      <graphic>
+         <HBox alignment="CENTER">
+            <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../images/logo.png" />
+                  </image>
+               </ImageView>
+               <Label alignment="CENTER" text="MAINTENANT">
+                  <styleClass>
+                     <String fx:value="font-bold" />
+                     <String fx:value="text-lg" />
+                     <String fx:value="text-white" />
+                  </styleClass>
+               </Label>
+            </children>
+         </HBox>
+      </graphic>
     </Label>
 
-    <VBox alignment="CENTER" maxHeight="400.0" maxWidth="400.0" prefWidth="400.0" styleClass="entryCard">
+    <VBox alignment="CENTER" maxHeight="400.0" maxWidth="400.0" prefWidth="400.0" styleClass="card">
         <padding>
             <Insets bottom="30.0" left="40.0" right="40.0" top="10.0" />
         </padding>
-        <Label styleClass="entryHdr" text="Welcome Back!" />
+        <Label text="Welcome Back!">
+         <styleClass>
+            <String fx:value="text-xl" />
+            <String fx:value="font-bold" />
+            <String fx:value="text-brand-yellow" />
+         </styleClass></Label>
         <Label text="Sign-in to manage your space smoothly" />
 
-        <VBox spacing="5.0">
+        <VBox styleClass="spacing-2">
             <Label text="Username:">
                 <opaqueInsets>
                     <Insets />
@@ -32,17 +65,18 @@
                 <VBox.margin>
                     <Insets left="10.0" />
                 </VBox.margin>
-                <font>
-                    <Font name="System Bold" size="12.0" />
-                </font>
+                <styleClass>
+                   <String fx:value="font-bold" />
+                   <String fx:value="text-sm" />
+                </styleClass>
             </Label>
-            <TextField fx:id="emailField" promptText="Enter your username" styleClass="input-field" />
+            <TextField fx:id="emailField" promptText="Enter your username" styleClass="input-pill" />
             <VBox.margin>
                 <Insets top="30.0" />
             </VBox.margin>
         </VBox>
 
-        <VBox spacing="5.0">
+        <VBox styleClass="spacing-2">
             <Label text="Password:">
                 <VBox.margin>
                     <Insets left="10.0" />
@@ -50,14 +84,18 @@
                 <font>
                     <Font name="System Bold" size="12.0" />
                 </font>
+            <styleClass>
+               <String fx:value="font-bold" />
+               <String fx:value="text-sm" />
+            </styleClass>
             </Label>
-            <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-field" />
+            <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-pill" />
             <VBox.margin>
                 <Insets top="20.0" />
             </VBox.margin>
         </VBox>
 
-        <Button fx:id="signInButton" onAction="#handleSignIn" prefWidth="180.0" styleClass="entryBtn" text="Sign In">
+        <Button fx:id="signInButton" onAction="#handleSignIn" prefWidth="180.0" styleClass="btn-primary" text="Sign In">
             <VBox.margin>
                 <Insets top="40.0" />
             </VBox.margin>

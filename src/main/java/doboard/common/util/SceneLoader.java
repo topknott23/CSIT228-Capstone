@@ -18,7 +18,7 @@ public class SceneLoader {
                 currentScene.setRoot(root);
             } else {
                 // First time setup (like initial app launch)
-                Scene scene = new Scene(root, 800, 600);
+                Scene scene = new Scene(root, 1080, 720);
                 stage.setScene(scene);
             }
             stage.setTitle(title);

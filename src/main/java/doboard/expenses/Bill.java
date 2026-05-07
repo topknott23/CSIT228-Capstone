@@ -1,4 +1,4 @@
-package doboard.billing;
+package doboard.expenses;
 
 import java.time.LocalDate;
 import java.time.Instant;

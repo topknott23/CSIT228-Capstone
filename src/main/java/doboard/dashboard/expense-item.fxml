@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+
+<Label maxWidth="Infinity" fx:id="alertLabel" text="• Expense Alert"
+    xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <styleClass>
+        <String fx:value="text-wrap-l" />
+        <String fx:value="notif-item" />
+        <String fx:value="rounded-md" />
+        <String fx:value="bg-white" />
+    </styleClass>
+</Label>

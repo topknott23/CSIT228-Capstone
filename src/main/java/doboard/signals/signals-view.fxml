@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="contentArea" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.signals.SignalsController">
+    <HBox alignment="CENTER_LEFT" styleClass="dashboard-header-bar">
+        <Label text="SIGNALS">
+            <HBox.margin>
+                <Insets top="15.0" />
+            </HBox.margin>
+            <styleClass>
+                <String fx:value="text-xl" />
+                <String fx:value="font-bold" />
+            </styleClass></Label>
+        <Region HBox.hgrow="ALWAYS" />
+        <!-- Navigation Tabs -->
+        <HBox alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
+            <Button mnemonicParsing="false" onAction="#goDashboard" styleClass="nav-tab">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/house-chimney.png"/>
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Dashboard"/>
+                    </VBox>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#goChores" styleClass="nav-tab">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/broom.png"/>
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Chores"/>
+                    </VBox>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#goExpenses" styleClass="nav-tab">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/expense.png"/>
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Expenses"/>
+                    </VBox>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false" styleClass="nav-tab-active">
+                <graphic>
+                    <VBox alignment="CENTER">
+                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../images/ghost.png"/>
+                        </ImageView>
+                        <Label styleClass="text-ssm" text="Signals"/>
+                    </VBox>
+                </graphic>
+            </Button>
+            <styleClass>
+                <String fx:value="bg-white" />
+                <String fx:value="br-blue" />
+            </styleClass>
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+        </HBox>
+    </HBox>
+    <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <HBox alignment="TOP_CENTER" spacing="15.0">
+            <VBox prefWidth="200.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
+                <Label maxWidth="1.7976931348623157E308" text="NOTIFICATIONS">
+                    <styleClass>
+                        <String fx:value="font-bold"/>
+                        <String fx:value="p-2"/>
+                        <String fx:value="text-md"/>
+                        <String fx:value="bg-brand-blue1"/>
+                        <String fx:value="rounded-lg-t"/>
+                    </styleClass>
+                </Label>
+                <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets left="10.0" right="10.0"/>
+                    </VBox.margin>
+                    <ComboBox fx:id="reasonComboBox" maxWidth="1.7976931348623157E308"
+                              promptText="Select Reason">
+                        <VBox.margin>
+                            <Insets bottom="10.0"/>
+                        </VBox.margin>
+                    </ComboBox>
+                    <Separator prefWidth="200.0"/>
+                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Hours:"/>
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <RadioButton fx:id="dndHour2" mnemonicParsing="false" text="2"/>
+                        <RadioButton fx:id="dndHour3" mnemonicParsing="false" text="3"/>
+                        <RadioButton fx:id="dndHour4" mnemonicParsing="false" text="4"/>
+                        <RadioButton fx:id="dndHour8" mnemonicParsing="false" text="8"/>
+                    </HBox>
+                    <Region VBox.vgrow="ALWAYS"/>
+                    <Button mnemonicParsing="false" onAction="#disableNotifs"
+                            styleClass="btn-action" text="Disable"/>
+                </VBox>
+            </VBox>
+            <VBox prefWidth="200.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
+                <Label maxWidth="1.7976931348623157E308" text="NUDGE TENTANTS" VBox.vgrow="ALWAYS">
+                    <styleClass>
+                        <String fx:value="font-bold"/>
+                        <String fx:value="p-2"/>
+                        <String fx:value="text-md"/>
+                        <String fx:value="bg-brand-blue1"/>
+                        <String fx:value="rounded-lg-t"/>
+                    </styleClass>
+                </Label>
+                <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets left="10.0" right="10.0"/>
+                    </padding>
+                    <ComboBox fx:id="complaintComboBox" maxWidth="1.7976931348623157E308"
+                              promptText="Select Complaint"/>
+                    <ComboBox fx:id="tenantComboBox" maxWidth="1.7976931348623157E308"
+                              promptText="Select Tenant">
+                        <VBox.margin>
+                            <Insets bottom="10.0"/>
+                        </VBox.margin>
+                    </ComboBox>
+                    <Separator prefWidth="200.0"/>
+                    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Number of Nudges:"/>
+                    <HBox alignment="CENTER" spacing="5.0">
+                        <VBox.margin>
+                            <Insets bottom="20.0"/>
+                        </VBox.margin>
+                        <RadioButton fx:id="nudgeCount1" mnemonicParsing="false" text="1"/>
+                        <RadioButton fx:id="nudgeCount2" mnemonicParsing="false" text="2"/>
+                        <RadioButton fx:id="nudgeCount5" mnemonicParsing="false" text="5"/>
+                        <RadioButton fx:id="nudgeCount10" mnemonicParsing="false" text="10"/>
+                    </HBox>
+                    <Button mnemonicParsing="false" onAction="#sendNudge"
+                            styleClass="btn-action" text="Send Signal"/>
+                </VBox>
+            </VBox>
+        </HBox>
+    </VBox>
+    <styleClass>
+        <String fx:value="shadow-sm" />
+        <String fx:value="rounded-xl" />
+        <String fx:value="br-linear-y-b" />
+        <String fx:value="bg-gray-light" />
+    </styleClass>
+    <HBox.margin>
+        <Insets />
+    </HBox.margin>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" />
+    </padding>
+</VBox>

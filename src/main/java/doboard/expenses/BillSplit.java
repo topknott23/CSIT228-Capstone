@@ -1,4 +1,4 @@
-package doboard.billing;
+package doboard.expenses;
 
 public class BillSplit {
     private int split_id;

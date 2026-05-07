@@ -3,6 +3,7 @@ package doboard.auth;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.Popup;
 import doboard.common.util.SceneLoader;
+import doboard.common.util.StageUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -29,7 +30,7 @@ public class LoginController {
 
     @FXML
     private void goRegister(ActionEvent event){
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = StageUtil.getStage(event);
         SceneLoader.loadScene(stage, LoginController.class, "register-view.fxml", "Register");
     }
 
@@ -51,19 +52,16 @@ public class LoginController {
         User loggedInUser = UserDAO.Login(usernameInput, passwordInput);
 
         // 2. If the user is found, call SessionHandler.saveSession(user) to persist the login.
-        if(loggedInUser != null){
-            SessionHandler.saveSession(loggedInUser);
-            Popup.show("Success", "Login Successful! Welcome back, " + loggedInUser.getUsername() + ".");
+        if(loggedInUser == null){
+            Popup.show("Login failed!", "Login failed: Username or password is incorrect.");
+            return;
+        }
+        SessionHandler.saveSession(loggedInUser);
+        Popup.show("Success", "Login Successful! Welcome back, " + loggedInUser.getUsername() + ".");
 
         // 3. Trigger the scene switch to the Dashboard/Main view.
-            //TODO: Uncomment inig naa nay dashboard or something
-            /*
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            SceneLoader.loadScene(stage, "/com/doboard/view/main-menu.fxml", "DoBoard - Dashboard");
-            */
-        } else {
-            Popup.show("Login failed!", "Login failed: Username or password is incorrect.");
-        }
+        Stage stage = StageUtil.getStage(event);
+        SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashbaord/dashboard-view.fxml", "DoBoard - Dashboard");
     }
 
 }

@@ -1,4 +1,4 @@
-package doboard.billing;
+package doboard.expenses;
 
 import doboard.common.connection.SQLConnector;
 import java.sql.*;

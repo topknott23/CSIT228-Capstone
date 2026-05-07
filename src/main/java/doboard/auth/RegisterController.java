@@ -2,6 +2,7 @@ package doboard.auth;
 
 import doboard.common.util.Popup;
 import doboard.common.util.SceneLoader;
+import doboard.common.util.StageUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -29,7 +30,7 @@ public class RegisterController {
 
     @FXML
     private void goLogin(ActionEvent event){
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = StageUtil.getStage(event);
         SceneLoader.loadScene(stage, RegisterController.class, "login-view.fxml", "Login");
     } //REDUNDANCY DANIEL!!!! NAA NAMAN KAY SCENELOADER NYA PWEDE RA ADTO I CALL LARGO
     //edit: nvm gigamit diay nimo sa register.fxml
@@ -54,11 +55,9 @@ public class RegisterController {
 
         UserDAO.Register(newUser);
         boolean isRegistered = UserDAO.Register(newUser);
-        if(isRegistered) {
-            Popup.show("Success", "Account created successfully! You can now log in.");
-            goLogin(event);
-        } else {
+        if(!isRegistered){
             Popup.show("Registration Failed", "Username may already exist or database error.");
+            return;
         }
         // 2. Trigger the scene switch to the Login view.
          goLogin(event);

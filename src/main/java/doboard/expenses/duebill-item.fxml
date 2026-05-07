@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="task-item"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml">
+    <Label fx:id="billLabel" text="Rent Name"/>
+    <Label fx:id="amountLabel" text="Amount" />
+    <Region prefHeight="21.0" prefWidth="0.0" HBox.hgrow="ALWAYS"/>
+    <Button onAction="#markAsPaid" styleClass="btn-small" text="Paid"/>
+</HBox>
