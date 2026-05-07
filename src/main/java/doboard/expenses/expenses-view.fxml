@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="contentArea" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.expenses.ExpensesController">
+<VBox fx:id="contentArea" maxWidth="Infinity" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.expenses.ExpensesController">
     <HBox alignment="CENTER_LEFT" styleClass="dashboard-header-bar">
         <Label text="EXPENSES">
             <HBox.margin>
@@ -25,7 +25,6 @@
                 <String fx:value="font-bold" />
             </styleClass></Label>
         <Region HBox.hgrow="ALWAYS" />
-        <!-- Navigation Tabs -->
         <HBox alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
             <Button mnemonicParsing="false" onAction="#goDashboard" styleClass="nav-tab">
                 <graphic>
@@ -80,7 +79,7 @@
         </HBox>
     </HBox>
     <HBox alignment="CENTER" maxHeight="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
-        <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" spacing="15.0">
+        <VBox alignment="TOP_CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                   style="-fx-padding: 0 0 10 0;" styleClass="card" VBox.vgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="DUE BILL">
@@ -165,7 +164,8 @@
             </HBox>
         </VBox>
         <Separator orientation="VERTICAL" prefHeight="200.0"/>
-        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308">
+
+        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" HBox.hgrow="ALWAYS">
             <VBox maxHeight="1.7976931348623157E308" style="-fx-padding: 0 0 10 0;" styleClass="card"
                   VBox.vgrow="ALWAYS">
                 <Label maxWidth="Infinity" text="TRANSACTION HISTORY">
