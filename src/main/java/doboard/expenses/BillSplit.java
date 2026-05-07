@@ -58,3 +58,4 @@ public class BillSplit {
         isPaid = paid;
     }
 }
+
