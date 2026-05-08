@@ -15,13 +15,12 @@
 
 <StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1080.0" styleClass="bg-gray-medium" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.DashboardController">
     <BorderPane>
-        <!-- TOP NAV BAR -->
         <top>
             <HBox alignment="CENTER_LEFT" maxHeight="55.0" prefHeight="55.0" spacing="30.0">
                 <padding><Insets left="15.0" right="15.0" /></padding>
-                <HBox alignment="CENTER">
-                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../images/logo.png" />
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                        <Image url="@../../images/logo.png" requestedWidth="150" requestedHeight="150" preserveRatio="true" smooth="true" />
                     </ImageView>
                     <Label alignment="CENTER" text="MAINTENANT">
                         <styleClass>
@@ -32,22 +31,21 @@
                     </Label>
                 </HBox>
                 <styleClass>
-                   <String fx:value="bg-brand-blue" />
-                   <String fx:value="br-gray-md" />
-                   <String fx:value="shadow-md" />
+                    <String fx:value="bg-brand-blue" />
+                    <String fx:value="br-gray-md" />
+                    <String fx:value="shadow-md" />
                 </styleClass>
             </HBox>
         </top>
 
-        <!-- LEFT-MOST SPACE SELECTOR -->
         <left>
             <VBox alignment="TOP_CENTER" maxWidth="60.0" prefWidth="60.0" spacing="20.0">
                 <padding><Insets top="20.0" /></padding>
                 <VBox fx:id="spaceContainer" alignment="TOP_CENTER">
                     <Button prefHeight="40.0" prefWidth="40.0" text="D1">
                         <styleClass>
-                          <String fx:value="br-blue"/>
-                          <String fx:value="btn-secondary"/>
+                            <String fx:value="br-blue"/>
+                            <String fx:value="btn-secondary"/>
                         </styleClass>
                     </Button>
                 </VBox>
@@ -60,16 +58,14 @@
                     </styleClass>
                 </Button>
                 <styleClass>
-                   <String fx:value="bg-white" />
-                   <String fx:value="br-gray-md" />
+                    <String fx:value="bg-white" />
+                    <String fx:value="br-gray-md" />
                 </styleClass>
             </VBox>
         </left>
 
-        <!-- CENTER AREA: Divided into Sidebar and Main Dashboard -->
         <center>
-            <HBox maxHeight="605.0" maxWidth="920.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
-                <!-- SETTINGS SIDEBAR -->
+            <HBox maxWidth="Infinity" maxHeight="Infinity" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                 <VBox prefWidth="220.0" spacing="10.0">
                     <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-width: 0 0 1 0;">
                         <ImageView fx:id="profileImage" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true">
@@ -78,13 +74,13 @@
                         <Label fx:id="usernameVal" style="-fx-font-weight: bold;" text="Username" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Button mnemonicParsing="false" onAction="#handleLogout" style="-fx-text-fill: red;" text="Logout">
-                             <styleClass>
+                            <styleClass>
                                 <String fx:value="text-ssm" />
                                 <String fx:value="btn-secondary" />
                                 <String fx:value="font-bold" />
                                 <String fx:value="rounded-md" />
                                 <String fx:value="br-red" />
-                             </styleClass>
+                            </styleClass>
                         </Button>
                         <styleClass>
                             <String fx:value="bg-white" />
@@ -114,11 +110,10 @@
                     </styleClass>
                 </VBox>
 
-                <!-- DASHBOARD MAIN VIEW -->
                 <VBox fx:id="contentArea" spacing="20.0" HBox.hgrow="ALWAYS" />
 
                 <BorderPane.margin>
-                   <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+                    <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
                 </BorderPane.margin>
             </HBox>
         </center>

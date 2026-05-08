@@ -36,6 +36,6 @@ public class Main extends Application {
     public void showLogInScreen(Stage stage) {
         // change per needed, ako rana g dashboard for testing purposes
         SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard");
-        stage.setAlwaysOnTop(true);
+        stage.setAlwaysOnTop(false);
     }
 }

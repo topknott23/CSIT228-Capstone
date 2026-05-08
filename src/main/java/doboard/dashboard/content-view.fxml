@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="contentArea" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.ContentController">
+<VBox fx:id="contentArea" maxWidth="Infinity" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.ContentController">
     <HBox alignment="CENTER_LEFT" styleClass="dashboard-header-bar">
         <Label text="DASHBOARD">
             <HBox.margin>
@@ -23,7 +23,6 @@
                 <String fx:value="font-bold" />
             </styleClass></Label>
         <Region HBox.hgrow="ALWAYS" />
-        <!-- Navigation Tabs -->
         <HBox alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
             <Button mnemonicParsing="false" styleClass="nav-tab-active">
                 <graphic>
@@ -78,15 +77,14 @@
         </HBox>
     </HBox>
 
-    <!-- GRID SECTIONS -->
-    <VBox alignment="TOP_CENTER" spacing="15.0">
+    <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
         <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">
             <styleClass>
                 <String fx:value="font-bold" />
                 <String fx:value="text-lg" />
             </styleClass>
         </Label>
-        <HBox spacing="15.0">
+        <HBox maxWidth="Infinity" spacing="15.0">
             <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED">
                     <styleClass>
@@ -136,8 +134,8 @@
                 <String fx:value="font-bold" />
                 <String fx:value="text-lg" />
             </styleClass></Label>
-        <HBox minHeight="250.0" spacing="15.0" VBox.vgrow="ALWAYS">
-            <VBox maxHeight="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+        <HBox maxWidth="Infinity" minHeight="250.0" spacing="15.0" VBox.vgrow="ALWAYS">
+            <VBox maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="CHORE">
                     <styleClass>
                         <String fx:value="font-bold" />
@@ -185,7 +183,7 @@
                     </VBox>
                 </VBox>
             </VBox>
-            <VBox alignment="TOP_CENTER" maxHeight="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="EXPENSES">
                     <styleClass>
                         <String fx:value="font-bold" />
@@ -234,7 +232,7 @@
                     </ScrollPane>
                 </VBox>
             </VBox>
-            <VBox alignment="TOP_CENTER" maxHeight="Infinity" prefWidth="215.0" spacing="8.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="8.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SEND SIGNALS">
                     <styleClass>
                         <String fx:value="font-bold" />
