@@ -56,4 +56,19 @@ public class DormMemberDAO {
         }
         return members;
     }
+        //ASDASDASDASD
+    public int getDormIdByUserId(int userId) {
+        String query = "SELECT dorm_id FROM dorm_members WHERE user_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, userId);
+            ResultSet r = s.executeQuery();
+            if (r.next()) {
+                return r.getInt("dorm_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }

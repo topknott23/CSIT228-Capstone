@@ -1,16 +1,18 @@
 package doboard.dashboard;
 
-import doboard.common.util.ComponentFactory;
-import doboard.common.util.NavigationManager;
-import doboard.common.util.CustomTitleBar; // <-- Import the new utility
+import doboard.auth.User;
+import doboard.common.session.SessionHandler;
+import doboard.common.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class DashboardController {
     @FXML private StackPane rootPane;
@@ -25,12 +27,17 @@ public class DashboardController {
 
     @FXML
     public void initialize(){
-        // for content area
         NavigationManager.setContentArea(contentArea);
         NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml");
-
-        // Setup window dragging and resizing functionality
         titleBar.makeDraggable(topNavBar);
+
+
+        User currentUser = SessionHandler.loadSession();
+        if (currentUser != null) {
+            usernameVal.setText(currentUser.getUsername());
+        } else {
+            usernameVal.setText("Guest"); // Fallback just in case the session didn't load properly
+        }
     }
 
     // --- WINDOW CONTROLS (Delegated to utility class) ---
@@ -50,10 +57,12 @@ public class DashboardController {
     }
 
     // --- DASHBOARD ACTIONS ---
-    @FXML
-    private void handleAddSpaces(ActionEvent event){
-        // TODO
-    }
+//    @FXML
+//    private void handleAddSpaces(ActionEvent event){
+//
+//    }
+
+
 
     @FXML
     private void handleProfileSettings(ActionEvent event){ }
@@ -66,7 +75,9 @@ public class DashboardController {
 
     @FXML
     private void handleLogout(ActionEvent event){
-        // TODO: Logout logic
+        SessionHandler.endSession();
+        Stage stage = StageUtil.getStage(event);
+        SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");
     }
 
     public void addSpace(String name){

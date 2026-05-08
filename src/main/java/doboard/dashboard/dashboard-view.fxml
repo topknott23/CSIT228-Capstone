@@ -63,13 +63,14 @@
                     </Button>
                 </VBox>
                 <Separator />
-                <Button onAction="#handleAddSpaces" prefHeight="40.0" prefWidth="40.0" text="+">
-                    <styleClass>
-                        <String fx:value="br-dashed" />
-                        <String fx:value="rounded-md" />
-                        <String fx:value="btn-secondary" />
-                    </styleClass>
-                </Button>
+<!--                daniel, i removed ts cuz i ain't sure nga needed ni. i don't know unsa pa imo purpose but yes daddy-->
+<!--&lt;!&ndash;                <Button onAction="#handleAddSpaces" prefHeight="40.0" prefWidth="40.0" text="+">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <styleClass>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <String fx:value="br-dashed" />&ndash;&gt;-->
+<!--&lt;!&ndash;                        <String fx:value="rounded-md" />&ndash;&gt;-->
+<!--&lt;!&ndash;                        <String fx:value="btn-secondary" />&ndash;&gt;-->
+<!--&lt;!&ndash;                    </styleClass>&ndash;&gt;-->
+<!--&lt;!&ndash;                </Button>&ndash;&gt;-->
                 <styleClass>
                     <String fx:value="bg-white" />
                     <String fx:value="br-gray-md" />

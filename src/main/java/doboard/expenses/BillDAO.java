@@ -56,4 +56,28 @@ public class BillDAO {
         }
         return false;
     }
+        //ASDAWSDASD
+    public int insertAndGetId(Bill bill) {
+        String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            s.setInt(1, bill.getBill_dorm_id());
+            s.setString(2, bill.getTitle());
+            s.setDouble(3, bill.getTotal_amount());
+            s.setDate(4, Date.valueOf(bill.getBill_due_date()));
+            s.setTimestamp(5, Timestamp.from(bill.getCreated_at()));
+
+            int affectedRows = s.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = s.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }
