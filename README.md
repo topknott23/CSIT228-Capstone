@@ -111,7 +111,7 @@ Notifications          ░░░░░░░░░░░░░░░░░░░
 ```
 
 ### Recommended Completion Order
-1. **Fix Critical Bugs** (Session 1) - Database mismatch, missing files
+~~1. **Fix Critical Bugs** (Session 1) - Database mismatch, missing files~~
 2. **Complete Chore System** (Session 2) - Leaderboards, dialogs, database integration
 3. **Build Signals/Notifications** (Session 3) - Persistence layer, DND state, actual sending
 4. **Manager Dashboard** (Session 4) - Role-based UI switching, accountability views
