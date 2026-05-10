@@ -63,9 +63,9 @@
 | **Signals/Nudges** | 30% | UI only, no database persistence, DND state not saved |
 | **Dashboard Content** | Shell only | No data loading, no refresh logic, mark-as-done not implemented |
 
-### Critical Issues (Will Crash App)
-1. **Database Schema Mismatch** - `BillSplitDAO` reads `amount` but DB creates `amount_owed`
-2. **Missing Leaderboard FXML** - `/doboard/common/leaderboard-item.fxml` doesn't exist
+### Critical Issues (Previously Fixed)
+- **Resolved:** `BillSplitDAO` column mismatch and missing `/doboard/common/leaderboard-item.fxml`
+- No major crash blockers remain in the current tracked scope.
 
 ### Missing Features (0%)
 | Feature | Impact | Effort |
@@ -75,12 +75,11 @@
 | **Notification System** | Nudge persistence & alerts | 5-6 hrs |
 | **Complete Signal/Nudge Persistence** | User experience critical | 4-5 hrs |
 
-### 📋 High Priority TODO Items (12 Total)
+### 📋 High Priority TODO Items (10 Total)
 
-#### Immediate (Blocker Fixes - 2-3 hours)
-- [ ] Fix `BillSplitDAO` column name: `amount_owed` (from `amount`)
-- [ ] Create missing `/doboard/common/leaderboard-item.fxml` file
+#### Immediate (Blocker Fixes - 1-2 hours)
 - [ ] Fix database schema column name mismatch in `InitDB.java`
+- [ ] Verify bill split workflow with reinitialized database
 
 #### Core Functionality (8-10 hours)
 - [ ] **Chore System**: Load leaderboard data from database
