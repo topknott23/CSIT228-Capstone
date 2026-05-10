@@ -80,7 +80,6 @@
 #### Immediate (Blocker Fixes - 2-3 hours)
 - [ ] Fix `BillSplitDAO` column name: `amount_owed` (from `amount`)
 - [ ] Create missing `/doboard/common/leaderboard-item.fxml` file
-- [ ] Implement password hashing (bcrypt recommended)
 - [ ] Fix database schema column name mismatch in `InitDB.java`
 
 #### Core Functionality (8-10 hours)
