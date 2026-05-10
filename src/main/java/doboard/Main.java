@@ -18,12 +18,13 @@ public class Main extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/logo.png")));
         // Windows icon rani ^^
+
+
         //Attempt to restore previous session
         User savedUser = SessionHandler.loadSession();
         if(savedUser != null) {
             Popup.show("Welcome Back", "Session restored: welcome back " + savedUser.getUsername());
             SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
-            showLogInScreen(stage);
         } else {
             showLogInScreen(stage);
         }
@@ -39,7 +40,11 @@ public class Main extends Application {
 
     public void showLogInScreen(Stage stage) {
         // change per needed, ako rana g dashboard for testing purposes
-        SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "Maintenant");
+        SceneLoader.loadScene(stage, Main.class, "/doboard/auth/login-view.fxml", "Maintenant");
         stage.setAlwaysOnTop(false);
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

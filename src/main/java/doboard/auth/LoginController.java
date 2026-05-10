@@ -58,7 +58,7 @@ public class LoginController {
 
         // 3. Trigger the scene switch to the Dashboard/Main view.
         Stage stage = StageUtil.getStage(event);
-        SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashbaord/dashboard-view.fxml", "DoBoard - Dashboard");
+        SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
     }
 
 }
