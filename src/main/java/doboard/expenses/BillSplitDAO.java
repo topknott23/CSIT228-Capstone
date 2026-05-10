@@ -8,7 +8,7 @@ import java.util.List;
 public class BillSplitDAO {
 
     public boolean insert(BillSplit split) {
-        String query = "INSERT INTO bill_splits(bill_id, user_id, amount, is_paid) VALUES(?, ?, ?, ?)";
+        String query = "INSERT INTO bill_splits(bill_id, user_id, amount_owed, is_paid) VALUES(?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
             s.setInt(1, split.getBill_id());
@@ -34,7 +34,7 @@ public class BillSplitDAO {
                         r.getInt("split_id"),
                         r.getInt("bill_id"),
                         r.getInt("user_id"),
-                        r.getDouble("amount"),
+                        r.getDouble("amount_owed"),
                         r.getBoolean("is_paid")
                 ));
             }

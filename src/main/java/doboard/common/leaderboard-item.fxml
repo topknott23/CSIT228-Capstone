@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="leaderboard-item"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml">
+    <ImageView fx:id="profileImage" fitHeight="40.0" fitWidth="40.0" preserveRatio="true" />
+    <VBox spacing="4.0">
+        <Label fx:id="usernameVal" text="Username" styleClass="leaderboard-username" />
+        <Label fx:id="choresCount" text="0 chores" styleClass="leaderboard-count" />
+    </VBox>
+    <Region HBox.hgrow="ALWAYS" />
+    <Label text="Chores" />
+</HBox>
