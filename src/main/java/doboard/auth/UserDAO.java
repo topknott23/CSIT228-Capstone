@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -83,5 +85,33 @@ public class UserDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static List<User> getUsersByIds(List<Integer> userIds) {
+        List<User> users = new ArrayList<>();
+        if (userIds.isEmpty()) return users;
+
+        String placeholders = String.join(",", userIds.stream().map(id -> "?").toArray(String[]::new));
+        String query = "SELECT * FROM users WHERE user_id IN (" + placeholders + ")";
+
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            for (int i = 0; i < userIds.size(); i++) {
+                s.setInt(i + 1, userIds.get(i));
+            }
+            ResultSet r = s.executeQuery();
+            while (r.next()) {
+                users.add(new User(
+                        r.getInt("user_id"),
+                        r.getString("username"),
+                        r.getString("email"),
+                        r.getString("full_name"),
+                        r.getString("password")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 }

@@ -8,6 +8,7 @@ public class DormMember {
 
 
     public enum Role  {
+        OWNER,
         ADMIN,
         RESIDENT
     }

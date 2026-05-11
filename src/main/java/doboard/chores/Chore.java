@@ -58,6 +58,10 @@ public class Chore {
 
 
     //SETTERS
+    public void setDorm_id(int dorm_id) {
+        this.dorm_id = dorm_id;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

@@ -2,17 +2,41 @@ package doboard.dorm;
 
 import doboard.auth.User;
 import doboard.common.connection.SQLConnector;
+import doboard.common.util.JoinCodeGenerator;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DormMemberDAO {
 
-    public boolean joinDorm(String joinCode, User user){
-        DormDAO dormDAO = new DormDAO();
-        Dorm retrieveDorm = dormDAO.findByJoinCode(joinCode);
+    /**
+     * Joins a user to a dorm using a join code.
+     * Validates the code and checks if user is already in a dorm.
+     *
+     * @param joinCode The join code to use
+     * @param user The user joining the dorm
+     * @return true if successfully joined, false otherwise
+     */
+    public boolean joinDorm(String joinCode, User user) {
+        // Check if user is already in a dorm
+        if (isUserInDorm(user.getUser_id())) {
+            System.err.println("User is already in a dorm");
+            return false;
+        }
 
-        if(retrieveDorm == null) return false;
+        DormDAO dormDAO = new DormDAO();
+        
+        // Validate join code format and existence
+        if (!dormDAO.isValidJoinCode(joinCode)) {
+            System.err.println("Invalid join code: " + joinCode);
+            return false;
+        }
+
+        Dorm retrieveDorm = dormDAO.findByJoinCode(joinCode);
+        if (retrieveDorm == null) {
+            System.err.println("Dorm not found for code: " + joinCode);
+            return false;
+        }
 
         DormMember member = new DormMember(
                 retrieveDorm.getDorm_id(),
@@ -21,6 +45,44 @@ public class DormMemberDAO {
         );
 
         return addMember(member);
+    }
+
+    /**
+     * Creates a new dorm and adds the creator as the owner.
+     *
+     * @param dormName The name of the dorm
+     * @param creatorUser The user creating the dorm (will be the owner)
+     * @return The created Dorm object, or null if creation failed
+     */
+    public Dorm createDormAsOwner(String dormName, User creatorUser) {
+        // Check if user is already in a dorm
+        if (isUserInDorm(creatorUser.getUser_id())) {
+            System.err.println("User is already in a dorm");
+            return null;
+        }
+
+        DormDAO dormDAO = new DormDAO();
+        Dorm createdDorm = dormDAO.createDormWithCode(dormName);
+
+        if (createdDorm == null) {
+            System.err.println("Failed to create dorm");
+            return null;
+        }
+
+        // Add creator as owner
+        DormMember ownerMember = new DormMember(
+                createdDorm.getDorm_id(),
+                creatorUser.getUser_id(),
+                DormMember.Role.OWNER
+        );
+
+        if (addMember(ownerMember)) {
+            return createdDorm;
+        } else {
+            System.err.println("Failed to add owner to dorm");
+            // Note: In production, you might want to rollback the dorm creation here
+            return null;
+        }
     }
 
     public boolean addMember(DormMember member){
@@ -70,5 +132,15 @@ public class DormMemberDAO {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    /**
+     * Checks if a user is already a member of any dorm.
+     *
+     * @param userId The user ID to check
+     * @return true if the user is in a dorm, false otherwise
+     */
+    public boolean isUserInDorm(int userId) {
+        return getDormIdByUserId(userId) != -1;
     }
 }

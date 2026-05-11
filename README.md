@@ -53,13 +53,13 @@
 - **User Authentication** - Login/Register with session persistence and duplicate prevention
 - **Dashboard Navigation** - Main dashboard with 4 sections (Dashboard, Chores, Expenses, Signals)
 - **Expense & Bill Splitting** - Full CRUD operations, equal splitting, payment tracking
-- **Dorm Management** - Create dorms, join via code, member roles (ADMIN/RESIDENT)
+- **Dorm Management** - Create dorms, join via code (with `JoinCodeGenerator` & strict validation), member roles (ADMIN/RESIDENT), and centralized `DormService`
 - **Database Infrastructure** - Auto-initialization, proper foreign keys, cascade deletes
 
-### Partially Implemented (30-40%)
+### Partially Implemented
 | Feature | Status | Issues |
 |---------|--------|--------|
-| **Chore Tracking** | 40% | Leaderboard not loading, Add/Edit/Delete dialogs missing, no DB integration |
+| **Chore Tracking** | 60% | Dialogs/FXML and controllers are complete. Leaderboard not loading, full database integration pending. |
 | **Signals/Nudges** | 30% | UI only, no database persistence, DND state not saved |
 | **Dashboard Content** | Shell only | No data loading, no refresh logic, mark-as-done not implemented |
 
@@ -83,7 +83,7 @@
 
 #### Core Functionality (8-10 hours)
 - [ ] **Chore System**: Load leaderboard data from database
-- [ ] **Chore System**: Implement Add/Edit/Delete chore dialogs  
+- [x] **Chore System**: Implement Add/Edit/Delete chore dialogs 
 - [ ] **Dashboard**: Fetch real dorm_id and load chores/bills/notifications
 - [ ] **Dashboard**: Setup hourly refresh timeline
 - [ ] **Dashboard**: Implement mark-as-done database updates
@@ -98,23 +98,23 @@
 - [ ] Add overdue chore/bill detection and indicators
 - [ ] Implement chore frequency handling (once, daily, weekly, monthly)
 
-###  Feature Completion Matrix
-```
-User Auth              ████████████████████ 100%
-Dashboard Navigation   ████████████████████ 100%
-Bill Splitting         ████████████████████ 100%
-Chore Tracking         ████████░░░░░░░░░░░░  40%
-Signals/Nudges         ██████░░░░░░░░░░░░░░  30%
-Manager Dashboard      ░░░░░░░░░░░░░░░░░░░░   0%
-Chore Rotation         ░░░░░░░░░░░░░░░░░░░░   0%
-Notifications          ░░░░░░░░░░░░░░░░░░░░   0%
+### 📊 Feature Completion Matrix
+```text
+User Auth            ████████████████████ 100%
+Dashboard Navigation ████████████████████ 100%
+Bill Splitting       ████████████████████ 100%
+Chore Tracking       ████████████░░░░░░░░  60%
+Signals/Nudges       ██████░░░░░░░░░░░░░░  30%
+Manager Dashboard    ░░░░░░░░░░░░░░░░░░░░   0%
+Chore Rotation       ░░░░░░░░░░░░░░░░░░░░   0%
+Notifications        ░░░░░░░░░░░░░░░░░░░░   0%
 ```
 
 ### Recommended Completion Order
 1. ~~**Fix Critical Bugs** (Session 1) - Database mismatch, missing files~~
-2. **Complete Chore System** (Session 2) - Leaderboards, dialogs, database integration
+2. **Complete Chore System** (Session 2) - Wire up the new dialogs to the database and fix leaderboards
 3. **Build Signals/Notifications** (Session 3) - Persistence layer, DND state, actual sending
 4. **Manager Dashboard** (Session 4) - Role-based UI switching, accountability views
 5. **Polish & Testing** (Final) - Validation, error handling, edge cases
 
-### Estimated Total Effort: **40-60 hours** of development
+### Estimated Total Effort: **35-50 hours** of development *(Reduced due to chore UI completion)*
