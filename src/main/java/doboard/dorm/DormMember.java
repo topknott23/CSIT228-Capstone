@@ -8,9 +8,8 @@ public class DormMember {
 
 
     public enum Role  {
-        OWNER,
         ADMIN,
-        RESIDENT
+        MEMBER
     }
 
     public DormMember(int dorm_id, int user_id, Role role) {

@@ -5,6 +5,7 @@ import doboard.common.session.SessionHandler;
 import doboard.common.util.Popup;
 import doboard.auth.User;
 import doboard.common.util.SceneLoader;
+import doboard.dorm.DormMemberDAO;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -19,12 +20,16 @@ public class Main extends Application {
         stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/logo.png")));
         // Windows icon rani ^^
 
-
         //Attempt to restore previous session
         User savedUser = SessionHandler.loadSession();
         if(savedUser != null) {
             Popup.show("Welcome Back", "Session restored: welcome back " + savedUser.getUsername());
-            SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
+            System.out.println("USER ID: " + savedUser.getUser_id());
+            //Check if user is in dorm
+            if(DormMemberDAO.getDormIdByUserId(savedUser.getUser_id()) != -1)
+                SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
+            else
+                SceneLoader.loadScene(stage, Main.class, "/doboard/dorm/DormView.fxml", "Maintenant - Dashboard");
         } else {
             showLogInScreen(stage);
         }

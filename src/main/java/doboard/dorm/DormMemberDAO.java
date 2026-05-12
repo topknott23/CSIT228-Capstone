@@ -41,7 +41,7 @@ public class DormMemberDAO {
         DormMember member = new DormMember(
                 retrieveDorm.getDorm_id(),
                 user.getUser_id(),
-                DormMember.Role.RESIDENT
+                DormMember.Role.MEMBER
         );
 
         return addMember(member);
@@ -73,7 +73,7 @@ public class DormMemberDAO {
         DormMember ownerMember = new DormMember(
                 createdDorm.getDorm_id(),
                 creatorUser.getUser_id(),
-                DormMember.Role.OWNER
+                DormMember.Role.ADMIN
         );
 
         if (addMember(ownerMember)) {
@@ -87,6 +87,9 @@ public class DormMemberDAO {
 
     public boolean addMember(DormMember member){
         String query = "INSERT INTO dorm_members(dorm_id, user_id, role) VALUES(?, ?, ?)";
+        System.out.println("ADDING " + member.getUser_id());
+        System.out.println("ADDING " + member.getDorm_id());
+        System.out.println("ADDING " + member.getRole().name());
         try(Connection c = SQLConnector.getConnection();
              PreparedStatement ps = c.prepareStatement(query)){
             ps.setInt(1, member.getDorm_id());
@@ -110,7 +113,7 @@ public class DormMemberDAO {
                 members.add(new DormMember(
                         r.getInt("dorm_id"),
                         r.getInt("user_id"),
-                        DormMember.Role.valueOf(r.getString("role"))
+                        DormMember.Role.valueOf(r.getString("role").toUpperCase())
                 ));
             }
         } catch (SQLException e) {
@@ -119,7 +122,7 @@ public class DormMemberDAO {
         return members;
     }
         //ASDASDASDASD
-    public int getDormIdByUserId(int userId) {
+    public static int getDormIdByUserId(int userId) {
         String query = "SELECT dorm_id FROM dorm_members WHERE user_id = ?";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {

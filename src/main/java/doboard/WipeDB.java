@@ -11,7 +11,7 @@ public class WipeDB {
     public static void main(String[] args) {
         String baseUrl = "jdbc:mysql://localhost:3306/?allowMultiQueries=true";
         String user = "root";
-        String pass = "";
+        String pass = "123";
 
         try (Connection conn = DriverManager.getConnection(baseUrl, user, pass);
              Statement stmt = conn.createStatement()) {

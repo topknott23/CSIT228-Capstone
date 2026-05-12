@@ -10,7 +10,7 @@ public class SessionHandler {
     public static void saveSession(User user) {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME))) {
             oos.writeObject(user);
-            System.out.println("Saved session of user: " + user.getUsername());
+            System.out.println("Saved session of user: " + user.getUsername() );
         } catch(IOException e) {
             e.printStackTrace();
         }
