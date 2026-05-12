@@ -78,21 +78,21 @@
 ### 📋 High Priority TODO Items (10 Total)
 
 #### Immediate (Blocker Fixes - 1-2 hours)
-- [ ] Fix database schema column name mismatch in `InitDB.java`
+- [x] Fix database schema column name mismatch in `InitDB.java`
 - [ ] Verify bill split workflow with reinitialized database
 
 #### Core Functionality (8-10 hours)
 - [ ] **Chore System**: Load leaderboard data from database
 - [x] **Chore System**: Implement Add/Edit/Delete chore dialogs 
 - [ ] **Dashboard**: Fetch real dorm_id and load chores/bills/notifications
-- [ ] **Dashboard**: Setup hourly refresh timeline
+- [x] **Dashboard**: Setup hourly refresh timeline
 - [ ] **Dashboard**: Implement mark-as-done database updates
 - [ ] **Signals**: Create `SignalDAO` for persistence
 - [ ] **Signals**: Add `notifications` and `do_not_disturb` database tables
 - [ ] **Signals**: Implement actual signal sending (currently UI-only)
 
 #### Additional Improvements (5+ hours)
-- [ ] Add input validation (email format, password strength, amount ranges)
+- [x] Add input validation (email format, password strength, amount ranges)
 - [ ] Implement missing DAO methods (`getAllUsers`, `getById`, `update`, `delete`, etc.)
 - [ ] Complete settings implementation (profile, notifications, automation, privacy)
 - [ ] Add overdue chore/bill detection and indicators
