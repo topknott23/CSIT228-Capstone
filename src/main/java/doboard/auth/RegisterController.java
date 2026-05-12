@@ -43,11 +43,22 @@ public class RegisterController {
         String fullNameInput = fullNameField.getText();
         String usernameInput = usernameField.getText();
         String passwordInput = passwordField.getText();
-        //Basic validation to ensure walay field nga empty
+
         if (emailInput.isEmpty() || fullNameInput.isEmpty() || usernameInput.isEmpty() || passwordInput.isEmpty()) {
             Popup.show("Registration Failed", "Please fill in all fields.");
             return;
         }
+
+        if (!emailInput.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            Popup.show("Registration Failed", "Please enter a valid email address.");
+            return;
+        }
+
+        if (passwordInput.length() < 8 || !passwordInput.matches(".*\\d.*") || !passwordInput.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+            Popup.show("Registration Failed", "Password must be at least 8 characters long, contain a number, and a special character.");
+            return;
+        }
+
         User newUser = new User(usernameInput, emailInput, fullNameInput, passwordInput);
 
         boolean isRegistered = UserDAO.Register(newUser);
@@ -55,7 +66,9 @@ public class RegisterController {
             Popup.show("Registration Failed", "Username may already exist or database error.");
             return;
         }
-        // 2. Trigger the scene switch to the Login view.
-         goLogin(event);
+
+        goLogin(event);
     }
 }
+
+
