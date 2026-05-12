@@ -20,7 +20,6 @@ public class Bill {
         this.created_at = Instant.now();
     }
 
-
     //GETTERS
     public int getBill_id() {
         return bill_id;
@@ -45,7 +44,6 @@ public class Bill {
     public Instant getCreated_at() {
         return created_at;
     }
-
 
     //SETTERS
     public void setBill_dorm_id(int dorm_id) {

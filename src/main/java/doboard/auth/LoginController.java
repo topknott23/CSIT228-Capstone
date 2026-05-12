@@ -4,6 +4,7 @@ import doboard.common.session.SessionHandler;
 import doboard.common.util.Popup;
 import doboard.common.util.SceneLoader;
 import doboard.common.util.StageUtil;
+import doboard.dorm.DormMemberDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -44,7 +45,6 @@ public class LoginController {
             return;
         }
 
-
         // 1. Call UserDAO.login(username, password) to verify credentials.
         User loggedInUser = UserDAO.Login(usernameInput, passwordInput);
 
@@ -56,9 +56,13 @@ public class LoginController {
         SessionHandler.saveSession(loggedInUser);
         Popup.show("Success", "Login Successful! Welcome back, " + loggedInUser.getUsername() + ".");
 
-        // 3. Trigger the scene switch to the Dashboard/Main view.
-        Stage stage = StageUtil.getStage(event);
-        SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
+        if(DormMemberDAO.isUserInDorm(loggedInUser.getUser_id())) {
+            Stage stage = StageUtil.getStage(event);
+            SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
+        } else {
+            Stage stage = StageUtil.getStage(event);
+            SceneLoader.loadScene(stage, LoginController.class, "/doboard/dorm/dorm-view.fxml", "DoBoard - Create Dorm");
+        }
     }
 
 }

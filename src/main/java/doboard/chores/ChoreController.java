@@ -5,7 +5,6 @@ import doboard.auth.UserDAO;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
-import doboard.common.util.StageUtil;
 import doboard.dorm.DormMemberDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -148,5 +147,10 @@ public class ChoreController {
         if (row != null) {
             usersContainer.getChildren().add(row);
         }
+    }
+
+    @FXML
+    public void markAsDone(ActionEvent actionEvent) {
+        //TODO: Implement marking a chore as done
     }
 }

@@ -1,5 +1,7 @@
 package doboard.expenses;
 
+import doboard.auth.User;
+import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
 import doboard.common.util.Popup;
@@ -51,7 +53,7 @@ public class ExpensesController {
     }
 
     @FXML
-    private void splitBill(ActionEvent event){
+    private void splitBill(ActionEvent event) {
         String amountStr = billAmountTextField.getText();
         String purpose = purposeComboBox.getValue();
 
@@ -72,7 +74,7 @@ public class ExpensesController {
                 return;
             }
 
-            doboard.auth.User currentUser = doboard.common.session.SessionHandler.loadSession();
+            User currentUser = SessionHandler.loadSession();
 
             if(currentUser == null) return;
 

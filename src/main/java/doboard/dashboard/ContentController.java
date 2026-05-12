@@ -138,9 +138,7 @@ public class ContentController {
 
     public void addChore(VBox container, Chore chore, boolean isDue) {
         Node choreNode = ComponentFactory.createChoreItem(
-                chore.getTitle(), () -> {
-                    markChoreAsDone(chore);
-                });
+                chore.getTitle(), () -> markChoreAsDone(chore));
         if (choreNode != null) {
             if (!isDue) {
                 Node doneBtn = choreNode.lookup("#doneBtn");

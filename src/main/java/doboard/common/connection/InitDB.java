@@ -4,16 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-/*
-    This class is for initializing the database IF the user doesn't have the dorm_app schema
-    The query is a one to one initialization of gab's dorm_app_v1.sql.
-
-    Just change getSchemaSql() if you want to edit the query.
- */
 public class InitDB {
 
-    // Connects to the base MySQL server without looking for dorm_app yet
-    // allowMultiQueries=true is required to execute the massive SQL dump at once
     private static final String BASE_URL = "jdbc:mysql://localhost:3306/?allowMultiQueries=true";
 
     public static boolean setupDatabase() {

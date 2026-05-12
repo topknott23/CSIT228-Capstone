@@ -57,12 +57,6 @@ public class DashboardController {
     }
 
     // --- DASHBOARD ACTIONS ---
-//    @FXML
-//    private void handleAddSpaces(ActionEvent event){
-//
-//    }
-
-
 
     @FXML
     private void handleProfileSettings(ActionEvent event){ }
@@ -74,7 +68,7 @@ public class DashboardController {
     private void handlePrivacySettings(ActionEvent event){ }
 
     @FXML
-    private void handleLogout(ActionEvent event){
+    private void handleLogout(ActionEvent event) {
         SessionHandler.endSession();
         Stage stage = StageUtil.getStage(event);
         SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");

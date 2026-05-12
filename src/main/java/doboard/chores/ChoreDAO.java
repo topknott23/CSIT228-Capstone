@@ -90,7 +90,7 @@ public class ChoreDAO {
                         r.getInt("dorm_id"),
                         r.getString("title"),
                         r.getString("description"),
-                        Frequency.valueOf(r.getString("frequency")),
+                        Frequency.valueOf(r.getString("frequency").toUpperCase()),
                         r.getDate("due_date").toLocalDate(),
                         Chore.Status.valueOf(r.getString("status"))
                 ));

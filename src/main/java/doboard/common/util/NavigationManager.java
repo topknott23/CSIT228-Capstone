@@ -18,7 +18,7 @@ public class NavigationManager {
             Parent view = loader.load();
             contentArea.getChildren().setAll(view);
             return loader.getController();
-        }catch(IOException e){
+        } catch(IOException e){
             e.printStackTrace();
             return null;
         }

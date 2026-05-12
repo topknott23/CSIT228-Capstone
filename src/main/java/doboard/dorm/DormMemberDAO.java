@@ -143,7 +143,7 @@ public class DormMemberDAO {
      * @param userId The user ID to check
      * @return true if the user is in a dorm, false otherwise
      */
-    public boolean isUserInDorm(int userId) {
+    public static boolean isUserInDorm(int userId) {
         return getDormIdByUserId(userId) != -1;
     }
 }

@@ -36,7 +36,6 @@ public class BillSplit {
         return isPaid;
     }
 
-
     //SETTERS
     public void setSplit_id(int split_id) {
         this.split_id = split_id;

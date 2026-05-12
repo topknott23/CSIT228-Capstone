@@ -56,7 +56,7 @@ public class BillDAO {
         }
         return false;
     }
-        //ASDAWSDASD
+
     public int insertAndGetId(Bill bill) {
         String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();

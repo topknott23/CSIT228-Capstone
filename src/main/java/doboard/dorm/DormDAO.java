@@ -20,7 +20,7 @@ public class DormDAO {
         return false;
     }
 
-    public Dorm findByJoinCode(String joinCode) {
+    public static Dorm findByJoinCode(String joinCode) {
         String query = "SELECT * FROM dorms WHERE UPPER(join_code) = ?";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {

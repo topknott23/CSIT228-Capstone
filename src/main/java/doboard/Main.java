@@ -9,14 +9,16 @@ import doboard.dorm.DormMemberDAO;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle; // <-- 1. ADDED THIS IMPORT
+
 import java.sql.Connection;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
         // Removed windows frame, para custom atoa
-        stage.initStyle(StageStyle.UNDECORATED);
+        //Commented out because some screens dont have an exit button
+        //stage.initStyle(StageStyle.UNDECORATED);
+
         stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/logo.png")));
         // Windows icon rani ^^
 
@@ -25,18 +27,21 @@ public class Main extends Application {
         if(savedUser != null) {
             Popup.show("Welcome Back", "Session restored: welcome back " + savedUser.getUsername());
             System.out.println("USER ID: " + savedUser.getUser_id());
-            //Check if user is in dorm
-            if(DormMemberDAO.getDormIdByUserId(savedUser.getUser_id()) != -1)
+
+            if(DormMemberDAO.isUserInDorm(savedUser.getUser_id()))
                 SceneLoader.loadScene(stage, Main.class,    "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
-            else
-                SceneLoader.loadScene(stage, Main.class, "/doboard/dorm/DormView.fxml", "Maintenant - Dashboard");
+            else {
+                Popup.show("Enter a dorm", "You are not in any dorm. Please enter or create a dorm to continue");
+                SceneLoader.loadScene(stage, Main.class, "/doboard/dorm/dorm-view.fxml", "Maintenant - Dashboard");
+            }
+
         } else {
             showLogInScreen(stage);
         }
 
         //Test connection
         Connection c = SQLConnector.getConnection();
-        if(c == null){
+        if(c == null) {
             System.out.println("Connection is null");
         } else {
             System.out.println("Connection Successful");
@@ -44,9 +49,7 @@ public class Main extends Application {
     }
 
     public void showLogInScreen(Stage stage) {
-        // change per needed, ako rana g dashboard for testing purposes
         SceneLoader.loadScene(stage, Main.class, "/doboard/auth/login-view.fxml", "Maintenant");
-        stage.setAlwaysOnTop(false);
     }
 
     public static void main(String[] args) {

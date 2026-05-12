@@ -5,7 +5,6 @@ import doboard.common.util.SceneLoader;
 import doboard.common.util.StageUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -32,9 +31,7 @@ public class RegisterController {
     private void goLogin(ActionEvent event){
         Stage stage = StageUtil.getStage(event);
         SceneLoader.loadScene(stage, RegisterController.class, "login-view.fxml", "Login");
-    } //REDUNDANCY DANIEL!!!! NAA NAMAN KAY SCENELOADER NYA PWEDE RA ADTO I CALL LARGO
-    //edit: nvm gigamit diay nimo sa register.fxml
-
+    }
 
     @FXML
     private void handleRegister(ActionEvent event){

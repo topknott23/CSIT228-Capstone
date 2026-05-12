@@ -28,7 +28,7 @@ public class ComponentFactory {
         }
     }
 
-    public static Node createChoreItem(String title, Runnable onDoneAction){
+    public static Node createChoreItem(String title, Runnable onDoneAction) {
         try{
             FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/dashboard/chore-item.fxml"));
             Node node = loader.load();
