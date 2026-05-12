@@ -62,6 +62,16 @@ public class ExpensesController {
 
         try {
             double amount = Double.parseDouble(amountStr);
+
+            if (amount <= 0) {
+                Popup.show("Error", "Amount must be greater than zero.");
+                return;
+            }
+            if (amount > 100000) {
+                Popup.show("Error", "Amount exceeds maximum allowed value (₱100,000).");
+                return;
+            }
+
             doboard.auth.User currentUser = doboard.common.session.SessionHandler.loadSession();
 
             if(currentUser == null) return;
@@ -92,7 +102,7 @@ public class ExpensesController {
             refreshExpensesUI();
 
         } catch (NumberFormatException e) {
-            Popup.show("Error", "Invalid amount entered.");
+            Popup.show("Error", "Invalid amount entered. Please enter a valid number.");
         }
     }
 

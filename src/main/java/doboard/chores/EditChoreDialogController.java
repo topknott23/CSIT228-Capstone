@@ -114,7 +114,7 @@ public class EditChoreDialogController {
             return;
         }
 
-        // Update chore details
+
         choreToEdit.setTitle(titleField.getText().trim());
         choreToEdit.setDescription(descriptionField.getText().trim());
         choreToEdit.setFrequency(Frequency.valueOf(frequencyComboBox.getValue()));
@@ -169,6 +169,11 @@ public class EditChoreDialogController {
 
         if (dueDatePicker.getValue() == null) {
             showAlert("Validation Error", "Due date is required");
+            return false;
+        }
+
+        if (dueDatePicker.getValue().isBefore(LocalDate.now())) {
+            showAlert("Validation Error", "Due date cannot be in the past");
             return false;
         }
 
