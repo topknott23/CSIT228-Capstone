@@ -65,7 +65,7 @@ public class InitDB {
               `description` text DEFAULT NULL,
               `frequency` enum('once','daily','weekly','monthly') DEFAULT 'once',
               `due_date` datetime DEFAULT NULL,
-              `status` enum('pending','completed') DEFAULT 'pending'
+              `status` enum('PENDING','COMPLETE') DEFAULT 'pending'
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
             
             CREATE TABLE `chore_assignments` (
@@ -95,6 +95,16 @@ public class InitDB {
               `full_name` varchar(255) NOT NULL
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
             
+            CREATE TABLE `notifications` (
+              `notification_id` int(11) NOT NULL,
+              `sender_id` int(11) NOT NULL,
+              `receiver_id` int(11) NOT NULL DEFAULT 0,
+              `dorm_id` int(11) NOT NULL,
+              `message` varchar(255) NOT NULL,
+              `nudge_count` int(11) DEFAULT 1,
+              `sent_at` timestamp NOT NULL DEFAULT current_timestamp()
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+            
             ALTER TABLE `bills` ADD PRIMARY KEY (`bill_id`), ADD KEY `dorm_id` (`dorm_id`);
             ALTER TABLE `bill_splits` ADD PRIMARY KEY (`split_id`), ADD KEY `bill_id` (`bill_id`), ADD KEY `user_id` (`user_id`);
             ALTER TABLE `chores` ADD PRIMARY KEY (`chore_id`), ADD KEY `dorm_id` (`dorm_id`);
@@ -102,18 +112,21 @@ public class InitDB {
             ALTER TABLE `dorms` ADD PRIMARY KEY (`dorm_id`), ADD UNIQUE KEY `join_code` (`join_code`);
             ALTER TABLE `dorm_members` ADD PRIMARY KEY (`dorm_id`,`user_id`), ADD KEY `user_id` (`user_id`);
             ALTER TABLE `users` ADD PRIMARY KEY (`user_id`), ADD UNIQUE KEY `email` (`email`);
+            ALTER TABLE `notifications` ADD PRIMARY KEY (`notification_id`), ADD KEY `sender_id` (`sender_id`), ADD KEY `dorm_id` (`dorm_id`);
             
             ALTER TABLE `bills` MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT;
             ALTER TABLE `bill_splits` MODIFY `split_id` int(11) NOT NULL AUTO_INCREMENT;
             ALTER TABLE `chores` MODIFY `chore_id` int(11) NOT NULL AUTO_INCREMENT;
             ALTER TABLE `dorms` MODIFY `dorm_id` int(11) NOT NULL AUTO_INCREMENT;
             ALTER TABLE `users` MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+            ALTER TABLE `notifications` MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
             
             ALTER TABLE `bills` ADD CONSTRAINT `bills_ibfk_1` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`) ON DELETE CASCADE;
             ALTER TABLE `bill_splits` ADD CONSTRAINT `bill_splits_ibfk_1` FOREIGN KEY (`bill_id`) REFERENCES `bills` (`bill_id`) ON DELETE CASCADE, ADD CONSTRAINT `bill_splits_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
             ALTER TABLE `chores` ADD CONSTRAINT `chores_ibfk_1` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`) ON DELETE CASCADE;
             ALTER TABLE `chore_assignments` ADD CONSTRAINT `chore_assignments_ibfk_1` FOREIGN KEY (`chore_id`) REFERENCES `chores` (`chore_id`) ON DELETE CASCADE, ADD CONSTRAINT `chore_assignments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
             ALTER TABLE `dorm_members` ADD CONSTRAINT `dorm_members_ibfk_1` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`) ON DELETE CASCADE, ADD CONSTRAINT `dorm_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+            ALTER TABLE `notifications` ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE, ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`) ON DELETE CASCADE;
             """;
     }
 }
