@@ -37,7 +37,11 @@ public class SignalsController {
     @FXML private RadioButton nudgeCount10;
 
     private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final SignalDAO signalDAO = new SignalDAO();
     private final Map<String, Integer> tenantMap = new HashMap<>();
+
+    private User currentUser;
+    private int dormId = -1;
 
     @FXML
     private void initialize(){
@@ -58,14 +62,16 @@ public class SignalsController {
         nudgeCount10.setToggleGroup(nudgeGroup);
         nudgeCount1.setSelected(true);
 
+        currentUser = SessionHandler.loadSession();
+        if (currentUser != null) {
+            dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+        }
+
         loadTenants();
     }
 
     private void loadTenants() {
-        User currentUser = SessionHandler.loadSession();
         if(currentUser == null) return;
-
-        int dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
         if(dormId == -1) return;
 
         List<DormMember> members = dormMemberDAO.getMembersByDorm(dormId);
@@ -104,6 +110,11 @@ public class SignalsController {
         else if(dndHour4.isSelected()) hours = 4;
         else if(dndHour8.isSelected()) hours = 8;
 
+        // Persist the DND status to database
+        if (currentUser != null && dormId != -1) {
+            signalDAO.saveDndStatus(currentUser.getUser_id(), dormId, reason, hours);
+        }
+
         Popup.show("Do Not Disturb", "Notifications disabled for " + hours + " hours. Reason: " + reason);
         reasonComboBox.getSelectionModel().clearSelection();
         dndHour2.setSelected(true);
@@ -124,7 +135,20 @@ public class SignalsController {
         else if(nudgeCount5.isSelected()) nudges = 5;
         else if(nudgeCount10.isSelected()) nudges = 10;
 
-        Popup.show("Signal Sent", "Sent " + nudges + " nudge(s) to " + tenant + " for: " + complaint);
+        // Persist signal to database
+        if (currentUser != null && dormId != -1) {
+            int receiverId = tenantMap.getOrDefault(tenant, 0);
+            boolean sent = signalDAO.insertSignal(currentUser.getUser_id(), receiverId, dormId, complaint, nudges);
+
+            if (sent) {
+                Popup.show("Signal Sent", "Sent " + nudges + " nudge(s) to " + tenant + " for: " + complaint);
+            } else {
+                Popup.show("Error", "Failed to send signal. Please try again.");
+            }
+        } else {
+            Popup.show("Error", "You must be logged in and in a dorm to send signals.");
+        }
+
         tenantComboBox.getSelectionModel().clearSelection();
         complaintComboBox.getSelectionModel().clearSelection();
         nudgeCount1.setSelected(true);

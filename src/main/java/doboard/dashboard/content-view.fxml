@@ -160,11 +160,6 @@
                         </VBox.margin>
                     </Label>
                     <VBox fx:id="dueChoreContainer">
-                        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="task-item">
-                            <Label text="Clean Kitchen" />
-                            <Region prefHeight="21.0" prefWidth="0.0" HBox.hgrow="ALWAYS" />
-                            <Button onAction="#markAsDone" styleClass="btn-small" text="Done" />
-                        </HBox>
                     </VBox>
 
                     <Separator />

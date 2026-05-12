@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ComponentFactory {
     public static Node createNotification(String message, String time){
         try{
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/common/notif-item/fxml"));
+            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/common/notif-item.fxml"));
             Node node = loader.load();
 
             Label msg = (Label) node.lookup("#messageLabel");

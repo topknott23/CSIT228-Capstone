@@ -27,6 +27,33 @@ public class ChoreDAO {
         return false;
     }
 
+    public int insertAndReturnId(Chore chore) {
+        String query = "INSERT INTO chores(dorm_id, title, description, frequency, due_date, status) VALUES(?, ?, ?, ?, ?, ?)";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            s.setInt(1, chore.getDorm_id());
+            s.setString(2, chore.getTitle());
+            s.setString(3, chore.getDescription());
+            s.setString(4, chore.getFrequency().name());
+            s.setDate(5, Date.valueOf(chore.getDue_date()));
+            s.setString(6, chore.getStatus().name());
+            
+            int affectedRows = s.executeUpdate();
+            if (affectedRows == 0) {
+                return -1;
+            }
+
+            try (ResultSet generatedKeys = s.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public Chore findById(int choreId) {
         String query = "SELECT * FROM chores WHERE chore_id = ?";
         try (Connection c = SQLConnector.getConnection();

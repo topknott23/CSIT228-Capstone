@@ -4,6 +4,7 @@ import doboard.auth.User;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
+import doboard.common.util.Popup;
 import doboard.chores.Chore;
 import doboard.chores.ChoreDAO;
 import doboard.chores.ChoreAssignmentDAO;
@@ -12,6 +13,7 @@ import doboard.expenses.BillDAO;
 import doboard.expenses.BillSplit;
 import doboard.expenses.BillSplitDAO;
 import doboard.dorm.DormMemberDAO;
+import doboard.signals.SignalDAO;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -43,10 +45,19 @@ public class ContentController {
     private final ChoreAssignmentDAO choreAssignmentDAO = new ChoreAssignmentDAO();
     private final BillDAO billDAO = new BillDAO();
     private final BillSplitDAO billSplitDAO = new BillSplitDAO();
+    private final SignalDAO signalDAO = new SignalDAO();
     private Timeline refreshTimeline;
+
+    // Cached session data
+    private User currentUser;
+    private int dormId = -1;
 
     @FXML
     public void initialize() {
+        currentUser = SessionHandler.loadSession();
+        if (currentUser != null) {
+            dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+        }
         refreshDashboard();
         setupHourlyRefresh();
     }
@@ -64,15 +75,13 @@ public class ContentController {
         upcomingChoreContainer.getChildren().clear();
         expensesAlertContainer.getChildren().clear();
         systemNotifContainer.getChildren().clear();
+        nudgeNotifContainer.getChildren().clear();
 
-        User currentUser = SessionHandler.loadSession();
-        if (currentUser == null) return;
-
-        int dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
-        if (dormId == -1) return;
+        if (currentUser == null || dormId == -1) return;
 
         loadChores(dormId);
         loadBillsAndBalance(dormId, currentUser.getUser_id());
+        loadNotifications();
     }
 
     private void loadChores(int dormId) {
@@ -116,6 +125,17 @@ public class ContentController {
         }
     }
 
+    private void loadNotifications() {
+        List<SignalDAO.Signal> signals = signalDAO.getSignalsForUser(currentUser.getUser_id(), dormId);
+        for (SignalDAO.Signal signal : signals) {
+            addNotification(
+                    signal.senderName() + ": " + signal.complaint(),
+                    signal.sentAt(),
+                    true
+            );
+        }
+    }
+
     public void addChore(VBox container, Chore chore, boolean isDue) {
         Node choreNode = ComponentFactory.createChoreItem(
                 chore.getTitle(), () -> {
@@ -131,7 +151,51 @@ public class ContentController {
     }
 
     private void markChoreAsDone(Chore chore) {
+        // Mark current chore as complete
         choreDAO.updateStatus(chore.getChore_id(), Chore.Status.COMPLETE);
+        
+        // Handle Automated Rotation for recurring chores
+        if (chore.getFrequency() != doboard.common.enums.Frequency.ONCE) {
+            LocalDate nextDueDate = chore.getDue_date();
+            
+            // Calculate next due date
+            switch (chore.getFrequency()) {
+                case DAILY:
+                    nextDueDate = nextDueDate.plusDays(1);
+                    break;
+                case WEEKLY:
+                    nextDueDate = nextDueDate.plusWeeks(1);
+                    break;
+                case MONTHLY:
+                    nextDueDate = nextDueDate.plusMonths(1);
+                    break;
+                default:
+                    break;
+            }
+            
+            // Ensure next due date is in the future (if they completed a very old chore)
+            while (!nextDueDate.isAfter(LocalDate.now())) {
+                switch (chore.getFrequency()) {
+                    case DAILY: nextDueDate = nextDueDate.plusDays(1); break;
+                    case WEEKLY: nextDueDate = nextDueDate.plusWeeks(1); break;
+                    case MONTHLY: nextDueDate = nextDueDate.plusMonths(1); break;
+                    default: break;
+                }
+            }
+            
+            // Create the new recurring chore
+            Chore nextChore = new Chore(0, chore.getDorm_id(), chore.getTitle(), chore.getDescription(), chore.getFrequency(), nextDueDate, Chore.Status.PENDING);
+            int newChoreId = choreDAO.insertAndReturnId(nextChore);
+            
+            if (newChoreId != -1) {
+                // Copy assignments
+                List<Integer> assignedUserIds = choreAssignmentDAO.getUserIdsByChore(chore.getChore_id());
+                for (int userId : assignedUserIds) {
+                    choreAssignmentDAO.assign(new doboard.chores.ChoreAssignment(newChoreId, userId));
+                }
+            }
+        }
+        
         refreshDashboard();
     }
 
@@ -142,14 +206,28 @@ public class ContentController {
     @FXML
     private void markAsDone(ActionEvent event) {}
 
+    // --- Signal Shortcut Buttons ---
     @FXML
-    private void signalAct1(ActionEvent event) {}
+    private void signalAct1(ActionEvent event) { sendQuickSignal("Too Loud"); }
     @FXML
-    private void signalAct2(ActionEvent event) {}
+    private void signalAct2(ActionEvent event) { sendQuickSignal("Kitchen Messy"); }
     @FXML
-    private void signalAct3(ActionEvent event) {}
+    private void signalAct3(ActionEvent event) { sendQuickSignal("Trash Full"); }
     @FXML
-    private void signalAct4(ActionEvent event) {}
+    private void signalAct4(ActionEvent event) { sendQuickSignal("Dishes Piled Up"); }
+
+    private void sendQuickSignal(String complaint) {
+        if (currentUser == null || dormId == -1) {
+            Popup.show("Error", "You must be in a dorm to send signals.");
+            return;
+        }
+        boolean sent = signalDAO.insertSignal(currentUser.getUser_id(), 0, dormId, complaint, 1);
+        if (sent) {
+            Popup.show("Signal Sent", "Nudge sent to all dormmates: " + complaint);
+        } else {
+            Popup.show("Error", "Failed to send signal.");
+        }
+    }
 
     public void addNotification(String msg, String time, boolean isNudge) {
         Node notif = ComponentFactory.createNotification(msg, time);
@@ -167,3 +245,4 @@ public class ContentController {
         if (alertNode != null) expensesAlertContainer.getChildren().add(alertNode);
     }
 }
+

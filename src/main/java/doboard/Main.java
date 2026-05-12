@@ -27,7 +27,7 @@ public class Main extends Application {
             System.out.println("USER ID: " + savedUser.getUser_id());
             //Check if user is in dorm
             if(DormMemberDAO.getDormIdByUserId(savedUser.getUser_id()) != -1)
-                SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
+                SceneLoader.loadScene(stage, Main.class,    "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
             else
                 SceneLoader.loadScene(stage, Main.class, "/doboard/dorm/DormView.fxml", "Maintenant - Dashboard");
         } else {
