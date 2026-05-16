@@ -40,9 +40,8 @@ public class SignalsController {
     @FXML private RadioButton nudgeCount5;
     @FXML private RadioButton nudgeCount10;
 
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
-    private final SignalDAO signalDAO = new SignalDAO();
-    private final Map<String, Integer> tenantMap = new HashMap<>();
+    private final SignalService signalService = new SignalService();
+    private Map<String, Integer> tenantMap = new HashMap<>();
 
     private User currentUser;
     private int dormId = -1;
@@ -69,7 +68,7 @@ public class SignalsController {
 
         currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
-            dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+            dormId = signalService.getDormIdForUser(currentUser.getUser_id());
         }
 
         loadTenants();
@@ -77,30 +76,10 @@ public class SignalsController {
     }
 
     private void loadTenants() {
-        if(currentUser == null) return;
-        if(dormId == -1) return;
+        if(currentUser == null || dormId == -1) return;
 
-        List<DormMember> members = dormMemberDAO.getMembersByDorm(dormId);
-        String query = "SELECT username FROM users WHERE user_id = ?";
-
-        try (Connection c = SQLConnector.getConnection();
-             PreparedStatement s = c.prepareStatement(query)) {
-
-            for(DormMember member : members) {
-
-                if(member.getUser_id() == currentUser.getUser_id()) continue;
-
-                s.setInt(1, member.getUser_id());
-                ResultSet r = s.executeQuery();
-                if(r.next()) {
-                    String username = r.getString("username");
-                    tenantComboBox.getItems().add(username);
-                    tenantMap.put(username, member.getUser_id());
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        tenantMap = signalService.getDormmatesMap(currentUser.getUser_id(), dormId);
+        tenantComboBox.getItems().addAll(tenantMap.keySet());
     }
 
     // New method to fetch and populate the left column history log
@@ -110,10 +89,10 @@ public class SignalsController {
 
         if (currentUser == null || dormId == -1) return;
 
-        List<SignalDAO.Signal> signals = signalDAO.getSignalsForUser(currentUser.getUser_id(), dormId);
+        List<SignalDAO.Signal> signals = signalService.getRecentSignals(currentUser.getUser_id(), dormId);
 
         if (signals.isEmpty()) {
-            // Setup a nice cartoony/blue empty state
+            // Set up a nice cartoony/blue empty state
             Label emptyLabel = new Label("All quiet! No signals right now.");
             emptyLabel.setStyle("-fx-text-fill: #406AAF; -fx-font-weight: bold; -fx-padding: 20;");
             signalLogContainer.getChildren().add(emptyLabel);
@@ -147,7 +126,7 @@ public class SignalsController {
 
         // Persist the DND status to database
         if (currentUser != null && dormId != -1) {
-            signalDAO.saveDndStatus(currentUser.getUser_id(), dormId, reason, hours);
+            signalService.saveDndStatus(currentUser.getUser_id(), dormId, reason, hours);
             loadSignalLogs(); // Refresh the log to show the DND system message
         }
 
@@ -174,7 +153,7 @@ public class SignalsController {
         // Persist signal to database
         if (currentUser != null && dormId != -1) {
             int receiverId = tenantMap.getOrDefault(tenant, 0);
-            boolean sent = signalDAO.insertSignal(currentUser.getUser_id(), receiverId, dormId, complaint, nudges);
+            boolean sent = signalService.sendSignal(currentUser.getUser_id(), receiverId, dormId, complaint, nudges);
 
             if (sent) {
                 Popup.show("Signal Sent", "Sent " + nudges + " nudge(s) to " + tenant + " for: " + complaint);

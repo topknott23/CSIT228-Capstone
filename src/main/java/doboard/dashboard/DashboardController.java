@@ -22,6 +22,7 @@ public class DashboardController {
     @FXML private VBox contentArea;
     @FXML private HBox topNavBar;
     @FXML private Label windowTitleLabel;
+
     // Instantiate the window manager
     private final CustomTitleBar titleBar = new CustomTitleBar();
 
@@ -77,7 +78,7 @@ public class DashboardController {
     }
 
     public void addSpace(String name){
-        Node space = ComponentFactory.createSpaceItem(name);
+        Node space = DashboardComponentFactory.createSpaceItem(name);
         if(space != null) spaceContainer.getChildren().add(space);
     }
 }

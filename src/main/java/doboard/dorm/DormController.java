@@ -65,7 +65,7 @@ public class DormController {
             joinCodeField.clear();
             Stage stage = StageUtil.getStage(event);
 
-            SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dorm: " + joinedDorm.getDorm_name());
+            SceneLoader.loadScene(stage, getClass(), "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dorm: " + joinedDorm.getDorm_name());
         } else {
             showStatus("Invalid code or you are already a member of a dorm.", true);
         }

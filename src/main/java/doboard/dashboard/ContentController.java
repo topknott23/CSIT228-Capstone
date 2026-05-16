@@ -1,6 +1,7 @@
 package doboard.dashboard;
 
 import doboard.auth.User;
+import doboard.chores.ChoreService;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
@@ -8,10 +9,7 @@ import doboard.common.util.Popup;
 import doboard.chores.Chore;
 import doboard.chores.ChoreDAO;
 import doboard.chores.ChoreAssignmentDAO;
-import doboard.expenses.Bill;
-import doboard.expenses.BillDAO;
-import doboard.expenses.BillSplit;
-import doboard.expenses.BillSplitDAO;
+import doboard.expenses.*;
 import doboard.dorm.DormMemberDAO;
 import doboard.signals.SignalDAO;
 import javafx.animation.KeyFrame;
@@ -41,10 +39,8 @@ public class ContentController {
     @FXML private Button signalBtnShrtct4;
 
     private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
-    private final ChoreDAO choreDAO = new ChoreDAO();
-    private final ChoreAssignmentDAO choreAssignmentDAO = new ChoreAssignmentDAO();
-    private final BillDAO billDAO = new BillDAO();
-    private final BillSplitDAO billSplitDAO = new BillSplitDAO();
+    private final ChoreService choreService = new ChoreService();
+    private final ExpenseService expenseService = new ExpenseService();
     private final SignalDAO signalDAO = new SignalDAO();
     private Timeline refreshTimeline;
 
@@ -86,7 +82,7 @@ public class ContentController {
     }
 
     private void loadChores(int dormId) {
-        List<Chore> allDormChores = choreDAO.findAllByDormId(dormId);
+        List<Chore> allDormChores = choreService.getAllDormChores(dormId);
         int dueCount = 0;
 
         for (Chore chore : allDormChores) {
@@ -107,21 +103,14 @@ public class ContentController {
     }
 
     private void loadBillsAndBalance(int dormId, int userId) {
-        double totalBalance = 0.0;
-        List<Bill> dormBills = billDAO.findByDormId(dormId);
+        ExpenseService.UserBalanceSummary summary = expenseService.getUserBalanceDetails(dormId, userId);
 
-        for (Bill bill : dormBills) {
-            List<BillSplit> splits = billSplitDAO.findByBillId(bill.getBill_id());
-            for (BillSplit split : splits) {
-                if (split.getUser_id() == userId && !split.isPaid()) {
-                    totalBalance += split.getAmount();
-                    addExpenseAlert("Due: " + bill.getTitle() + " - ₱" + String.format("%.2f", split.getAmount()));
-                }
-            }
+        for (String alert : summary.alerts()) {
+            addExpenseAlert(alert);
         }
-        balanceValue.setText(String.format("%.2f", totalBalance));
+        balanceValue.setText(String.format("%.2f", summary.totalBalance()));
 
-        if (totalBalance > 0) {
+        if (summary.totalBalance() > 0) {
             addNotification("You have pending bills to pay.", "System", false);
         }
     }
@@ -138,7 +127,7 @@ public class ContentController {
     }
 
     public void addChore(VBox container, Chore chore, boolean isDue) {
-        Node choreNode = ComponentFactory.createChoreItem(
+        Node choreNode = DashboardComponentFactory.createChoreItem(
                 chore.getTitle(), () -> markChoreAsDone(chore));
         if (choreNode != null) {
             if (!isDue) {
@@ -151,50 +140,7 @@ public class ContentController {
 
     private void markChoreAsDone(Chore chore) {
         // Mark current chore as complete
-        choreDAO.updateStatus(chore.getChore_id(), Chore.Status.COMPLETE);
-        
-        // Handle Automated Rotation for recurring chores
-        if (chore.getFrequency() != doboard.common.enums.Frequency.ONCE) {
-            LocalDate nextDueDate = chore.getDue_date();
-            
-            // Calculate next due date
-            switch (chore.getFrequency()) {
-                case DAILY:
-                    nextDueDate = nextDueDate.plusDays(1);
-                    break;
-                case WEEKLY:
-                    nextDueDate = nextDueDate.plusWeeks(1);
-                    break;
-                case MONTHLY:
-                    nextDueDate = nextDueDate.plusMonths(1);
-                    break;
-                default:
-                    break;
-            }
-            
-            // Ensure next due date is in the future (if they completed a very old chore)
-            while (!nextDueDate.isAfter(LocalDate.now())) {
-                switch (chore.getFrequency()) {
-                    case DAILY: nextDueDate = nextDueDate.plusDays(1); break;
-                    case WEEKLY: nextDueDate = nextDueDate.plusWeeks(1); break;
-                    case MONTHLY: nextDueDate = nextDueDate.plusMonths(1); break;
-                    default: break;
-                }
-            }
-            
-            // Create the new recurring chore
-            Chore nextChore = new Chore(0, chore.getDorm_id(), chore.getTitle(), chore.getDescription(), chore.getFrequency(), nextDueDate, Chore.Status.PENDING);
-            int newChoreId = choreDAO.insertAndReturnId(nextChore);
-            
-            if (newChoreId != -1) {
-                // Copy assignments
-                List<Integer> assignedUserIds = choreAssignmentDAO.getUserIdsByChore(chore.getChore_id());
-                for (int userId : assignedUserIds) {
-                    choreAssignmentDAO.assign(new doboard.chores.ChoreAssignment(newChoreId, userId));
-                }
-            }
-        }
-        
+        choreService.completeAndRotateChore(chore);
         refreshDashboard();
     }
 
@@ -240,7 +186,7 @@ public class ContentController {
     }
 
     public void addExpenseAlert(String message) {
-        Node alertNode = ComponentFactory.createExpenseAlert(message);
+        Node alertNode = DashboardComponentFactory.createExpenseAlert(message);
         if (alertNode != null) expensesAlertContainer.getChildren().add(alertNode);
     }
 }
