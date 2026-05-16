@@ -24,6 +24,9 @@ public class Main extends Application {
         stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/logo.png")));
         // Windows icon rani ^^
 
+//        SceneLoader.loadScene(stage, Main.class, "/doboard/dashboard/dashboard-view.fxml", "Maintentant");
+        //For Testing ^
+
         //Attempt to restore previous session
         User savedUser = SessionHandler.loadSession();
         if(savedUser != null) {

@@ -27,9 +27,7 @@ public class ExpensesController {
     @FXML private VBox processedBillContainer;
     @FXML private VBox transactionContainer;
 
-    private final BillSplitDAO billSplitDAO = new BillSplitDAO();
-    private final BillDAO billDAO = new BillDAO();
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final ExpenseService expenseService = new ExpenseService();
 
     @FXML
     public void initialize() {
@@ -39,17 +37,17 @@ public class ExpensesController {
     }
 
     public void addBillRow(String title, double amt) {
-        Node row = ComponentFactory.createDueBill(title, amt);
+        Node row = ExpenseComponentFactory.createDueBill(title, amt);
         if (row != null) dueBillContainer.getChildren().add(row);
     }
 
     public void addProcessedBill(String date){
-        Node row = ComponentFactory.createProcessedBill(date);
+        Node row = ExpenseComponentFactory.createProcessedBill(date);
         if(row != null) processedBillContainer.getChildren().add(row);
     }
 
     public void addTransaction(String title, String date, double amount){
-        Node row = ComponentFactory.createTransactionItem(title, date, amount);
+        Node row = ExpenseComponentFactory.createTransactionItem(title, date, amount);
         if(row != null) transactionContainer.getChildren().add(row);
     }
 
@@ -79,30 +77,22 @@ public class ExpensesController {
 
             if(currentUser == null) return;
 
-            int dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+            int dormId = expenseService.getDormIdForUser(currentUser.getUser_id());
             if(dormId == -1) {
                 Popup.show("Error", "User is not assigned to a dorm.");
                 return;
             }
 
-            Bill newBill = new Bill(0, dormId, purpose, amount, LocalDate.now().plusDays(7));
-            int insertedBillId = billDAO.insertAndGetId(newBill);
+            boolean success = expenseService.processBillSplit(dormId, purpose, amount);
 
-            if(insertedBillId != -1) {
-                List<DormMember> members = dormMemberDAO.getMembersByDorm(dormId);
-                if(!members.isEmpty()) {
-                    double splitAmount = amount / members.size();
-                    for(DormMember member : members) {
-                        BillSplit split = new BillSplit(0, insertedBillId, member.getUser_id(), splitAmount, false);
-                        billSplitDAO.insert(split);
-                    }
-                }
+            if (success) {
+                Popup.show("Success", "Bill structured for: " + purpose + " at ₱" + String.format("%.2f", amount));
+                billAmountTextField.clear();
+                purposeComboBox.getSelectionModel().clearSelection();
+                refreshExpensesUI();
+            } else {
+                Popup.show("Error", "Failed to create bill splits.");
             }
-
-            Popup.show("Success", "Bill structured for: " + purpose + " at ₱" + String.format("%.2f", amount));
-            billAmountTextField.clear();
-            purposeComboBox.getSelectionModel().clearSelection();
-            refreshExpensesUI();
 
         } catch (NumberFormatException e) {
             Popup.show("Error", "Invalid amount entered. Please enter a valid number.");
@@ -120,7 +110,7 @@ public class ExpensesController {
         result.ifPresent(idStr -> {
             try {
                 int id = Integer.parseInt(idStr.trim());
-                if(billSplitDAO.updateStatus(id, true)){
+                if(expenseService.updateSplitStatus(id, true)){
                     refreshExpensesUI();
                 }
             } catch (NumberFormatException ignored) {}
@@ -138,7 +128,7 @@ public class ExpensesController {
         result.ifPresent(idStr -> {
             try {
                 int id = Integer.parseInt(idStr.trim());
-                if(billSplitDAO.updateStatus(id, false)){
+                if(expenseService.updateSplitStatus(id, false)){
                     refreshExpensesUI();
                 }
             } catch (NumberFormatException ignored) {}
@@ -150,16 +140,16 @@ public class ExpensesController {
         processedBillContainer.getChildren().clear();
         transactionContainer.getChildren().clear();
 
-        doboard.auth.User currentUser = doboard.common.session.SessionHandler.loadSession();
+        User currentUser = SessionHandler.loadSession();
         if (currentUser == null) return;
 
-        int userDormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+        int userDormId = expenseService.getDormIdForUser(currentUser.getUser_id());
         if (userDormId == -1) return;
 
-        List<Bill> dormBills = billDAO.findByDormId(userDormId);
+        List<Bill> dormBills = expenseService.getDormBills(userDormId);
 
         for (Bill bill : dormBills) {
-            List<BillSplit> splits = billSplitDAO.findByBillId(bill.getBill_id());
+            List<BillSplit> splits = expenseService.getSplitsForBill(bill.getBill_id());
 
             for (BillSplit split : splits) {
                 if (split.getUser_id() == currentUser.getUser_id()) {

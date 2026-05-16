@@ -24,9 +24,7 @@ public class ChoreController {
     @FXML private VBox contentArea;
     @FXML private VBox usersContainer; // Container for "Monthly Chores Done" list
 
-    private ChoreDAO choreDAO = new ChoreDAO();
-    private ChoreAssignmentDAO choreAssignmentDAO = new ChoreAssignmentDAO();
-    private DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final ChoreService choreService = new ChoreService();
 
     @FXML
     public void initialize() {
@@ -43,28 +41,19 @@ public class ChoreController {
         }
 
         // Get dorm_id for current user
-        int dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+        int dormId = choreService.getDormIdForUser(currentUser.getUser_id());
         if (dormId == -1) {
             System.err.println("User not in any dorm");
             return;
         }
 
-        // Get chore completion counts
-        Map<Integer, Integer> completionCounts = choreDAO.getChoreCompletionCounts(dormId);
-
-        // Get all users in the dorm
-        List<User> dormUsers = UserDAO.getUsersByIds(List.copyOf(completionCounts.keySet()));
-
-        // Clear existing leaderboard
         usersContainer.getChildren().clear();
 
-        // Add leaderboard rows sorted by completion count (descending)
-        dormUsers.stream()
-                .sorted((u1, u2) -> completionCounts.get(u2.getUser_id()) - completionCounts.get(u1.getUser_id()))
-                .forEach(user -> {
-                    int count = completionCounts.get(user.getUser_id());
-                    addLeaderboardRow(user.getUsername(), count, null); // null for default image
-                });
+        List<ChoreService.LeaderboardEntry> leaderboard = choreService.getSortedLeaderboard(dormId);
+
+        for(ChoreService.LeaderboardEntry entry : leaderboard){
+            addLeaderboardRow(entry.username(), entry.completionCount(), null);
+        }
     }
 
     @FXML private void goDashboard(ActionEvent event) {NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml");}

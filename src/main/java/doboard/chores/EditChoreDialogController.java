@@ -1,10 +1,8 @@
 package doboard.chores;
 
 import doboard.auth.User;
-import doboard.auth.UserDAO;
 import doboard.common.enums.Frequency;
 import doboard.common.session.SessionHandler;
-import doboard.dorm.DormMemberDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,12 +26,12 @@ public class EditChoreDialogController {
     @FXML private Button saveButton;
 
     private ChoreController parentController;
-    private ChoreDAO choreDAO = new ChoreDAO();
-    private ChoreAssignmentDAO choreAssignmentDAO = new ChoreAssignmentDAO();
-    private DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final ChoreService choreService = new ChoreService();
+    private final ChoreDAO choreDAO = new ChoreDAO();
+    private final ChoreAssignmentDAO choreAssignmentDAO = new ChoreAssignmentDAO();
 
     private Chore choreToEdit;
-    private ObservableList<String> availableUsers = FXCollections.observableArrayList();
+    private final ObservableList<String> availableUsers = FXCollections.observableArrayList();
     private List<User> dormUsers;
 
     @FXML
@@ -70,30 +68,18 @@ public class EditChoreDialogController {
         User currentUser = SessionHandler.loadSession();
         if (currentUser == null) return;
 
-        int dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+        int dormId = choreService.getDormIdForUser(currentUser.getUser_id());
         if (dormId == -1) return;
 
         // Get all users in the dorm
-        List<Integer> userIds = dormMemberDAO.getMembersByDorm(dormId)
-                .stream()
-                .map(member -> member.getUser_id())
-                .collect(Collectors.toList());
-
-        dormUsers = UserDAO.getUsersByIds(userIds);
+        dormUsers = choreService.getDormUsers(dormId);
         availableUsers.clear();
-        availableUsers.addAll(dormUsers.stream()
-                .map(User::getUsername)
-                .collect(Collectors.toList()));
-
+        availableUsers.addAll(dormUsers.stream().map(User::getUsername).collect(Collectors.toList()));
         usersListView.setItems(availableUsers);
 
-        // Select currently assigned users
         List<Integer> assignedUserIds = choreAssignmentDAO.getUserIdsByChore(choreToEdit.getChore_id());
         for (Integer userId : assignedUserIds) {
-            User user = dormUsers.stream()
-                    .filter(u -> u.getUser_id() == userId)
-                    .findFirst()
-                    .orElse(null);
+            User user = dormUsers.stream().filter(u -> u.getUser_id() == userId).findFirst().orElse(null);
             if (user != null) {
                 int index = availableUsers.indexOf(user.getUsername());
                 if (index >= 0) {

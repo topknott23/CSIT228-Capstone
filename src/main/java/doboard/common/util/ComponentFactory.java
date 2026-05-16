@@ -27,40 +27,6 @@ public class ComponentFactory {
             return null;
         }
     }
-
-    public static Node createChoreItem(String title, Runnable onDoneAction) {
-        try{
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/dashboard/chore-item.fxml"));
-            Node node = loader.load();
-
-            Label titleLabel = (Label) node.lookup("#choreTitleLabel");
-            Button doneBtn = (Button) node.lookup("#doneBtn");
-            if(titleLabel != null) titleLabel.setText(title);
-            if(doneBtn != null){
-                doneBtn.setOnAction(e -> onDoneAction.run());
-            }
-            return node;
-        }catch(IOException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Node createExpenseAlert(String message){
-        try{
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/dashboard/expense-item.fxml"));
-            Node node = loader.load();
-
-            Label label = (Label) node.lookup("#alertLabel");
-            if(label != null) label.setText("• " + message);
-
-            return node;
-        }catch(IOException e){
-            e.printStackTrace();;
-            return null;
-        }
-    }
-
     public static Node createLeaderboardRow(String username, int count, String imagePath) {
         try {
             FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/common/leaderboard-item.fxml"));
@@ -85,68 +51,6 @@ public class ComponentFactory {
         } catch (IOException | NullPointerException e) {
             System.err.println("Error loading leaderboard row component.");
             e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Node createDueBill(String title, double amount){
-        try{
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/expenses/duebill-item.fxml"));
-            Node node = loader.load();
-            ((Label) node.lookup("#billLabel")).setText(title);
-            ((Label) node.lookup("#amountLabel")).setText(String.format("₱%.2f", amount));
-
-            return node;
-        }catch(IOException e){
-            return null;
-        }
-    }
-
-    public static Node createProcessedBill(String date){
-        try{
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/expenses/processedbill-item.fxml"));
-            Node node = loader.load();
-
-            Label dateLbl = (Label) node.lookup("#dateLabel");
-            if(dateLbl != null) dateLbl.setText(date);
-
-            return node;
-        }catch(IOException e){
-            return null;
-        }
-    }
-
-    public static Node createTransactionItem(String title, String date, double amount){
-        try {
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/expenses/transaction-item.fxml"));
-            Node node = loader.load();
-
-            Label titleLbl = (Label) node.lookup("#transactionTitle");
-            Label dateLbl = (Label) node.lookup("#transactionDate");
-            Label amountLbl = (Label) node.lookup("#transactionAmount");
-            if (titleLbl != null) titleLbl.setText("Paid: " + title);
-            if (dateLbl != null) dateLbl.setText("Completed on " + date);
-            if (amountLbl != null) {
-                amountLbl.setText(String.format("-₱%,.2f", amount));
-            }
-
-            return node;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static Node createSpaceItem(String name){
-        try{
-            FXMLLoader loader = new FXMLLoader(ComponentFactory.class.getResource("/doboard/dashboard/space-item.fxml"));
-            Node node = loader.load();
-
-            Label spaceLbl = (Label) node.lookup("#spaceLabel");
-            if(spaceLbl != null) spaceLbl.setText(name);
-
-            return node;
-        }catch(IOException e){
             return null;
         }
     }

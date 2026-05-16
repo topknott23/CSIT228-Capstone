@@ -1,9 +1,7 @@
 package doboard.auth;
 
 import doboard.common.session.SessionHandler;
-import doboard.common.util.Popup;
-import doboard.common.util.SceneLoader;
-import doboard.common.util.StageUtil;
+import doboard.common.util.*;
 import doboard.dorm.DormMemberDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import doboard.common.util.CustomTitleBar;
 import javafx.scene.layout.HBox;
 
 
@@ -64,13 +61,8 @@ public class LoginController {
         SessionHandler.saveSession(loggedInUser);
         Popup.show("Success", "Login Successful! Welcome back, " + loggedInUser.getUsername() + ".");
 
-        if(DormMemberDAO.isUserInDorm(loggedInUser.getUser_id())) {
-            Stage stage = StageUtil.getStage(event);
-            SceneLoader.loadScene(stage, LoginController.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
-        } else {
-            Stage stage = StageUtil.getStage(event);
-            SceneLoader.loadScene(stage, LoginController.class, "/doboard/dorm/dorm-view.fxml", "DoBoard - Create Dorm");
-        }
+        Stage stage = StageUtil.getStage(event);
+        NavigationManager.handlePostLoginRouting(stage, loggedInUser);
     }
 
 }
