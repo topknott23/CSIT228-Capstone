@@ -3,29 +3,42 @@ package doboard.auth;
 import doboard.common.util.Popup;
 import doboard.common.util.SceneLoader;
 import doboard.common.util.StageUtil;
+import doboard.common.util.CustomTitleBar; // Added import
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox; // Added import
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class RegisterController {
     @FXML private StackPane rootPane;
     @FXML private ImageView backgroundView;
+    @FXML private HBox topNavBar; // Added reference for the title bar
     @FXML private TextField emailField;
     @FXML private TextField fullNameField;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Button registerButton;
 
+    private final CustomTitleBar titleBar = new CustomTitleBar(); // Added title bar manager
+
     @FXML
     private void initialize(){
         backgroundView.fitWidthProperty().bind(rootPane.widthProperty());
         backgroundView.fitHeightProperty().bind(rootPane.heightProperty());
+
+        // Added: Enable dragging for the register screen
+        titleBar.makeDraggable(topNavBar);
     }
+
+    // Added: Window control methods for the custom top bar
+    @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
+    @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
+    @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
 
     @FXML
     private void goLogin(ActionEvent event){
@@ -35,7 +48,6 @@ public class RegisterController {
 
     @FXML
     private void handleRegister(ActionEvent event){
-
         String emailInput = emailField.getText();
         String fullNameInput = fullNameField.getText();
         String usernameInput = usernameField.getText();
@@ -67,5 +79,3 @@ public class RegisterController {
         goLogin(event);
     }
 }
-
-
