@@ -15,6 +15,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import doboard.common.util.CustomTitleBar;
+import javafx.scene.layout.HBox;
+
 
 public class LoginController {
     @FXML private TextField emailField;
@@ -22,13 +25,18 @@ public class LoginController {
     @FXML private Button signInButton;
     @FXML private StackPane rootPane;
     @FXML private ImageView backgroundView;
+    @FXML private HBox topNavBar;
+    private final CustomTitleBar titleBar = new CustomTitleBar();
 
     @FXML
     private void initialize(){
         backgroundView.fitHeightProperty().bind(rootPane.heightProperty());
         backgroundView.fitWidthProperty().bind(rootPane.widthProperty());
+        titleBar.makeDraggable(topNavBar);
     }
-
+    @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
+    @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
+    @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
     @FXML
     private void goRegister(ActionEvent event){
         Stage stage = StageUtil.getStage(event);

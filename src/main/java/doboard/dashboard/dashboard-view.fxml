@@ -24,7 +24,7 @@
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" smooth="true">
                         <Image url="@../../images/logo.png" requestedWidth="150" requestedHeight="150" preserveRatio="true" smooth="true" />
                     </ImageView>
-                    <Label alignment="CENTER" text="MAINTENANT">
+                    <Label fx:id="windowTitleLabel" alignment="CENTER" text="MAINTENANT - DASHBOARD">
                         <styleClass>
                             <String fx:value="font-bold" />
                             <String fx:value="text-lg" />
@@ -45,7 +45,6 @@
 
                 <styleClass>
                     <String fx:value="bg-brand-blue" />
-                    <String fx:value="br-gray-md" />
                     <String fx:value="shadow-md" />
                 </styleClass>
             </HBox>

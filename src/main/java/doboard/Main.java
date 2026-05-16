@@ -9,6 +9,7 @@ import doboard.dorm.DormMemberDAO;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.sql.Connection;
 
@@ -17,7 +18,8 @@ public class Main extends Application {
     public void start(Stage stage) {
         // Removed windows frame, para custom atoa
         //Commented out because some screens dont have an exit button
-        //stage.initStyle(StageStyle.UNDECORATED);
+        // Uncommented, ill apply the buttons na
+        stage.initStyle(StageStyle.UNDECORATED);
 
         stage.getIcons().add(new Image(Main.class.getResourceAsStream("/images/logo.png")));
         // Windows icon rani ^^
@@ -38,7 +40,6 @@ public class Main extends Application {
         } else {
             showLogInScreen(stage);
         }
-
         //Test connection
         Connection c = SQLConnector.getConnection();
         if(c == null) {
