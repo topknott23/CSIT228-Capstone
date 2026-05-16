@@ -30,6 +30,7 @@ public class ChoreController {
 
     @FXML
     public void initialize() {
+        NavigationManager.setTitle("Chores");
         loadLeaderboard();
     }
 

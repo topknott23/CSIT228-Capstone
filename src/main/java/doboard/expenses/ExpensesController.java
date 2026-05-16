@@ -33,6 +33,7 @@ public class ExpensesController {
 
     @FXML
     public void initialize() {
+        NavigationManager.setTitle("Expenses"); // init title
         purposeComboBox.getItems().addAll("Rent", "Electricity", "Water", "Internet", "Groceries", "Other");
         refreshExpensesUI();
     }

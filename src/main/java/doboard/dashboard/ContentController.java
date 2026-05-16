@@ -54,6 +54,7 @@ public class ContentController {
 
     @FXML
     public void initialize() {
+        NavigationManager.setTitle("Dashboard"); // init with title
         currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
             dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());

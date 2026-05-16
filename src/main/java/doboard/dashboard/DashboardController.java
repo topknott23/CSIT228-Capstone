@@ -21,12 +21,14 @@ public class DashboardController {
     @FXML private Label usernameVal;
     @FXML private VBox contentArea;
     @FXML private HBox topNavBar;
-
+    @FXML private Label windowTitleLabel;
     // Instantiate the window manager
     private final CustomTitleBar titleBar = new CustomTitleBar();
 
     @FXML
     public void initialize(){
+        NavigationManager.setWindowTitleLabel(windowTitleLabel);
+        // ^^ CUSTOM TITLE for every screen
         NavigationManager.setContentArea(contentArea);
         NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml");
         titleBar.makeDraggable(topNavBar);
