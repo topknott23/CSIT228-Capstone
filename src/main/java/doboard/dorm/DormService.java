@@ -33,18 +33,30 @@ public class DormService {
             return DormOperationResult.failure("No user session found");
         }
 
-        // Business Check: Is user already a member of any dorm?
-        if (dormDAO.isUserInDorm(creatorUser.getUser_id())) {
+        // 1. ADMIN BYPASS: Allow admin to skip the "already in a dorm" check
+        // This allows the property manager to create multiple dorms.
+        boolean isMasterAdmin = creatorUser.getUsername().equalsIgnoreCase("admin");
+
+        if (!isMasterAdmin && dormDAO.isUserInDorm(creatorUser.getUser_id())) {
             return DormOperationResult.failure("Failed to create dorm. You are already in a dorm.");
         }
 
-        // Execute core entity record insertion
+        // 2. Create the dorm record in the database
         Dorm createdDorm = dormDAO.createDormWithCode(dormName);
         if (createdDorm == null) {
             return DormOperationResult.failure("Failed to create dorm.");
         }
 
-        // Bind creator user context role as ADMIN
+        // 3. LOGIC SPLIT: If admin, finish here (Dorm stays empty).
+        // If regular user, attach them as the first resident/admin of that room.
+        if (isMasterAdmin) {
+            return DormOperationResult.success(
+                    "Dorm created! Join Code: " + createdDorm.getJoin_code(),
+                    createdDorm
+            );
+        }
+
+        // Regular tenant logic:
         DormMember ownerMember = new DormMember(
                 createdDorm.getDorm_id(),
                 creatorUser.getUser_id(),
@@ -53,12 +65,11 @@ public class DormService {
 
         if (dormDAO.addMember(ownerMember)) {
             return DormOperationResult.success(
-                    "Dorm '" + dormName + "' created successfully",
+                    "Dorm created successfully",
                     createdDorm
             );
         } else {
-            System.err.println("Failed to add owner member role mapping record to dorm");
-            return DormOperationResult.failure("Failed to attach user ownership configuration parameters.");
+            return DormOperationResult.failure("Failed to attach user membership.");
         }
     }
 

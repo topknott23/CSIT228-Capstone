@@ -54,7 +54,14 @@ public class DormSetupController {
         DormService.DormOperationResult result = dormService.createDorm(name, currentUser);
 
         if (result.isSuccess()) {
-            triggerSuccess();
+            // If it's the admin, don't close immediately so they can copy the code
+            if (currentUser.getUsername().equalsIgnoreCase("admin")) {
+                showStatus("SUCCESS! Join Code: " + result.getDorm().getJoin_code(), false);
+                dormNameField.clear();
+                // Optional: triggerSuccess() after a delay or a specific button
+            } else {
+                triggerSuccess();
+            }
         } else {
             showStatus(result.getMessage(), true);
         }
