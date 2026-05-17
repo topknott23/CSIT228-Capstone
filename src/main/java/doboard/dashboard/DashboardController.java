@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 
 public class DashboardController {
     @FXML private StackPane rootPane;
-    @FXML private VBox spaceContainer;
     @FXML private ImageView profileImage;
     @FXML private Label usernameVal;
     @FXML private HBox navBarContainer;
@@ -102,18 +101,6 @@ public class DashboardController {
         SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");
     }
 
-    @FXML
-    private void handleAddSpaces(ActionEvent event){
-        NavigationManager.showDormSetupDialog(rootPane.getScene().getWindow(), () -> {
-            Popup.show("Success", "Workspace added!");
-            addSpace("D" + (spaceContainer.getChildren().size() + 1));
-        });
-    }
-
-    private void addSpace(String name){
-        Node space = DashboardComponentFactory.createSpaceItem(name);
-        if(space != null) spaceContainer.getChildren().add(space);
-    }
 
     private void loadLayout(){
         if(isAdmin){

@@ -14,6 +14,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import doboard.common.util.NavigationManager;
+import doboard.common.util.Popup;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 
 public class AdminContentController {
 
@@ -86,5 +90,12 @@ public class AdminContentController {
     private void handleCreateAdminBill() {
         // TODO: Implement bill logic / process bill to tenants
     }
-
+    @FXML
+    private void handleCreateWorkspace(ActionEvent event) {
+        // Spawn the dialog and attach a success callback
+        NavigationManager.showDormSetupDialog(((Node) event.getSource()).getScene().getWindow(), () -> {
+            Popup.show("Workspace Created", "New dorm registered successfully! Check the Join Code.");
+            // You can call loadLandlordFeeds() or refresh logic here in the future
+        });
+    }
 }

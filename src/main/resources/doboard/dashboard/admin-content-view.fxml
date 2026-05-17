@@ -132,6 +132,25 @@
                      </padding>
                       </VBox>
                   </VBox>
+                <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
+                    <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="WORKSPACE">
+                        <styleClass>
+                            <String fx:value="font-bold" />
+                            <String fx:value="p-2" />
+                            <String fx:value="text-md" />
+                            <String fx:value="bg-brand-blue1" />
+                            <String fx:value="rounded-lg-t" />
+                        </styleClass>
+                    </Label>
+                    <VBox alignment="CENTER" spacing="15.0" VBox.vgrow="ALWAYS">
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        </padding>
+                        <Label style="-fx-text-fill: #666; -fx-font-size: 12px;" text="Manage properties and generate new join codes for tenants." textAlignment="CENTER" wrapText="true" />
+                        <Region VBox.vgrow="ALWAYS" />
+                        <Button maxWidth="Infinity" onAction="#handleCreateWorkspace" style="-fx-padding: 10px;" styleClass="btn-primary" text="Create New Workspace" />
+                    </VBox>
+                </VBox>
             </children>
          </HBox>
         </HBox>

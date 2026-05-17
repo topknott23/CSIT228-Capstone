@@ -40,19 +40,4 @@ public class DashboardComponentFactory {
             return null;
         }
     }
-
-    public static Node createSpaceItem(String name) {
-        try {
-            FXMLLoader loader = new FXMLLoader(DashboardComponentFactory.class.getResource("/doboard/dashboard/space-item.fxml"));
-            Node node = loader.load();
-
-            // FIXED: Cast to Button matching space-item.fxml root element to avoid ClassCastException
-            Button spaceBtn = (Button) node.lookup("#spaceLabel");
-            if (spaceBtn != null) spaceBtn.setText(name);
-
-            return node;
-        } catch (IOException e) {
-            return null;
-        }
-    }
 }

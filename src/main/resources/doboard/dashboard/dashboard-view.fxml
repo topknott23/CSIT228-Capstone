@@ -47,33 +47,6 @@
             </HBox>
         </top>
 
-        <left>
-            <VBox alignment="TOP_CENTER" maxWidth="60.0" prefWidth="60.0" spacing="20.0">
-                <padding><Insets top="20.0" /></padding>
-                <VBox fx:id="spaceContainer" alignment="TOP_CENTER">
-                    <Button prefHeight="40.0" prefWidth="40.0" text="D1">
-                        <styleClass>
-                            <String fx:value="br-blue"/>
-                            <String fx:value="btn-secondary"/>
-                        </styleClass>
-                    </Button>
-                </VBox>
-                <Separator />
-
-                <Button onAction="#handleAddSpaces" prefHeight="40.0" prefWidth="40.0" text="+">
-                    <styleClass>
-                        <String fx:value="br-dashed" />
-                        <String fx:value="rounded-md" />
-                        <String fx:value="btn-secondary" />
-                    </styleClass>
-                </Button>
-
-                <styleClass>
-                    <String fx:value="bg-white" />
-                    <String fx:value="br-gray-md" />
-                </styleClass>
-            </VBox>
-        </left>
 
         <center>
             <HBox maxWidth="Infinity" maxHeight="Infinity" spacing="20.0" style="-fx-background-color: #E7E7E7;">
