@@ -1,6 +1,5 @@
 package doboard.dorm;
 
-import doboard.auth.LoginController;
 import doboard.auth.User;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.SceneLoader;
@@ -18,7 +17,7 @@ public class DormController {
     @FXML private TextField joinCodeField;
     @FXML private Label statusLabel;
 
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final DormService dormService = new DormService();
 
     /**
      * Logic for the "Create" button
@@ -34,10 +33,10 @@ public class DormController {
         }
 
         assert currentUser != null;
-        Dorm result = dormMemberDAO.createDormAsOwner(name, currentUser);
+        DormService.DormOperationResult result = dormService.createDorm(name, currentUser);
 
-        if (result != null) {
-            showStatus("Dorm created! Code: " + result.getJoin_code(), false);
+        if (result.isSuccess()) {
+            showStatus("Dorm created! Code: " + result.getDorm().getJoin_code(), false);
             dormNameField.clear();
         } else {
             showStatus("Error: Could not create dorm. Are you already in one?", true);
@@ -57,10 +56,10 @@ public class DormController {
             return;
         }
 
-        boolean success = dormMemberDAO.joinDorm(code, currentUser);
+        DormService.DormOperationResult result = dormService.joinDormWithCode(code, currentUser);
 
-        if (success) {
-            Dorm joinedDorm = DormDAO.findByJoinCode(code);
+        if (result.isSuccess()) {
+            Dorm joinedDorm = result.getDorm();
             showStatus("Successfully joined dorm:" + joinedDorm.getDorm_name(), false);
             joinCodeField.clear();
             Stage stage = StageUtil.getStage(event);

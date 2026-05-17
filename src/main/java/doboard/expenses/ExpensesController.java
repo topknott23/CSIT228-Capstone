@@ -2,11 +2,8 @@ package doboard.expenses;
 
 import doboard.auth.User;
 import doboard.common.session.SessionHandler;
-import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
 import doboard.common.util.Popup;
-import doboard.dorm.DormMemberDAO;
-import doboard.dorm.DormMember;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

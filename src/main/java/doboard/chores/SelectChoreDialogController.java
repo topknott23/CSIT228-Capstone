@@ -2,7 +2,7 @@ package doboard.chores;
 
 import doboard.auth.User;
 import doboard.common.session.SessionHandler;
-import doboard.dorm.DormMemberDAO;
+import doboard.dorm.DormDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,8 +20,8 @@ public class SelectChoreDialogController {
     @FXML private Button cancelButton;
     @FXML private Button selectButton;
 
-    private ChoreDAO choreDAO = new ChoreDAO();
-    private DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final ChoreDAO choreDAO = new ChoreDAO();
+    private final DormDAO dormDAO = new DormDAO();
 
     private List<Chore> availableChores;
     private ObservableList<String> choreDisplayNames = FXCollections.observableArrayList();
@@ -37,7 +37,7 @@ public class SelectChoreDialogController {
         User currentUser = SessionHandler.loadSession();
         if (currentUser == null) return;
 
-        int dormId = dormMemberDAO.getDormIdByUserId(currentUser.getUser_id());
+        int dormId = dormDAO.getDormIdByUserId(currentUser.getUser_id());
         if (dormId == -1) return;
 
         availableChores = choreDAO.findAllByDormId(dormId);

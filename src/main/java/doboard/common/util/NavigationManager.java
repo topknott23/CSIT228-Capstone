@@ -1,7 +1,7 @@
 package doboard.common.util;
 
 import doboard.auth.User;
-import doboard.dorm.DormMemberDAO;
+import doboard.dorm.DormDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -14,7 +14,7 @@ public class NavigationManager {
     public static VBox contentArea;
     public static Label windowTitleLabel; // <-- Added reference for the title label
 
-    private static final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private static final DormDAO dormDAO = new DormDAO();
 
     public static void setContentArea(VBox area){
         contentArea = area;
@@ -44,7 +44,7 @@ public class NavigationManager {
     }
 
     public static void handlePostLoginRouting(Stage stage, User user){
-        int dormId = dormMemberDAO.getDormIdByUserId(user.getUser_id());
+        int dormId = dormDAO.getDormIdByUserId(user.getUser_id());
 
         if (dormId != -1) {
             // User is already in a dorm, send them straight to the main dashboard

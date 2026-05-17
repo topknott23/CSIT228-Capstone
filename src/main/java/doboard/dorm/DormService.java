@@ -9,7 +9,6 @@ import doboard.auth.User;
 public class DormService {
 
     private final DormDAO dormDAO = new DormDAO();
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
 
     /**
      * Creates a new dorm with the specified name and adds the creator as the owner.
@@ -20,7 +19,6 @@ public class DormService {
      * @return A DormOperationResult indicating success/failure with details
      */
     public DormOperationResult createDorm(String dormName, User creatorUser) {
-        // Validate input
         if (dormName == null || dormName.trim().isEmpty()) {
             return DormOperationResult.failure("Dorm name cannot be empty");
         }
@@ -29,17 +27,33 @@ public class DormService {
             return DormOperationResult.failure("No user session found");
         }
 
-        // Attempt to create dorm
-        Dorm createdDorm = dormMemberDAO.createDormAsOwner(dormName, creatorUser);
-        
-        if (createdDorm == null) {
-            return DormOperationResult.failure("Failed to create dorm. Check if you're already in a dorm.");
+        // Business Check: Is user already a member of any dorm?
+        if (dormDAO.isUserInDorm(creatorUser.getUser_id())) {
+            return DormOperationResult.failure("Failed to create dorm. You are already in a dorm.");
         }
 
-        return DormOperationResult.success(
-                "Dorm '" + dormName + "' created successfully",
-                createdDorm
+        // Execute core entity record insertion
+        Dorm createdDorm = dormDAO.createDormWithCode(dormName);
+        if (createdDorm == null) {
+            return DormOperationResult.failure("Failed to create dorm.");
+        }
+
+        // Bind creator user context role as ADMIN
+        DormMember ownerMember = new DormMember(
+                createdDorm.getDorm_id(),
+                creatorUser.getUser_id(),
+                DormMember.Role.ADMIN
         );
+
+        if (dormDAO.addMember(ownerMember)) {
+            return DormOperationResult.success(
+                    "Dorm '" + dormName + "' created successfully",
+                    createdDorm
+            );
+        } else {
+            System.err.println("Failed to add owner member role mapping record to dorm");
+            return DormOperationResult.failure("Failed to attach user ownership configuration parameters.");
+        }
     }
 
     /**
@@ -51,7 +65,6 @@ public class DormService {
      * @return A DormOperationResult indicating success/failure with details
      */
     public DormOperationResult joinDormWithCode(String joinCode, User user) {
-        // Validate input
         if (joinCode == null || joinCode.trim().isEmpty()) {
             return DormOperationResult.failure("Join code cannot be empty");
         }
@@ -60,25 +73,33 @@ public class DormService {
             return DormOperationResult.failure("No user session found");
         }
 
-        // Validate code format
+        // Business Check: Is user already a member of any dorm?
+        if (dormDAO.isUserInDorm(user.getUser_id())) {
+            return DormOperationResult.failure("Failed to join dorm. You are already in a dorm.");
+        }
+
         if (!dormDAO.isValidJoinCode(joinCode)) {
             return DormOperationResult.failure("Invalid join code format");
         }
 
-        // Get dorm info
-        Dorm dorm = dormDAO.findByJoinCode(joinCode);
+        Dorm dorm = DormDAO.findByJoinCode(joinCode);
         if (dorm == null) {
             return DormOperationResult.failure("Join code not found. Please check the code and try again.");
         }
 
-        // Attempt to join
-        if (dormMemberDAO.joinDorm(joinCode, user)) {
+        DormMember member = new DormMember(
+                dorm.getDorm_id(),
+                user.getUser_id(),
+                DormMember.Role.MEMBER
+        );
+
+        if (dormDAO.addMember(member)) {
             return DormOperationResult.success(
                     "Successfully joined dorm '" + dorm.getDorm_name() + "'",
                     dorm
             );
         } else {
-            return DormOperationResult.failure("Failed to join dorm. You may already be in a dorm.");
+            return DormOperationResult.failure("Failed to join dorm structure registry mapping.");
         }
     }
 
@@ -89,7 +110,7 @@ public class DormService {
      * @return true if the user is in a dorm, false otherwise
      */
     public boolean isUserInDorm(int userId) {
-        return dormMemberDAO.isUserInDorm(userId);
+        return dormDAO.isUserInDorm(userId);
     }
 
     /**
@@ -99,7 +120,7 @@ public class DormService {
      * @return The dorm ID, or -1 if user is not in any dorm
      */
     public int getUserDormId(int userId) {
-        return dormMemberDAO.getDormIdByUserId(userId);
+        return dormDAO.getDormIdByUserId(userId);
     }
 
     /**

@@ -2,7 +2,7 @@ package doboard.chores;
 
 import doboard.auth.User;
 import doboard.auth.UserDAO;
-import doboard.dorm.DormMemberDAO;
+import doboard.dorm.DormDAO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,8 +11,7 @@ import java.util.stream.Collectors;
 
 public class ChoreService {
     private final ChoreDAO choreDAO = new ChoreDAO();
-    private final ChoreAssignmentDAO choreAssignmentDAO = new ChoreAssignmentDAO();
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final DormDAO dormDAO = new DormDAO();
 
     public record LeaderboardEntry(String username, int completionCount){}
 
@@ -21,11 +20,11 @@ public class ChoreService {
     }
 
     public int getDormIdForUser(int userId){
-        return dormMemberDAO.getDormIdByUserId(userId);
+        return dormDAO.getDormIdByUserId(userId);
     }
 
     public List<User> getDormUsers(int dormId){
-        List<Integer> userIds = dormMemberDAO.getMembersByDorm(dormId)
+        List<Integer> userIds = dormDAO.getMembersByDorm(dormId)
                 .stream()
                 .map(doboard.dorm.DormMember::getUser_id)
                 .collect(Collectors.toList());
@@ -69,9 +68,9 @@ public class ChoreService {
             int newChoreId = choreDAO.insertAndReturnId(nextChore);
 
             if (newChoreId != -1) {
-                List<Integer> assignedUserIds = choreAssignmentDAO.getUserIdsByChore(chore.getChore_id());
+                List<Integer> assignedUserIds = choreDAO.getUserIdsByChore(chore.getChore_id());
                 for (int userId : assignedUserIds) {
-                    choreAssignmentDAO.assign(new ChoreAssignment(newChoreId, userId));
+                    choreDAO.assign(new ChoreAssignment(newChoreId, userId));
                 }
             }
         }

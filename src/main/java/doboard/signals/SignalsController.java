@@ -1,13 +1,10 @@
 package doboard.signals;
 
 import doboard.auth.User;
-import doboard.common.connection.SQLConnector;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
 import doboard.common.util.Popup;
-import doboard.dorm.DormMember;
-import doboard.dorm.DormMemberDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,10 +14,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

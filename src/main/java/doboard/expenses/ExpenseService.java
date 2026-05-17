@@ -1,7 +1,7 @@
 package doboard.expenses;
 
+import doboard.dorm.DormDAO;
 import doboard.dorm.DormMember;
-import doboard.dorm.DormMemberDAO;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,22 +9,21 @@ import java.util.List;
 
 public class ExpenseService {
     private final BillDAO billDAO = new BillDAO();
-    private final BillSplitDAO billSplitDAO = new BillSplitDAO();
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final DormDAO dormDAO = new DormDAO();
 
     public record UserBalanceSummary(double totalBalance, List<String> alerts) {}
 
     public int getDormIdForUser(int userId) {
-        return dormMemberDAO.getDormIdByUserId(userId);
+        return dormDAO.getDormIdByUserId(userId);
     }
     public List<Bill> getDormBills(int dormId) {
         return billDAO.findByDormId(dormId);
     }
     public List<BillSplit> getSplitsForBill(int billId) {
-        return billSplitDAO.findByBillId(billId);
+        return billDAO.findSplitsByBillId(billId);
     }
     public boolean updateSplitStatus(int splitId, boolean isPaid) {
-        return billSplitDAO.updateStatus(splitId, isPaid);
+        return billDAO.updateSplitStatus(splitId, isPaid);
     }
 
     public boolean processBillSplit(int dormId, String purpose, double amount) {
@@ -33,12 +32,12 @@ public class ExpenseService {
 
         if (insertedBillId == -1) return false;
 
-        List<DormMember> members = dormMemberDAO.getMembersByDorm(dormId);
+        List<DormMember> members = dormDAO.getMembersByDorm(dormId);
         if (!members.isEmpty()) {
             double splitAmount = amount / members.size();
             for (DormMember member : members) {
                 BillSplit split = new BillSplit(0, insertedBillId, member.getUser_id(), splitAmount, false);
-                billSplitDAO.insert(split);
+                billDAO.insertSplit(split);
             }
         }
         return true;
@@ -50,7 +49,7 @@ public class ExpenseService {
         List<Bill> dormBills = billDAO.findByDormId(dormId);
 
         for (Bill bill : dormBills) {
-            List<BillSplit> splits = billSplitDAO.findByBillId(bill.getBill_id());
+            List<BillSplit> splits = billDAO.findSplitsByBillId(bill.getBill_id());
             for (BillSplit split : splits) {
                 if (split.getUser_id() == userId && !split.isPaid()) {
                     totalBalance += split.getAmount();

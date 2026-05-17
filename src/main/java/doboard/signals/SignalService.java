@@ -2,19 +2,19 @@ package doboard.signals;
 
 import doboard.auth.User;
 import doboard.auth.UserDAO;
+import doboard.dorm.DormDAO;
 import doboard.dorm.DormMember;
-import doboard.dorm.DormMemberDAO;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SignalService {
-    private final DormMemberDAO dormMemberDAO = new DormMemberDAO();
+    private final DormDAO dormDAO = new DormDAO();
     private final SignalDAO signalDAO = new SignalDAO();
 
     public int getDormIdForUser(int userId) {
-        return dormMemberDAO.getDormIdByUserId(userId);
+        return dormDAO.getDormIdByUserId(userId);
     }
 
     /**
@@ -22,7 +22,7 @@ public class SignalService {
      */
     public Map<String, Integer> getDormmatesMap(int currentUserId, int dormId) {
         Map<String, Integer> tenantMap = new HashMap<>();
-        List<DormMember> members = dormMemberDAO.getMembersByDorm(dormId);
+        List<DormMember> members = dormDAO.getMembersByDorm(dormId);
 
         List<Integer> userIds = members.stream()
                 .map(DormMember::getUser_id)

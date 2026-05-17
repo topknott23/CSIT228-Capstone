@@ -1,24 +1,24 @@
 package doboard.chores;
 
 import doboard.auth.User;
-import doboard.auth.UserDAO;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
-import doboard.dorm.DormMemberDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class ChoreController {
     @FXML private VBox contentArea;
@@ -62,22 +62,21 @@ public class ChoreController {
 
     @FXML
     private void addChore(ActionEvent event) {
-        showDialog("/doboard/chores/add-chore-dialog.fxml", "Add Chore", controller -> {
-            if (controller instanceof AddChoreDialogController) {
-                ((AddChoreDialogController) controller).setParentController(this);
+        showDialog("/doboard/chores/chore-form-dialog.fxml", "Add Chore", controller -> {
+            if (controller instanceof ChoreFormController) {
+                ((ChoreFormController) controller).setParentController(this);
+                ((ChoreFormController) controller).setChoreToEdit(null); // Passing null triggers ADD mode
             }
         });
     }
 
     @FXML
     private void updateChore(ActionEvent event) {
-        // First show chore selection dialog
         showChoreSelectionDialog(chore -> {
-            // Then show edit dialog for selected chore
-            showDialog("/doboard/chores/edit-chore-dialog.fxml", "Edit Chore", controller -> {
-                if (controller instanceof EditChoreDialogController) {
-                    ((EditChoreDialogController) controller).setParentController(this);
-                    ((EditChoreDialogController) controller).setChoreToEdit(chore);
+            showDialog("/doboard/chores/chore-form-dialog.fxml", "Edit Chore", controller -> {
+                if (controller instanceof ChoreFormController) {
+                    ((ChoreFormController) controller).setParentController(this);
+                    ((ChoreFormController) controller).setChoreToEdit(chore); // Passing a chore triggers EDIT mode
                 }
             });
         });
@@ -85,13 +84,23 @@ public class ChoreController {
 
     @FXML
     private void removeChore(ActionEvent event) {
-        // First show chore selection dialog
         showChoreSelectionDialog(chore -> {
-            // Then show delete confirmation dialog
-            showDialog("/doboard/chores/delete-chore-dialog.fxml", "Delete Chore", controller -> {
-                if (controller instanceof DeleteChoreDialogController) {
-                    ((DeleteChoreDialogController) controller).setParentController(this);
-                    ((DeleteChoreDialogController) controller).setChoreToDelete(chore);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Chore");
+            alert.setHeaderText("Remove Chore Assignment");
+            alert.setContentText("Are you sure you want to permanently delete '" + chore.getTitle() + "'?");
+
+            ButtonType confirmBtn = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(confirmBtn, cancelBtn);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == confirmBtn) {
+                    ChoreDAO choreDAO = new ChoreDAO();
+                    choreDAO.unassignAll(chore.getChore_id());
+                    if (choreDAO.delete(chore.getChore_id())) {
+                        loadLeaderboard();
+                    }
                 }
             });
         });

@@ -7,6 +7,7 @@ import java.util.List;
 
 public class BillDAO {
 
+    // ---CORE OPERATIONS--
     public boolean insert(Bill bill) {
         String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
@@ -21,6 +22,30 @@ public class BillDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int insertAndGetId(Bill bill) {
+        String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            s.setInt(1, bill.getBill_dorm_id());
+            s.setString(2, bill.getTitle());
+            s.setDouble(3, bill.getTotal_amount());
+            s.setDate(4, Date.valueOf(bill.getBill_due_date()));
+            s.setTimestamp(5, Timestamp.from(bill.getCreated_at()));
+
+            int affectedRows = s.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet rs = s.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public List<Bill> findByDormId(int dormId) {
@@ -57,27 +82,54 @@ public class BillDAO {
         return false;
     }
 
-    public int insertAndGetId(Bill bill) {
-        String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
+    // ---SPLIT OPERATIONS---
+    public boolean insertSplit(BillSplit split) {
+        String query = "INSERT INTO bill_splits(bill_id, user_id, amount_owed, is_paid) VALUES(?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
-             PreparedStatement s = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            s.setInt(1, bill.getBill_dorm_id());
-            s.setString(2, bill.getTitle());
-            s.setDouble(3, bill.getTotal_amount());
-            s.setDate(4, Date.valueOf(bill.getBill_due_date()));
-            s.setTimestamp(5, Timestamp.from(bill.getCreated_at()));
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, split.getBill_id());
+            s.setInt(2, split.getUser_id());
+            s.setDouble(3, split.getAmount());
+            s.setBoolean(4, split.isPaid());
+            return s.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-            int affectedRows = s.executeUpdate();
-            if (affectedRows > 0) {
-                try (ResultSet rs = s.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        return rs.getInt(1);
-                    }
-                }
+    public List<BillSplit> findSplitsByBillId(int billId) {
+        List<BillSplit> splits = new ArrayList<>();
+        String query = "SELECT * FROM bill_splits WHERE bill_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, billId);
+            ResultSet r = s.executeQuery();
+            while (r.next()) {
+                splits.add(new BillSplit(
+                        r.getInt("split_id"),
+                        r.getInt("bill_id"),
+                        r.getInt("user_id"),
+                        r.getDouble("amount_owed"),
+                        r.getBoolean("is_paid")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        return splits;
+    }
+
+    public boolean updateSplitStatus(int splitId, boolean isPaid) {
+        String query = "UPDATE bill_splits SET is_paid = ? WHERE split_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setBoolean(1, isPaid);
+            s.setInt(2, splitId);
+            return s.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

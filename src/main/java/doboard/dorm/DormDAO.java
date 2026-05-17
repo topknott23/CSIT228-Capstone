@@ -3,9 +3,12 @@ package doboard.dorm;
 import doboard.common.connection.SQLConnector;
 import doboard.common.util.JoinCodeGenerator;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DormDAO {
 
+    // ---CORE OPERATIONS---
     public boolean insert(Dorm dorm) {
         String query = "INSERT INTO dorms(dorm_name, join_code, created_at) VALUES(?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
@@ -141,6 +144,60 @@ public class DormDAO {
             return false;
         }
         return codeExists(joinCode);
+    }
+
+    // ---MEMBER OPERATIONS---
+    public boolean addMember(DormMember member) {
+        String query = "INSERT INTO dorm_members(dorm_id, user_id, role) VALUES(?, ?, ?)";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement ps = c.prepareStatement(query)) {
+            ps.setInt(1, member.getDorm_id());
+            ps.setInt(2, member.getUser_id());
+            ps.setString(3, member.getRole().name());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<DormMember> getMembersByDorm(int dormId) {
+        List<DormMember> members = new ArrayList<>();
+        String query = "SELECT * FROM dorm_members WHERE dorm_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, dormId);
+            ResultSet r = s.executeQuery();
+            while (r.next()) {
+                members.add(new DormMember(
+                        r.getInt("dorm_id"),
+                        r.getInt("user_id"),
+                        DormMember.Role.valueOf(r.getString("role").toUpperCase())
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return members;
+    }
+
+    public int getDormIdByUserId(int userId) {
+        String query = "SELECT dorm_id FROM dorm_members WHERE user_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, userId);
+            ResultSet r = s.executeQuery();
+            if (r.next()) {
+                return r.getInt("dorm_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public boolean isUserInDorm(int userId) {
+        return getDormIdByUserId(userId) != -1;
     }
 }
 
