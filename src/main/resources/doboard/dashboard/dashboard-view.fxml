@@ -135,7 +135,7 @@
                             </styleClass>
                         </Label>
                         <Region HBox.hgrow="ALWAYS" />
-                        <HBox alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
+                        <HBox fx:id="navBarContainer" alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
                             <Button fx:id="navDashboard" mnemonicParsing="false" onAction="#goDashboard" styleClass="nav-tab-active">
                                 <graphic>
                                     <VBox alignment="CENTER">

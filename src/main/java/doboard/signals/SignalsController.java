@@ -28,6 +28,7 @@ public class SignalsController {
     @FXML private RadioButton dndHour8;
     @FXML private ComboBox<String> complaintComboBox;
     @FXML private ComboBox<String> tenantComboBox;
+    @FXML private ComboBox<String> maintenanceComboBox;
     @FXML private RadioButton nudgeCount1;
     @FXML private RadioButton nudgeCount2;
     @FXML private RadioButton nudgeCount5;
@@ -44,6 +45,7 @@ public class SignalsController {
         NavigationManager.setTitle("Signals"); // ye
         reasonComboBox.getItems().addAll("Studying", "Sleeping", "In a Meeting", "Sick", "Other");
         complaintComboBox.getItems().addAll("Too Loud", "Kitchen Messy", "Trash Full", "Dishes Piled Up", "Bathroom Dirty");
+        // TODO: Populate maintenance cmbox
 
         ToggleGroup dndGroup = new ToggleGroup();
         dndHour2.setToggleGroup(dndGroup);
@@ -163,7 +165,8 @@ public class SignalsController {
         nudgeCount1.setSelected(true);
     }
 
-    @FXML private void goDashboard() { NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml"); }
-    @FXML private void goChores() { NavigationManager.loadView(getClass(), "/doboard/chores/chore-view.fxml"); }
-    @FXML private void goExpenses() { NavigationManager.loadView(getClass(), "/doboard/expenses/expenses-view.fxml"); }
+    @FXML
+    private void sendMaintenance(ActionEvent event){
+        // TODO: Implement connection to admin notif and maintenance box
+    }
 }

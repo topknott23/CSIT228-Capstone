@@ -3,11 +3,14 @@ package doboard.dashboard;
 import doboard.auth.User;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.*;
+import doboard.dorm.DormMember;
+import doboard.dorm.DormService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -19,6 +22,7 @@ public class DashboardController {
     @FXML private VBox spaceContainer;
     @FXML private ImageView profileImage;
     @FXML private Label usernameVal;
+    @FXML private HBox navBarContainer;
     @FXML private Label currentScreenTitleLabel;
     @FXML private Button navDashboard;
     @FXML private Button navChores;
@@ -28,8 +32,10 @@ public class DashboardController {
     @FXML private HBox topNavBar;
     @FXML private Label windowTitleLabel;
 
-    // Instantiate the window manager
     private final CustomTitleBar titleBar = new CustomTitleBar();
+    private final DormService dormService = new DormService();
+
+    private boolean isAdmin = false;
 
     @FXML
     public void initialize(){
@@ -43,11 +49,15 @@ public class DashboardController {
         User currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
             usernameVal.setText(currentUser.getUsername());
+            int dormId = dormService.getUserDormId(currentUser.getUser_id());
+
+            DormMember.Role role = dormService.getUserRoleInDorm(currentUser.getUser_id(), dormId);
+            if(role == DormMember.Role.ADMIN) isAdmin = true;
         } else {
             usernameVal.setText("Guest");
         }
 
-        loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);
+        loadLayout();
     }
 
     // --- WINDOW CONTROLS (Delegated to utility class) ---
@@ -75,10 +85,10 @@ public class DashboardController {
     private void handleAutomationSettings(ActionEvent event){ }
     @FXML
     private void handlePrivacySettings(ActionEvent event){ }
-    @FXML public void goDashboard() { loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard); }
-    @FXML public void goChores() { loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores); }
-    @FXML public void goExpenses() { loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses); }
-    @FXML public void goSignals() { loadTab("/doboard/signals/signals-view.fxml", "SIGNALS", navSignals); }
+    @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
+    @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}
+    @FXML public void goExpenses() {if(!isAdmin)loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses);}
+    @FXML public void goSignals() {if(!isAdmin)loadTab("/doboard/signals/signals-view.fxml", "SIGNALS", navSignals);}
 
     @FXML
     private void handleLogout(ActionEvent event) {
@@ -87,22 +97,41 @@ public class DashboardController {
         SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");
     }
 
+    @FXML
+    private void handleAddSpaces(ActionEvent event){
+        // TODO: ? Ang pulos aning add spaces ky add ranag dorm kung mo balhin kag living space
+        // kinda like code chum when you join a class, the code is given by the landlord
+    }
+
     // ---Helper Functions---
     private void addSpace(String name){
         Node space = DashboardComponentFactory.createSpaceItem(name);
         if(space != null) spaceContainer.getChildren().add(space);
     }
 
+    private void loadLayout(){
+        if(isAdmin){
+            navBarContainer.setVisible(false);
+            navBarContainer.setManaged(false);
+            loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", null);
+        }else{
+            navBarContainer.setVisible(true);
+            navBarContainer.setManaged(true);
+            loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);
+        }
+    }
+
     private void loadTab(String fxmlPath, String screenTitle, Button activeTargetButton) {
         NavigationManager.loadView(getClass(), fxmlPath);
-
-        // Synchronize title indicators across layout views
         currentScreenTitleLabel.setText(screenTitle);
         NavigationManager.setTitle(screenTitle.toLowerCase());
 
         resetNavButtonStyles();
-        activeTargetButton.getStyleClass().removeAll("nav-tab", "nav-tab-active");
-        activeTargetButton.getStyleClass().add("nav-tab-active");
+
+        if(activeTargetButton != null){
+            activeTargetButton.getStyleClass().removeAll("nav-tab", "nav-tab-active");
+            activeTargetButton.getStyleClass().add("nav-tab-active");
+        }
     }
 
     private void resetNavButtonStyles() {

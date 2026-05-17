@@ -160,7 +160,4 @@ public class ExpensesController {
         }
     }
 
-    @FXML private void goDashboard() { NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml"); }
-    @FXML private void goChores() { NavigationManager.loadView(getClass(), "/doboard/chores/chore-view.fxml"); }
-    @FXML private void goSignals() { NavigationManager.loadView(getClass(), "/doboard/signals/signals-view.fxml"); }
 }

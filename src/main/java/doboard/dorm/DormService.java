@@ -1,6 +1,12 @@
 package doboard.dorm;
 
 import doboard.auth.User;
+import doboard.common.connection.SQLConnector;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Service class for high-level dorm operations.
@@ -185,5 +191,21 @@ public class DormService {
             return (success ? "✓ " : "✗ ") + message +
                     (dorm != null ? " [Dorm ID: " + dorm.getDorm_id() + ", Code: " + dorm.getJoin_code() + "]" : "");
         }
+    }
+
+    public DormMember.Role getUserRoleInDorm(int userId, int dormId){
+        String query = "SELECT role FROM dorm_members WHERE user_id = ? AND dorm_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, userId);
+            s.setInt(2, dormId);
+            ResultSet r = s.executeQuery();
+            if (r.next()) {
+                return DormMember.Role.valueOf(r.getString("role").toUpperCase());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return DormMember.Role.MEMBER;
     }
 }

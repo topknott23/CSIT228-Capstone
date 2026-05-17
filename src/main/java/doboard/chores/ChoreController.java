@@ -56,10 +56,6 @@ public class ChoreController {
         }
     }
 
-    @FXML private void goDashboard(ActionEvent event) {NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml");}
-    @FXML private void goExpenses(ActionEvent event) {NavigationManager.loadView(getClass(), "/doboard/expenses/expenses-view.fxml");}
-    @FXML private void goSignals(ActionEvent event) {NavigationManager.loadView(getClass(), "/doboard/signals/signals-view.fxml");}
-
     @FXML
     private void addChore(ActionEvent event) {
         showDialog("/doboard/chores/chore-form-dialog.fxml", "Add Chore", controller -> {
