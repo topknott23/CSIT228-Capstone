@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.chores.SelectChoreDialogController">
-   <children>
-      <Label text="Select Chore">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <VBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </VBox.margin>
-      </Label>
-      <Label text="Choose a chore to edit or delete:">
-         <VBox.margin>
-            <Insets bottom="10.0" left="20.0" right="20.0" top="0.0" />
-         </VBox.margin>
-      </Label>
-      <ListView fx:id="choresListView" prefHeight="200.0">
-         <VBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="0.0" />
-         </VBox.margin>
-      </ListView>
-      <HBox alignment="CENTER_RIGHT" spacing="10.0">
-         <children>
-            <Button fx:id="cancelButton" onAction="#handleCancel" mnemonicParsing="false" text="Cancel" />
-            <Button fx:id="selectButton" onAction="#handleSelect" mnemonicParsing="false" styleClass="primary-button" text="Select" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="0.0" />
-         </VBox.margin>
-      </HBox>
-   </children>
-</VBox>
+<StackPane style="-fx-background-color: transparent; -fx-padding: 20;" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.chores.SelectChoreDialogController">
+
+    <VBox prefHeight="450.0" prefWidth="400.0" spacing="15.0" style="-fx-border-color: #cacaca; -fx-border-radius: 15px;">
+        <styleClass>
+            <String fx:value="bg-white" />
+            <String fx:value="p-6" />
+            <String fx:value="rounded-xl" />
+            <String fx:value="shadow-md" />
+        </styleClass>
+
+        <VBox spacing="5.0">
+            <Label text="Select Chore">
+                <styleClass>
+                    <String fx:value="text-xl" />
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-brand-blue" />
+                </styleClass>
+            </Label>
+            <Separator />
+        </VBox>
+
+        <Label text="Choose a chore to edit or delete:">
+            <styleClass>
+                <String fx:value="text-sm" />
+                <String fx:value="text-gray" />
+            </styleClass>
+        </Label>
+
+        <ListView fx:id="choresListView" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #cacaca;" VBox.vgrow="ALWAYS" />
+
+        <HBox alignment="CENTER_RIGHT" spacing="15.0">
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
+                <styleClass>
+                    <String fx:value="btn-secondary" />
+                    <String fx:value="font-bold" />
+                </styleClass>
+            </Button>
+            <Button fx:id="selectButton" mnemonicParsing="false" onAction="#handleSelect" style="-fx-padding: 8px 30px;" styleClass="btn-primary" text="Select" />
+        </HBox>
+    </VBox>
+</StackPane>

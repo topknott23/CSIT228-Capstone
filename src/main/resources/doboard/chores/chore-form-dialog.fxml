@@ -1,60 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox prefWidth="400.0" spacing="15.0" style="-fx-background-color: #F4F6F9; -fx-border-color: #D1D5DB; -fx-border-width: 1; -fx-border-radius: 10; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.chores.ChoreFormController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
+<StackPane style="-fx-background-color: transparent; -fx-padding: 20;" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.chores.ChoreFormController">
 
-    <Label fx:id="dialogTitleLabel" text="Chore Form" textFill="#1F2937">
-        <font>
-            <Font name="System Bold" size="18.0" />
-        </font>
-    </Label>
+    <VBox prefWidth="450.0" spacing="20.0" style="-fx-border-color: #cacaca; -fx-border-radius: 15px;">
+        <styleClass>
+            <String fx:value="bg-white" />
+            <String fx:value="p-6" />
+            <String fx:value="rounded-xl" />
+            <String fx:value="shadow-md" />
+        </styleClass>
 
-    <VBox spacing="5.0">
-        <Label text="Title" textFill="#4B5563" />
-        <TextField fx:id="titleField" promptText="Enter chore title..." style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #D1D5DB;" />
-    </VBox>
-
-    <VBox spacing="5.0">
-        <Label text="Description" textFill="#4B5563" />
-        <TextField fx:id="descriptionField" promptText="Enter description..." style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #D1D5DB;" />
-    </VBox>
-
-    <HBox spacing="15.0">
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="Frequency" textFill="#4B5563" />
-            <ComboBox fx:id="frequencyComboBox" maxWidth="1.7976931348623157E308" promptText="Select" />
+        <VBox spacing="5.0">
+            <Label fx:id="dialogTitleLabel" text="Add New Chore">
+                <styleClass>
+                    <String fx:value="text-xl" />
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-brand-blue" />
+                </styleClass>
+            </Label>
+            <Separator />
         </VBox>
-        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
-            <Label text="Due Date" textFill="#4B5563" />
-            <DatePicker fx:id="dueDatePicker" maxWidth="1.7976931348623157E308" />
+
+        <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+            <VBox spacing="5.0">
+                <Label text="Title">
+                    <styleClass>
+                        <String fx:value="text-sm" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-gray" />
+                    </styleClass>
+                </Label>
+                <TextField fx:id="titleField" promptText="E.g., Take out the trash..." styleClass="input-pill" />
+            </VBox>
+
+            <VBox spacing="5.0">
+                <Label text="Description">
+                    <styleClass>
+                        <String fx:value="text-sm" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-gray" />
+                    </styleClass>
+                </Label>
+                <TextField fx:id="descriptionField" promptText="Enter details here..." styleClass="input-pill" />
+            </VBox>
+
+            <HBox spacing="15.0">
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="Frequency">
+                        <styleClass>
+                            <String fx:value="text-sm" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-gray" />
+                        </styleClass>
+                    </Label>
+                    <ComboBox fx:id="frequencyComboBox" maxWidth="Infinity" style="-fx-background-color: #E7E7E7; -fx-background-radius: 10px; -fx-padding: 4px;" />
+                </VBox>
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="Due Date">
+                        <styleClass>
+                            <String fx:value="text-sm" />
+                            <String fx:value="font-bold" />
+                            <String fx:value="text-gray" />
+                        </styleClass>
+                    </Label>
+                    <DatePicker fx:id="dueDatePicker" maxWidth="Infinity" style="-fx-background-color: #E7E7E7; -fx-background-radius: 10px;" />
+                </VBox>
+            </HBox>
+
+            <VBox fx:id="statusContainer" managed="false" spacing="5.0" visible="false">
+                <Label text="Status">
+                    <styleClass>
+                        <String fx:value="text-sm" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-gray" />
+                    </styleClass>
+                </Label>
+                <ComboBox fx:id="statusComboBox" maxWidth="Infinity" style="-fx-background-color: #E7E7E7; -fx-background-radius: 10px; -fx-padding: 4px;" />
+            </VBox>
+
+            <VBox spacing="5.0" VBox.vgrow="ALWAYS">
+                <Label text="Assign Dormmates">
+                    <styleClass>
+                        <String fx:value="text-sm" />
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-gray" />
+                    </styleClass>
+                </Label>
+                <ListView fx:id="usersListView" prefHeight="120.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-border-color: #cacaca;" VBox.vgrow="ALWAYS" />
+            </VBox>
         </VBox>
-    </HBox>
 
-    <VBox fx:id="statusContainer" spacing="5.0">
-        <Label text="Status" textFill="#4B5563" />
-        <ComboBox fx:id="statusComboBox" maxWidth="1.7976931348623157E308" promptText="Select Status" />
+        <HBox alignment="CENTER_RIGHT" spacing="15.0">
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
+                <styleClass>
+                    <String fx:value="btn-secondary" />
+                    <String fx:value="font-bold" />
+                </styleClass>
+            </Button>
+            <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" style="-fx-padding: 8px 25px;" styleClass="btn-primary" text="Save Chore" />
+        </HBox>
     </VBox>
-
-    <VBox spacing="5.0" VBox.vgrow="ALWAYS">
-        <Label text="Assign Dormmates" textFill="#4B5563" />
-        <ListView fx:id="usersListView" prefHeight="120.0" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #D1D5DB;" />
-    </VBox>
-
-    <HBox alignment="CENTER_RIGHT" spacing="10.0">
-        <Button fx:id="cancelButton" onAction="#handleCancel" style="-fx-background-color: #E5E7EB; -fx-text-fill: #374151; -fx-background-radius: 20;" text="Cancel" />
-        <Button fx:id="submitButton" onAction="#handleSubmit" style="-fx-background-color: #3B82F6; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-weight: bold;" text="Submit" />
-    </HBox>
-</VBox>
+</StackPane>

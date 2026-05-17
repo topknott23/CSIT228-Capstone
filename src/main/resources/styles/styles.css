@@ -128,3 +128,118 @@
     -fx-text-fill: #427AB5;
     -fx-font-weight: bold;
 }
+/* --- 7. LIST VIEW & DIALOG COMPONENT STYLING --- */
+
+/* Removes the ugly default light-blue focus ring and formats the box */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+    -fx-border-color: #cacaca;
+    -fx-border-radius: 10px;
+    -fx-padding: 2px;
+}
+
+/* Kills the faint blue glow when clicked */
+.list-view:focused {
+    -fx-background-color: transparent;
+}
+
+/* Styles the individual items inside the list */
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #555555;
+    -fx-padding: 12px;
+    -fx-border-color: transparent transparent #f0f0f0 transparent; /* Bottom separator line */
+    -fx-border-width: 0 0 1 0;
+    -fx-font-size: 13px;
+}
+
+/* Removes the separator line on empty slots so it doesn't look broken */
+.list-cell:empty {
+    -fx-border-color: transparent;
+}
+
+/* Hover effect */
+.list-cell:hover {
+    -fx-background-color: #F4F4F4;
+    -fx-cursor: hand;
+}
+
+/* Selected state (Matches your brand blue) */
+.list-cell:selected {
+    -fx-background-color: #406AAF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+/* --- 8. COMBO BOX STYLING --- */
+
+/* 1. The main outer box */
+.combo-box {
+    -fx-background-color: #E7E7E7;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 2px;
+}
+
+/* Hover state for the outer box */
+.combo-box:hover {
+    -fx-background-color: #dcdcdc;
+    -fx-cursor: hand;
+}
+
+/* 2. Strip the ugly gradient off the dropdown button */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 10px 0 10px;
+}
+
+/* 3. Style the little arrow icon */
+.combo-box .arrow {
+    -fx-background-color: #666666;
+}
+
+/* 4. The selected text inside the closed box */
+.combo-box > .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* --- THE POPUP DROPDOWN MENU --- */
+
+/* The floating menu wrapper */
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-color: #cacaca;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);
+    -fx-padding: 4px;
+}
+
+/* Individual items in the dropdown */
+.combo-box-popup .list-cell {
+    -fx-padding: 8px 12px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #555555;
+    -fx-font-size: 12px;
+    -fx-border-width: 0; /* overrides the border from your other list-cell css */
+}
+
+/* Item hover */
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #F4F4F4;
+    -fx-text-fill: #333333;
+    -fx-cursor: hand;
+    -fx-background-radius: 5px;
+}
+
+/* Item selected */
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: #406AAF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+}

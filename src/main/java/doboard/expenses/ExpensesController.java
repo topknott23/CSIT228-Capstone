@@ -97,38 +97,34 @@ public class ExpensesController {
 
     @FXML
     private void markAsPaid(ActionEvent event){
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Mark as Paid");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Enter Split ID:");
+        String input = Popup.showInput("Mark as Paid", "Enter Split ID:", "e.g. 12");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(idStr -> {
+        if (input != null && !input.trim().isEmpty()) {
             try {
-                int id = Integer.parseInt(idStr.trim());
+                int id = Integer.parseInt(input.trim());
                 if(expenseService.updateSplitStatus(id, true)){
                     refreshExpensesUI();
                 }
-            } catch (NumberFormatException ignored) {}
-        });
+            } catch (NumberFormatException ignored) {
+                Popup.show("Error", "Please enter a valid numeric ID.");
+            }
+        }
     }
 
     @FXML
     private void undoBill(ActionEvent event){
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Undo Bill");
-        dialog.setHeaderText(null);
-        dialog.setContentText("Enter Split ID to undo:");
+        String input = Popup.showInput("Undo Bill", "Enter Split ID to revert to unpaid:", "e.g. 12");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(idStr -> {
+        if (input != null && !input.trim().isEmpty()) {
             try {
-                int id = Integer.parseInt(idStr.trim());
+                int id = Integer.parseInt(input.trim());
                 if(expenseService.updateSplitStatus(id, false)){
                     refreshExpensesUI();
                 }
-            } catch (NumberFormatException ignored) {}
-        });
+            } catch (NumberFormatException ignored) {
+                Popup.show("Error", "Please enter a valid numeric ID.");
+            }
+        }
     }
 
     private void refreshExpensesUI() {
