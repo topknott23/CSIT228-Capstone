@@ -21,7 +21,7 @@
                 <padding><Insets left="15.0" right="15.0" /></padding>
                 <HBox alignment="CENTER_LEFT" spacing="15.0">
                     <!-- LOGO RESTORED HERE -->
-                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" smooth="true">
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../../images/logo.png" requestedWidth="150" requestedHeight="150" preserveRatio="true" smooth="true" />
                     </ImageView>
                     <Label fx:id="windowTitleLabel" alignment="CENTER" text="MAINTENANT - DASHBOARD">
@@ -33,7 +33,7 @@
                     </Label>
                 </HBox>
 
-                <!-- Pushes the buttons the the righmost -->
+                <!-- Pushes the buttons the rightmost -->
                 <Region HBox.hgrow="ALWAYS" />
 
                 <!-- The icons for the custom tab -->
@@ -62,7 +62,7 @@
                     </Button>
                 </VBox>
                 <Separator />
-<!--                daniel, i removed ts cuz i ain't sure nga needed ni. i don't know unsa pa imo purpose but yes daddy-->
+<!--                Daniel, I removed ts cuz I ain't sure nga needed ni. I don't know unsay pa imo purpose but yes daddy-->
 <!--&lt;!&ndash;                <Button onAction="#handleAddSpaces" prefHeight="40.0" prefWidth="40.0" text="+">&ndash;&gt;-->
 <!--&lt;!&ndash;                    <styleClass>&ndash;&gt;-->
 <!--&lt;!&ndash;                        <String fx:value="br-dashed" />&ndash;&gt;-->
@@ -123,7 +123,84 @@
                     </styleClass>
                 </VBox>
 
-                <VBox fx:id="contentArea" spacing="20.0" HBox.hgrow="ALWAYS" />
+                <VBox maxWidth="Infinity" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" styleClass="dashboard-header-bar">
+                        <Label fx:id="currentScreenTitleLabel" text="DASHBOARD">
+                            <HBox.margin>
+                                <Insets top="15.0" />
+                            </HBox.margin>
+                            <styleClass>
+                                <String fx:value="text-xl" />
+                                <String fx:value="font-bold" />
+                            </styleClass>
+                        </Label>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
+                            <Button fx:id="navDashboard" mnemonicParsing="false" onAction="#goDashboard" styleClass="nav-tab-active">
+                                <graphic>
+                                    <VBox alignment="CENTER">
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../images/house-chimney.png" />
+                                        </ImageView>
+                                        <Label styleClass="text-ssm" text="Dashboard" />
+                                    </VBox>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="navChores" mnemonicParsing="false" onAction="#goChores" styleClass="nav-tab">
+                                <graphic>
+                                    <VBox alignment="CENTER">
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../images/broom.png" />
+                                        </ImageView>
+                                        <Label styleClass="text-ssm" text="Chores" />
+                                    </VBox>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="navExpenses" mnemonicParsing="false" onAction="#goExpenses" styleClass="nav-tab">
+                                <graphic>
+                                    <VBox alignment="CENTER">
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../images/expense.png" />
+                                        </ImageView>
+                                        <Label styleClass="text-ssm" text="Expenses" />
+                                    </VBox>
+                                </graphic>
+                            </Button>
+                            <Button fx:id="navSignals" mnemonicParsing="false" onAction="#goSignals" styleClass="nav-tab">
+                                <graphic>
+                                    <VBox alignment="CENTER">
+                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../images/ghost.png" />
+                                        </ImageView>
+                                        <Label styleClass="text-ssm" text="Signals" />
+                                    </VBox>
+                                </graphic>
+                            </Button>
+                            <styleClass>
+                                <String fx:value="bg-white" />
+                                <String fx:value="br-blue" />
+                            </styleClass>
+                            <padding>
+                                <Insets left="20.0" right="20.0" />
+                            </padding>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </HBox>
+                    </HBox>
+
+                    <VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS"/>
+
+                    <styleClass>
+                        <String fx:value="shadow-sm" />
+                        <String fx:value="rounded-xl" />
+                        <String fx:value="br-linear-y-b" />
+                        <String fx:value="bg-gray-light" />
+                    </styleClass>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                    </padding>
+                </VBox>
 
                 <BorderPane.margin>
                     <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />

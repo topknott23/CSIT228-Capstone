@@ -6,6 +6,7 @@ import doboard.common.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -18,6 +19,11 @@ public class DashboardController {
     @FXML private VBox spaceContainer;
     @FXML private ImageView profileImage;
     @FXML private Label usernameVal;
+    @FXML private Label currentScreenTitleLabel;
+    @FXML private Button navDashboard;
+    @FXML private Button navChores;
+    @FXML private Button navExpenses;
+    @FXML private Button navSignals;
     @FXML private VBox contentArea;
     @FXML private HBox topNavBar;
     @FXML private Label windowTitleLabel;
@@ -30,7 +36,7 @@ public class DashboardController {
         NavigationManager.setWindowTitleLabel(windowTitleLabel);
         // ^^ CUSTOM TITLE for every screen
         NavigationManager.setContentArea(contentArea);
-        NavigationManager.loadView(getClass(), "/doboard/dashboard/content-view.fxml");
+        NavigationManager.setDashboardController(this);
         titleBar.makeDraggable(topNavBar);
 
 
@@ -38,8 +44,10 @@ public class DashboardController {
         if (currentUser != null) {
             usernameVal.setText(currentUser.getUsername());
         } else {
-            usernameVal.setText("Guest"); // Fallback just in case the session didn't load properly
+            usernameVal.setText("Guest");
         }
+
+        loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);
     }
 
     // --- WINDOW CONTROLS (Delegated to utility class) ---
@@ -59,7 +67,6 @@ public class DashboardController {
     }
 
     // --- DASHBOARD ACTIONS ---
-
     @FXML
     private void handleProfileSettings(ActionEvent event){ }
     @FXML
@@ -68,6 +75,10 @@ public class DashboardController {
     private void handleAutomationSettings(ActionEvent event){ }
     @FXML
     private void handlePrivacySettings(ActionEvent event){ }
+    @FXML public void goDashboard() { loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard); }
+    @FXML public void goChores() { loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores); }
+    @FXML public void goExpenses() { loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses); }
+    @FXML public void goSignals() { loadTab("/doboard/signals/signals-view.fxml", "SIGNALS", navSignals); }
 
     @FXML
     private void handleLogout(ActionEvent event) {
@@ -76,8 +87,29 @@ public class DashboardController {
         SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");
     }
 
-    public void addSpace(String name){
+    // ---Helper Functions---
+    private void addSpace(String name){
         Node space = DashboardComponentFactory.createSpaceItem(name);
         if(space != null) spaceContainer.getChildren().add(space);
+    }
+
+    private void loadTab(String fxmlPath, String screenTitle, Button activeTargetButton) {
+        NavigationManager.loadView(getClass(), fxmlPath);
+
+        // Synchronize title indicators across layout views
+        currentScreenTitleLabel.setText(screenTitle);
+        NavigationManager.setTitle(screenTitle.toLowerCase());
+
+        resetNavButtonStyles();
+        activeTargetButton.getStyleClass().removeAll("nav-tab", "nav-tab-active");
+        activeTargetButton.getStyleClass().add("nav-tab-active");
+    }
+
+    private void resetNavButtonStyles() {
+        Button[] tabs = {navDashboard, navChores, navExpenses, navSignals};
+        for (Button btn : tabs) {
+            btn.getStyleClass().removeAll("nav-tab", "nav-tab-active");
+            btn.getStyleClass().add("nav-tab");
+        }
     }
 }

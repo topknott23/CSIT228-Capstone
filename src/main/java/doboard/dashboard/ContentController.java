@@ -58,6 +58,9 @@ public class ContentController {
         setupHourlyRefresh();
     }
 
+    @FXML private void goSignals(){NavigationManager.switchToTab("SIGNALS");}
+    @FXML private void goExpenses(){NavigationManager.switchToTab("EXPENSES");}
+
     private void setupHourlyRefresh() {
         refreshTimeline = new Timeline(new KeyFrame(Duration.hours(1), event -> {
             refreshDashboard();
@@ -142,10 +145,6 @@ public class ContentController {
         choreService.completeAndRotateChore(chore);
         refreshDashboard();
     }
-
-    @FXML private void goChores() { NavigationManager.loadView(getClass(), "/doboard/chores/chore-view.fxml"); }
-    @FXML private void goExpenses() { NavigationManager.loadView(getClass(), "/doboard/expenses/expenses-view.fxml"); }
-    @FXML private void goSignals() { NavigationManager.loadView(getClass(), "/doboard/signals/signals-view.fxml"); }
 
     @FXML
     private void markAsDone(ActionEvent event) {}

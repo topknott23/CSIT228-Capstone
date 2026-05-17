@@ -1,6 +1,7 @@
 package doboard.common.util;
 
 import doboard.auth.User;
+import doboard.dashboard.DashboardController;
 import doboard.dorm.DormDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +13,8 @@ import java.io.IOException;
 
 public class NavigationManager {
     public static VBox contentArea;
-    public static Label windowTitleLabel; // <-- Added reference for the title label
+    public static Label windowTitleLabel;
+    private static DashboardController dashboardController;
 
     private static final DormDAO dormDAO = new DormDAO();
 
@@ -22,6 +24,19 @@ public class NavigationManager {
 
     public static void setWindowTitleLabel(Label label) {
         windowTitleLabel = label;
+    }
+
+    public static void setDashboardController(DashboardController controller){ dashboardController = controller; }
+
+    public static void switchToTab(String tabName) {
+        if (dashboardController != null) {
+            switch (tabName.toUpperCase()) {
+                case "DASHBOARD" -> dashboardController.goDashboard();
+                case "CHORES" -> dashboardController.goChores();
+                case "EXPENSES" -> dashboardController.goExpenses();
+                case "SIGNALS" -> dashboardController.goSignals();
+            }
+        }
     }
 
     public static void setTitle(String currentScreen) {
