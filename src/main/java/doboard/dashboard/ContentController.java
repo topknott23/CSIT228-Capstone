@@ -7,6 +7,7 @@ import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
 import doboard.common.util.Popup;
 import doboard.chores.Chore;
+import doboard.dorm.Dorm;
 import doboard.dorm.DormService;
 import doboard.expenses.*;
 import doboard.signals.SignalDAO;
@@ -30,8 +31,17 @@ public class ContentController {
     @FXML private VBox nudgeNotifContainer;
     @FXML private VBox dueChoreContainer;
     @FXML private VBox upcomingChoreContainer;
-    @FXML private Label balanceValue;
     @FXML private VBox expensesAlertContainer;
+
+    @FXML private Label balanceValue;
+    @FXML private Label kpiChoresVal;
+    @FXML private Label kpiBalanceVal;
+    @FXML private Label kpiNudgesVal;
+
+    // --- NEW: TENANT DORM INFO LABELS ---
+    @FXML private Label dormNameLabel;
+    @FXML private Label joinCodeLabel;
+
     @FXML private Button signalBtnShrtct1;
     @FXML private Button signalBtnShrtct2;
     @FXML private Button signalBtnShrtct3;
@@ -43,23 +53,31 @@ public class ContentController {
     private final SignalService signalService = new SignalService();
     private Timeline refreshTimeline;
 
-    // Cached session data
     private User currentUser;
     private int dormId = -1;
 
     @FXML
     public void initialize() {
-        NavigationManager.setTitle("Dashboard"); // init with title
+        NavigationManager.setTitle("Dashboard");
         currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
             dormId = dormService.getUserDormId(currentUser.getUser_id());
+
+            // --- NEW: FETCH AND INJECT DORM INFO ---
+            Dorm dorm = dormService.getDormById(dormId);
+            if (dorm != null) {
+                if (dormNameLabel != null) dormNameLabel.setText(dorm.getDorm_name());
+                if (joinCodeLabel != null) joinCodeLabel.setText(dorm.getJoin_code());
+            }
         }
+
         refreshDashboard();
         setupHourlyRefresh();
     }
 
     @FXML private void goSignals(){NavigationManager.switchToTab("SIGNALS");}
     @FXML private void goExpenses(){NavigationManager.switchToTab("EXPENSES");}
+    @FXML private void goChores(){NavigationManager.switchToTab("CHORES");}
 
     private void setupHourlyRefresh() {
         refreshTimeline = new Timeline(new KeyFrame(Duration.hours(1), event -> {
@@ -99,6 +117,8 @@ public class ContentController {
             }
         }
 
+        if (kpiChoresVal != null) kpiChoresVal.setText(String.valueOf(dueCount));
+
         if (dueCount > 0) {
             addNotification("You have " + dueCount + " pending chore(s) due!", "System", false);
         }
@@ -110,7 +130,11 @@ public class ContentController {
         for (String alert : summary.alerts()) {
             addExpenseAlert(alert);
         }
+
         balanceValue.setText(String.format("%.2f", summary.totalBalance()));
+        if (kpiBalanceVal != null) {
+            kpiBalanceVal.setText(String.format("₱%.2f", summary.totalBalance()));
+        }
 
         if (summary.totalBalance() > 0) {
             addNotification("You have pending bills to pay.", "System", false);
@@ -119,6 +143,9 @@ public class ContentController {
 
     private void loadNotifications() {
         List<SignalDAO.Signal> signals = signalService.getRecentSignals(currentUser.getUser_id(), dormId);
+
+        if (kpiNudgesVal != null) kpiNudgesVal.setText(String.valueOf(signals.size()));
+
         for (SignalDAO.Signal signal : signals) {
             addNotification(
                     signal.senderName() + ": " + signal.complaint(),
@@ -141,7 +168,6 @@ public class ContentController {
     }
 
     private void markChoreAsDone(Chore chore) {
-        // Mark current chore as complete
         choreService.completeAndRotateChore(chore);
         refreshDashboard();
     }
@@ -149,15 +175,10 @@ public class ContentController {
     @FXML
     private void markAsDone(ActionEvent event) {}
 
-    // --- Signal Shortcut Buttons ---
-    @FXML
-    private void signalAct1(ActionEvent event) { sendQuickSignal("Too Loud"); }
-    @FXML
-    private void signalAct2(ActionEvent event) { sendQuickSignal("Kitchen Messy"); }
-    @FXML
-    private void signalAct3(ActionEvent event) { sendQuickSignal("Trash Full"); }
-    @FXML
-    private void signalAct4(ActionEvent event) { sendQuickSignal("Dishes Piled Up"); }
+    @FXML private void signalAct1(ActionEvent event) { sendQuickSignal("Too Loud"); }
+    @FXML private void signalAct2(ActionEvent event) { sendQuickSignal("Kitchen Messy"); }
+    @FXML private void signalAct3(ActionEvent event) { sendQuickSignal("Trash Full"); }
+    @FXML private void signalAct4(ActionEvent event) { sendQuickSignal("Dishes Piled Up"); }
 
     private void sendQuickSignal(String complaint) {
         if (currentUser == null || dormId == -1) {
@@ -188,4 +209,3 @@ public class ContentController {
         if (alertNode != null) expensesAlertContainer.getChildren().add(alertNode);
     }
 }
-

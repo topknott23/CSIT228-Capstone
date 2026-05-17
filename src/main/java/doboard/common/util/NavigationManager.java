@@ -3,11 +3,17 @@ package doboard.common.util;
 import doboard.auth.User;
 import doboard.dashboard.DashboardController;
 import doboard.dorm.DormDAO;
+import doboard.dorm.DormSetupController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -18,14 +24,8 @@ public class NavigationManager {
 
     private static final DormDAO dormDAO = new DormDAO();
 
-    public static void setContentArea(VBox area){
-        contentArea = area;
-    }
-
-    public static void setWindowTitleLabel(Label label) {
-        windowTitleLabel = label;
-    }
-
+    public static void setContentArea(VBox area) { contentArea = area; }
+    public static void setWindowTitleLabel(Label label) { windowTitleLabel = label; }
     public static void setDashboardController(DashboardController controller){ dashboardController = controller; }
 
     public static void switchToTab(String tabName) {
@@ -58,15 +58,50 @@ public class NavigationManager {
         }
     }
 
+    // --- NEW: THE GLOBAL DORM SETUP DIALOG SPAWNER ---
+    public static void showDormSetupDialog(Window owner, Runnable onSuccess) {
+        try {
+            FXMLLoader loader = new FXMLLoader(NavigationManager.class.getResource("/doboard/dorm/dorm-setup-dialog.fxml"));
+            Parent root = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initOwner(owner);
+
+            // Apply the transparent, unclipped styling!
+            dialogStage.initStyle(StageStyle.TRANSPARENT);
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            try { scene.getStylesheets().add(NavigationManager.class.getResource("/styles/styles.css").toExternalForm()); } catch (Exception ignored) {}
+            dialogStage.setScene(scene);
+
+            DormSetupController controller = loader.getController();
+            controller.setOnSuccess(onSuccess);
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // --- UPDATED ROUTING LOGIC ---
+// --- UPDATED ROUTING LOGIC ---
     public static void handlePostLoginRouting(Stage stage, User user){
+        // 1. GLOBAL ADMIN BYPASS
+        if (user.getUsername().equalsIgnoreCase("admin")) {
+            SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Master Portal");
+            return;
+        }
+
+        // 2. NORMAL TENANT ROUTING
         int dormId = dormDAO.getDormIdByUserId(user.getUser_id());
 
         if (dormId != -1) {
-            // User is already in a dorm, send them straight to the main dashboard
             SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
         } else {
-            // User has no dorm affiliation, redirect them to join or create one
-            SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dorm/dorm-view.fxml", "DoBoard - Join or Create Dorm");
+            showDormSetupDialog(stage, () -> {
+                SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
+            });
         }
     }
 }

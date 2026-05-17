@@ -3,6 +3,7 @@ package doboard.dashboard;
 import doboard.auth.User;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.*;
+import doboard.dorm.Dorm;
 import doboard.dorm.DormMember;
 import doboard.dorm.DormService;
 import javafx.event.ActionEvent;
@@ -23,7 +24,14 @@ public class DashboardController {
     @FXML private ImageView profileImage;
     @FXML private Label usernameVal;
     @FXML private HBox navBarContainer;
+
     @FXML private Label currentScreenTitleLabel;
+
+    // --- NEW LABELS FOR THE WORKSPACE BADGE ---
+    @FXML private HBox workspaceBadgeContainer;
+    @FXML private Label tenantDormNameLabel;
+    @FXML private Label tenantJoinCodeLabel;
+
     @FXML private Button navDashboard;
     @FXML private Button navChores;
     @FXML private Button navExpenses;
@@ -40,19 +48,32 @@ public class DashboardController {
     @FXML
     public void initialize(){
         NavigationManager.setWindowTitleLabel(windowTitleLabel);
-        // ^^ CUSTOM TITLE for every screen
         NavigationManager.setContentArea(contentArea);
         NavigationManager.setDashboardController(this);
         titleBar.makeDraggable(topNavBar);
 
-
         User currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
             usernameVal.setText(currentUser.getUsername());
-            int dormId = dormService.getUserDormId(currentUser.getUser_id());
 
-            DormMember.Role role = dormService.getUserRoleInDorm(currentUser.getUser_id(), dormId);
-            if(role == DormMember.Role.ADMIN) isAdmin = true;
+            // --- GLOBAL LANDLORD CHECK & DORM DATA FETCH ---
+            if (currentUser.getUsername().equalsIgnoreCase("admin")) {
+                isAdmin = true;
+                // Hide the badge container completely for the Master Admin
+                if (workspaceBadgeContainer != null) workspaceBadgeContainer.setVisible(false);
+            } else {
+                int dormId = dormService.getUserDormId(currentUser.getUser_id());
+
+                // Set the Workspace Badge for Normal Tenants
+                Dorm dorm = dormService.getDormById(dormId);
+                if (dorm != null) {
+                    if (tenantDormNameLabel != null) tenantDormNameLabel.setText(dorm.getDorm_name().toUpperCase());
+                    if (tenantJoinCodeLabel != null) tenantJoinCodeLabel.setText(dorm.getJoin_code());
+
+                    DormMember.Role role = dormService.getUserRoleInDorm(currentUser.getUser_id(), dormId);
+                    if(role == DormMember.Role.ADMIN) isAdmin = true;
+                }
+            }
         } else {
             usernameVal.setText("Guest");
         }
@@ -60,31 +81,15 @@ public class DashboardController {
         loadLayout();
     }
 
-    // --- WINDOW CONTROLS (Delegated to utility class) ---
-    @FXML
-    private void minimizeWindow(ActionEvent event) {
-        titleBar.minimize(event);
-    }
+    @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
+    @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
+    @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
 
-    @FXML
-    private void maximizeWindow(ActionEvent event) {
-        titleBar.maximize(event);
-    }
+    @FXML private void handleProfileSettings(ActionEvent event){ }
+    @FXML private void handleNotificationSettings(ActionEvent event){ }
+    @FXML private void handleAutomationSettings(ActionEvent event){ }
+    @FXML private void handlePrivacySettings(ActionEvent event){ }
 
-    @FXML
-    private void closeWindow(ActionEvent event) {
-        titleBar.close(event);
-    }
-
-    // --- DASHBOARD ACTIONS ---
-    @FXML
-    private void handleProfileSettings(ActionEvent event){ }
-    @FXML
-    private void handleNotificationSettings(ActionEvent event){ }
-    @FXML
-    private void handleAutomationSettings(ActionEvent event){ }
-    @FXML
-    private void handlePrivacySettings(ActionEvent event){ }
     @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
     @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}
     @FXML public void goExpenses() {if(!isAdmin)loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses);}
@@ -99,11 +104,12 @@ public class DashboardController {
 
     @FXML
     private void handleAddSpaces(ActionEvent event){
-        // TODO: ? Ang pulos aning add spaces ky add ranag dorm kung mo balhin kag living space
-        // kinda like code chum when you join a class, the code is given by the landlord
+        NavigationManager.showDormSetupDialog(rootPane.getScene().getWindow(), () -> {
+            Popup.show("Success", "Workspace added!");
+            addSpace("D" + (spaceContainer.getChildren().size() + 1));
+        });
     }
 
-    // ---Helper Functions---
     private void addSpace(String name){
         Node space = DashboardComponentFactory.createSpaceItem(name);
         if(space != null) spaceContainer.getChildren().add(space);

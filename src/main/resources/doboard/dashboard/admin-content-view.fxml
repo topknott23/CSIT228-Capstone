@@ -99,7 +99,7 @@
                           </columnResizePolicy>
                       </TableView>
                   </VBox>
-      
+
                   <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
                       <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="BILLING">
                           <styleClass>

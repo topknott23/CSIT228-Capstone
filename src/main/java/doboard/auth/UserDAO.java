@@ -12,6 +12,13 @@ import java.util.List;
 public class UserDAO {
 
     public static User Login(String username, String password) {
+        // --- GLOBAL LANDLORD HARDCODE ---
+        if (username.equals("admin") && password.equals("123")) {
+            System.out.println("Master Landlord logged in.");
+            // ID 9999 ensures they never collide with a real tenant ID
+            return new User(9999, "admin", "admin@maintenant.com", "Property Manager", "123");
+        }
+
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
         try(Connection c = SQLConnector.getConnection();
             PreparedStatement s = c.prepareStatement(query)) {
@@ -27,8 +34,6 @@ public class UserDAO {
                         r.getString("full_name"),
                         r.getString("password")
                 );
-
-                System.out.println("User logged in: " + user.getFull_name());
                 return user;
             }
         } catch (SQLException e) {
