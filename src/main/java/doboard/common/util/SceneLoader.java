@@ -28,4 +28,25 @@ public class SceneLoader {
             e.printStackTrace();
         }
     }
+
+    public static <T> T loadSceneAndGetController(Stage stage, Class<?> context, String fxmlPath, String title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(context.getResource(fxmlPath)));
+            Parent root = loader.load();
+            Scene currentScene = stage.getScene();
+            if (currentScene != null) {
+                currentScene.setRoot(root);
+            } else {
+                Scene scene = new Scene(root, 1080, 720);
+                stage.setScene(scene);
+            }
+            stage.setTitle(title);
+            stage.show();
+            return loader.getController();
+        } catch (IOException e) {
+            System.out.println("Could not load FXML and get controller: " + fxmlPath);
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

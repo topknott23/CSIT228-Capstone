@@ -61,31 +61,28 @@ public class ContentController {
         NavigationManager.setTitle("Dashboard");
         currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
-            dormId = dormService.getUserDormId(currentUser.getUser_id());
+            doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+            dormId = cache.getDormId();
 
             // --- NEW: FETCH AND INJECT DORM INFO ---
-            Dorm dorm = dormService.getDormById(dormId);
+            Dorm dorm = cache.getDorm();
             if (dorm != null) {
                 if (dormNameLabel != null) dormNameLabel.setText(dorm.getDorm_name());
                 if (joinCodeLabel != null) joinCodeLabel.setText(dorm.getJoin_code());
             }
+            
+            // Listen for background updates
+            cache.addListener(this::refreshDashboard);
         }
 
         refreshDashboard();
-        setupHourlyRefresh();
     }
 
     @FXML private void goSignals(){NavigationManager.switchToTab("SIGNALS");}
     @FXML private void goExpenses(){NavigationManager.switchToTab("EXPENSES");}
     @FXML private void goChores(){NavigationManager.switchToTab("CHORES");}
 
-    private void setupHourlyRefresh() {
-        refreshTimeline = new Timeline(new KeyFrame(Duration.hours(1), event -> {
-            refreshDashboard();
-        }));
-        refreshTimeline.setCycleCount(Timeline.INDEFINITE);
-        refreshTimeline.play();
-    }
+    // Removed setupHourlyRefresh as polling is now handled by DataSyncService
 
     public void refreshDashboard() {
         dueChoreContainer.getChildren().clear();
@@ -102,7 +99,7 @@ public class ContentController {
     }
 
     private void loadChores(int dormId) {
-        List<Chore> allDormChores = choreService.getAllDormChores(dormId);
+        List<Chore> allDormChores = doboard.common.cache.DormDataCache.getInstance().getChores();
         int dueCount = 0;
 
         for (Chore chore : allDormChores) {
@@ -125,24 +122,32 @@ public class ContentController {
     }
 
     private void loadBillsAndBalance(int dormId, int userId) {
-        ExpenseService.UserBalanceSummary summary = expenseService.getUserBalanceDetails(dormId, userId);
+        double totalBalance = 0.0;
+        doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+        List<Bill> dormBills = cache.getBills();
 
-        for (String alert : summary.alerts()) {
-            addExpenseAlert(alert);
+        for (Bill bill : dormBills) {
+            List<BillSplit> splits = cache.getSplitsForBill(bill.getBill_id());
+            for (BillSplit split : splits) {
+                if (split.getUser_id() == userId && !split.isPaid()) {
+                    totalBalance += split.getAmount();
+                    addExpenseAlert("Due: " + bill.getTitle() + " - ₱" + String.format("%.2f", split.getAmount()));
+                }
+            }
         }
 
-        balanceValue.setText(String.format("%.2f", summary.totalBalance()));
+        balanceValue.setText(String.format("%.2f", totalBalance));
         if (kpiBalanceVal != null) {
-            kpiBalanceVal.setText(String.format("₱%.2f", summary.totalBalance()));
+            kpiBalanceVal.setText(String.format("₱%.2f", totalBalance));
         }
 
-        if (summary.totalBalance() > 0) {
+        if (totalBalance > 0) {
             addNotification("You have pending bills to pay.", "System", false);
         }
     }
 
     private void loadNotifications() {
-        List<SignalDAO.Signal> signals = signalService.getRecentSignals(currentUser.getUser_id(), dormId);
+        List<SignalDAO.Signal> signals = doboard.common.cache.DormDataCache.getInstance().getSignals();
 
         if (kpiNudgesVal != null) kpiNudgesVal.setText(String.valueOf(signals.size()));
 
@@ -169,7 +174,10 @@ public class ContentController {
 
     private void markChoreAsDone(Chore chore) {
         choreService.completeAndRotateChore(chore);
-        refreshDashboard();
+        // Force an immediate reload and UI update
+        doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+        cache.reload(cache.getDormId(), cache.getCurrentUserId());
+        cache.notifyListeners();
     }
 
     @FXML
@@ -188,6 +196,10 @@ public class ContentController {
         boolean sent = signalService.sendSignal(currentUser.getUser_id(), 0, dormId, complaint, 1);
         if (sent) {
             Popup.show("Signal Sent", "Nudge sent to all dormmates: " + complaint);
+            // Refresh cache
+            doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+            cache.reload(cache.getDormId(), cache.getCurrentUserId());
+            cache.notifyListeners();
         } else {
             Popup.show("Error", "Failed to send signal.");
         }

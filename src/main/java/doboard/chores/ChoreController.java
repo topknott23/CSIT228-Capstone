@@ -31,18 +31,16 @@ public class ChoreController {
     @FXML
     public void initialize() {
         NavigationManager.setTitle("Chores");
+        
+        // Listen to cache updates
+        doboard.common.cache.DormDataCache.getInstance().addListener(this::loadLeaderboard);
+        
         loadLeaderboard();
     }
 
     private void loadLeaderboard() {
-        User currentUser = SessionHandler.loadSession();
-        if (currentUser == null) return;
-
-        int dormId = choreService.getDormIdForUser(currentUser.getUser_id());
-        if (dormId == -1) return;
-
         usersContainer.getChildren().clear();
-        List<ChoreService.LeaderboardEntry> leaderboard = choreService.getSortedLeaderboard(dormId);
+        List<ChoreService.LeaderboardEntry> leaderboard = doboard.common.cache.DormDataCache.getInstance().getLeaderboard();
         for(ChoreService.LeaderboardEntry entry : leaderboard){
             addLeaderboardRow(entry.username(), entry.completionCount(), null);
         }
@@ -86,7 +84,11 @@ public class ChoreController {
                 if (response == confirmBtn) {
                     ChoreDAO choreDAO = new ChoreDAO();
                     choreDAO.unassignAll(chore.getChore_id());
-                    if (choreDAO.delete(chore.getChore_id())) loadLeaderboard();
+                    if (choreDAO.delete(chore.getChore_id())) {
+                        doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                        cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                        cache.notifyListeners();
+                    }
                 }
             });
         });

@@ -97,10 +97,27 @@ public class NavigationManager {
         int dormId = dormDAO.getDormIdByUserId(user.getUser_id());
 
         if (dormId != -1) {
-            SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
+            // LOAD CACHE FIRST
+            doboard.common.LoadingController loadingController = SceneLoader.loadSceneAndGetController(
+                    stage,
+                    NavigationManager.class,
+                    "/doboard/common/loading-view.fxml",
+                    "DoBoard - Loading..."
+            );
+            if (loadingController != null) {
+                loadingController.setContext(stage, user);
+            }
         } else {
             showDormSetupDialog(stage, () -> {
-                SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Dashboard");
+                doboard.common.LoadingController loadingController = SceneLoader.loadSceneAndGetController(
+                        stage,
+                        NavigationManager.class,
+                        "/doboard/common/loading-view.fxml",
+                        "DoBoard - Loading..."
+                );
+                if (loadingController != null) {
+                    loadingController.setContext(stage, user);
+                }
             });
         }
     }

@@ -33,7 +33,7 @@ public class Main extends Application {
         if(savedUser != null) {
             Popup.show("Welcome Back", "Session restored: welcome back " + savedUser.getUsername());
             System.out.println("USER ID: " + savedUser.getUser_id());
-            SceneLoader.loadScene(stage, Main.class,    "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
+            doboard.common.util.NavigationManager.handlePostLoginRouting(stage, savedUser);
         } else {
             showLogInScreen(stage);
         }

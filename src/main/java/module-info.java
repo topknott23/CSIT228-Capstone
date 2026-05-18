@@ -16,6 +16,7 @@ module doboard.core {
     opens doboard.common to javafx.fxml;
     opens doboard.common.util to javafx.fxml;
     opens doboard.dorm to javafx.fxml;
+    opens doboard.common.cache to javafx.fxml;
     opens doboard.chatbox to javafx.fxml;
 
     // Graphics/CSS read
@@ -28,5 +29,6 @@ module doboard.core {
     exports doboard.expenses;
     exports doboard.signals;
     exports doboard.common.util;
+    exports doboard.common.cache;
     exports doboard;
 }

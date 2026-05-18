@@ -31,6 +31,7 @@ public class ExpensesController {
     @FXML
     public void initialize() {
         NavigationManager.setTitle("Expenses");
+        doboard.common.cache.DormDataCache.getInstance().addListener(this::refreshExpensesUI);
         refreshExpensesUI();
     }
 
@@ -87,7 +88,10 @@ public class ExpensesController {
                 Popup.show("Success", "Bill structured for: " + purpose + " at ₱" + String.format("%.2f", amount));
                 billAmountTextField.clear();
                 purposeField.clear();
-                refreshExpensesUI();
+                
+                doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                cache.notifyListeners();
             } else {
                 Popup.show("Error", "Failed to create bill splits.");
             }
@@ -128,7 +132,9 @@ public class ExpensesController {
         // ---------------------
 
         if (expenseService.markAsPaid(splitId)) {
-            refreshExpensesUI();
+            doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+            cache.reload(cache.getDormId(), cache.getCurrentUserId());
+            cache.notifyListeners();
         } else {
             Popup.show("Error", "Could not process the payment.");
         }
@@ -197,7 +203,9 @@ public class ExpensesController {
                 // ---------------------
 
                 if (expenseService.updateSplitStatus(splitId, false)) {
-                    refreshExpensesUI();
+                    doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                    cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                    cache.notifyListeners();
                 }
             } catch (Exception e) {
                 Popup.show("Error", "Failed to parse the selected bill.");
@@ -210,19 +218,16 @@ public class ExpensesController {
         processedBillContainer.getChildren().clear();
         transactionContainer.getChildren().clear();
 
-        User currentUser = SessionHandler.loadSession();
-        if (currentUser == null) return;
+        doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+        if (cache.getCurrentUserId() == -1) return;
 
-        int userDormId = expenseService.getDormIdForUser(currentUser.getUser_id());
-        if (userDormId == -1) return;
-
-        List<Bill> dormBills = expenseService.getDormBills(userDormId);
+        List<Bill> dormBills = cache.getBills();
 
         for (Bill bill : dormBills) {
-            List<BillSplit> splits = expenseService.getSplitsForBill(bill.getBill_id());
+            List<BillSplit> splits = cache.getSplitsForBill(bill.getBill_id());
 
             for (BillSplit split : splits) {
-                if (split.getUser_id() == currentUser.getUser_id()) {
+                if (split.getUser_id() == cache.getCurrentUserId()) {
                     if (!split.isPaid()) {
                         // Pass the clean title and the database split_id for the callback
                         addBillRow(bill.getTitle(), split.getAmount(), split.getSplit_id());
