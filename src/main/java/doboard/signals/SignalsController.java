@@ -8,10 +8,7 @@ import doboard.common.util.Popup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
@@ -19,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SignalsController {
+    @FXML public TextField maintenanceField;
     @FXML private VBox contentArea;
     @FXML private VBox signalLogContainer; // Added for the new left column log
     @FXML private ComboBox<String> reasonComboBox;

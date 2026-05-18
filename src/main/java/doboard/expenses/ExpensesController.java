@@ -141,7 +141,7 @@ public class ExpensesController {
     }
 
     @FXML
-    private void undoBill(ActionEvent event) {
+    void undoBill(ActionEvent event) {
         User currentUser = SessionHandler.loadSession();
         if (currentUser == null) return;
 
