@@ -30,16 +30,7 @@ public class RegisterController {
     private void initialize(){
         backgroundView.fitWidthProperty().bind(rootPane.widthProperty());
         backgroundView.fitHeightProperty().bind(rootPane.heightProperty());
-
-        // Added: Enable dragging for the register screen
-        titleBar.makeDraggable(topNavBar);
     }
-
-    // Added: Window control methods for the custom top bar
-    @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
-    @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
-    @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
-
     @FXML
     private void goLogin(ActionEvent event){
         Stage stage = StageUtil.getStage(event);

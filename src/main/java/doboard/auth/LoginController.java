@@ -26,11 +26,7 @@ public class LoginController {
     private void initialize(){
         backgroundView.fitHeightProperty().bind(rootPane.heightProperty());
         backgroundView.fitWidthProperty().bind(rootPane.widthProperty());
-        titleBar.makeDraggable(topNavBar);
     }
-    @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
-    @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
-    @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
     @FXML
     private void goRegister(ActionEvent event){
         Stage stage = StageUtil.getStage(event);
