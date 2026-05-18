@@ -72,8 +72,7 @@
                         </HBox>
                     </VBox>
                     <VBox alignment="CENTER" spacing="10.0">
-                        <ComboBox fx:id="purposeComboBox" prefWidth="150.0"
-                                  promptText="Select purpose..."/>
+                        <TextField fx:id="purposeField" promptText="Enter Purpose (e.g., Groceries, Cleaning Supplies)" styleClass="input-field" />
                         <Button onAction="#splitBill" styleClass="btn-action"
                                 text="Split Bill"/>
                     </VBox>

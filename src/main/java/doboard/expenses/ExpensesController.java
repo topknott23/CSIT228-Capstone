@@ -1,25 +1,28 @@
 package doboard.expenses;
 
 import doboard.auth.User;
+import doboard.common.connection.SQLConnector;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.NavigationManager;
 import doboard.common.util.Popup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ExpensesController {
     @FXML private VBox contentArea;
     @FXML private VBox dueBillContainer;
     @FXML private TextField billAmountTextField;
-    @FXML private ComboBox<String> purposeComboBox;
+    @FXML private TextField purposeField; // Replaced ComboBox
     @FXML private VBox processedBillContainer;
     @FXML private VBox transactionContainer;
 
@@ -27,16 +30,14 @@ public class ExpensesController {
 
     @FXML
     public void initialize() {
-        NavigationManager.setTitle("Expenses"); // init title
-        purposeComboBox.getItems().addAll("Rent", "Electricity", "Water", "Internet", "Groceries", "Other");
-        
+        NavigationManager.setTitle("Expenses");
         doboard.common.cache.DormDataCache.getInstance().addListener(this::refreshExpensesUI);
-        
         refreshExpensesUI();
     }
 
-    public void addBillRow(String title, double amt) {
-        Node row = ExpenseComponentFactory.createDueBill(title, amt);
+    // Now accepts the splitId to pass into the factory callback
+    public void addBillRow(String title, double amt, int splitId) {
+        Node row = ExpenseComponentFactory.createDueBill(title, amt, () -> executePayment(splitId));
         if (row != null) dueBillContainer.getChildren().add(row);
     }
 
@@ -53,10 +54,10 @@ public class ExpensesController {
     @FXML
     private void splitBill(ActionEvent event) {
         String amountStr = billAmountTextField.getText();
-        String purpose = purposeComboBox.getValue();
+        String purpose = purposeField.getText();
 
-        if (amountStr == null || amountStr.trim().isEmpty() || purpose == null) {
-            Popup.show("Error", "Please enter amount and select a purpose.");
+        if (amountStr == null || amountStr.trim().isEmpty() || purpose == null || purpose.trim().isEmpty()) {
+            Popup.show("Error", "Please enter amount and purpose.");
             return;
         }
 
@@ -73,7 +74,6 @@ public class ExpensesController {
             }
 
             User currentUser = SessionHandler.loadSession();
-
             if(currentUser == null) return;
 
             int dormId = expenseService.getDormIdForUser(currentUser.getUser_id());
@@ -87,7 +87,7 @@ public class ExpensesController {
             if (success) {
                 Popup.show("Success", "Bill structured for: " + purpose + " at ₱" + String.format("%.2f", amount));
                 billAmountTextField.clear();
-                purposeComboBox.getSelectionModel().clearSelection();
+                purposeField.clear();
                 
                 doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
                 cache.reload(cache.getDormId(), cache.getCurrentUserId());
@@ -101,40 +101,116 @@ public class ExpensesController {
         }
     }
 
-    @FXML
-    private void markAsPaid(ActionEvent event){
-        String input = Popup.showInput("Mark as Paid", "Enter Split ID:", "e.g. 12");
+    // Dedicated execution method to handle the inline button callback
+    private void executePayment(int splitId) {
+        // --- SECURITY LOCK ---
+        boolean isLocked = false;
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(
+                     "SELECT b.title, u.username FROM bill_splits bs " +
+                             "JOIN bills b ON bs.bill_id = b.bill_id " +
+                             "JOIN users u ON b.paid_by = u.user_id " +
+                             "WHERE bs.split_id = ?")) {
+            s.setInt(1, splitId);
+            ResultSet r = s.executeQuery();
+            if (r.next()) {
+                String title = r.getString("title").toLowerCase();
+                String username = r.getString("username").toLowerCase();
 
-        if (input != null && !input.trim().isEmpty()) {
-            try {
-                int id = Integer.parseInt(input.trim());
-                if(expenseService.updateSplitStatus(id, true)){
-                    doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
-                    cache.reload(cache.getDormId(), cache.getCurrentUserId());
-                    cache.notifyListeners();
+                if (title.contains("rent") || username.equals("admin")) {
+                    isLocked = true;
                 }
-            } catch (NumberFormatException ignored) {
-                Popup.show("Error", "Please enter a valid numeric ID.");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (isLocked) {
+            Popup.show("Access Denied", "Rent and Admin-issued bills can only be settled by the Master Landlord.");
+            return;
+        }
+        // ---------------------
+
+        if (expenseService.markAsPaid(splitId)) {
+            doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+            cache.reload(cache.getDormId(), cache.getCurrentUserId());
+            cache.notifyListeners();
+        } else {
+            Popup.show("Error", "Could not process the payment.");
         }
     }
 
     @FXML
-    private void undoBill(ActionEvent event){
-        String input = Popup.showInput("Undo Bill", "Enter Split ID to revert to unpaid:", "e.g. 12");
+    private void undoBill(ActionEvent event) {
+        User currentUser = SessionHandler.loadSession();
+        if (currentUser == null) return;
 
-        if (input != null && !input.trim().isEmpty()) {
+        int userDormId = expenseService.getDormIdForUser(currentUser.getUser_id());
+        if (userDormId == -1) return;
+
+        List<String> paidBills = new ArrayList<>();
+        List<Bill> dormBills = expenseService.getDormBills(userDormId);
+
+        for (Bill bill : dormBills) {
+            List<BillSplit> splits = expenseService.getSplitsForBill(bill.getBill_id());
+            for (BillSplit split : splits) {
+                if (split.getUser_id() == currentUser.getUser_id() && split.isPaid()) {
+                    paidBills.add("ID: " + split.getSplit_id() + " | " + bill.getTitle() + " | ₱" + String.format("%.2f", split.getAmount()));
+                }
+            }
+        }
+
+        if (paidBills.isEmpty()) {
+            Popup.show("Empty Ledger", "You have no completed payments to undo.");
+            return;
+        }
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(paidBills.get(0), paidBills);
+        dialog.setTitle("Undo Payment");
+        dialog.setHeaderText("Select the payment you want to revert to unpaid:");
+        dialog.setContentText("Completed Payment:");
+
+        dialog.showAndWait().ifPresent(selected -> {
             try {
-                int id = Integer.parseInt(input.trim());
-                if(expenseService.updateSplitStatus(id, false)){
+                int splitId = Integer.parseInt(selected.substring(4, selected.indexOf(" |")));
+
+                // --- SECURITY LOCK ---
+                boolean isLocked = false;
+                try (Connection c = SQLConnector.getConnection();
+                     PreparedStatement s = c.prepareStatement(
+                             "SELECT b.title, u.username FROM bill_splits bs " +
+                                     "JOIN bills b ON bs.bill_id = b.bill_id " +
+                                     "JOIN users u ON b.paid_by = u.user_id " +
+                                     "WHERE bs.split_id = ?")) {
+                    s.setInt(1, splitId);
+                    ResultSet r = s.executeQuery();
+                    if (r.next()) {
+                        String title = r.getString("title").toLowerCase();
+                        String username = r.getString("username").toLowerCase();
+
+                        if (title.contains("rent") || username.equals("admin")) {
+                            isLocked = true;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (isLocked) {
+                    Popup.show("Access Denied", "Rent and Admin-issued records cannot be modified.");
+                    return;
+                }
+                // ---------------------
+
+                if (expenseService.updateSplitStatus(splitId, false)) {
                     doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
                     cache.reload(cache.getDormId(), cache.getCurrentUserId());
                     cache.notifyListeners();
                 }
-            } catch (NumberFormatException ignored) {
-                Popup.show("Error", "Please enter a valid numeric ID.");
+            } catch (Exception e) {
+                Popup.show("Error", "Failed to parse the selected bill.");
             }
-        }
+        });
     }
 
     private void refreshExpensesUI() {
@@ -153,14 +229,14 @@ public class ExpensesController {
             for (BillSplit split : splits) {
                 if (split.getUser_id() == cache.getCurrentUserId()) {
                     if (!split.isPaid()) {
-                        addBillRow(bill.getTitle() + " (ID: " + split.getSplit_id() + ")", split.getAmount());
+                        // Pass the clean title and the database split_id for the callback
+                        addBillRow(bill.getTitle(), split.getAmount(), split.getSplit_id());
                     } else {
                         addTransaction(bill.getTitle(), bill.getBill_due_date().toString(), split.getAmount());
                         addProcessedBill("Paid ID " + split.getSplit_id() + " on " + bill.getBill_due_date().toString());
-                        }
                     }
                 }
+            }
         }
     }
-
 }

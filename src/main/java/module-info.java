@@ -4,6 +4,7 @@ module doboard.core {
     requires javafx.fxml;
     requires java.sql;
     requires mysql.connector.j;
+    requires java.desktop;
 //    requires doboard.core;
 
     // JavaFX read
@@ -16,6 +17,8 @@ module doboard.core {
     opens doboard.common.util to javafx.fxml;
     opens doboard.dorm to javafx.fxml;
     opens doboard.common.cache to javafx.fxml;
+    opens doboard.chatbox to javafx.fxml;
+
     // Graphics/CSS read
     opens images to javafx.graphics, javafx.fxml;
     opens styles to javafx.graphics, javafx.fxml;

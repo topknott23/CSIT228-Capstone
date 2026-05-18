@@ -8,11 +8,12 @@ import doboard.dorm.DormMember;
 import doboard.dorm.DormService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -20,7 +21,6 @@ import javafx.stage.Stage;
 
 public class DashboardController {
     @FXML private StackPane rootPane;
-    @FXML private ImageView profileImage;
     @FXML private Label usernameVal;
     @FXML private HBox navBarContainer;
 
@@ -41,8 +41,8 @@ public class DashboardController {
 
     private final CustomTitleBar titleBar = new CustomTitleBar();
     private final DormService dormService = new DormService();
-
     private boolean isAdmin = false;
+    private String originalJoinCode;
 
     @FXML
     public void initialize(){
@@ -107,6 +107,18 @@ public class DashboardController {
             loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", null);
         }
     }
+    @FXML
+    private void handleArchivedBills(ActionEvent event) {
+        if (!isAdmin) {
+            loadTab("/doboard/expenses/archived-bills-view.fxml", "ARCHIVED BILLS", null);
+        }
+    }
+
+    public void handleOpenDormChat(ActionEvent actionEvent) {
+        if (!isAdmin) {
+            loadTab("/doboard/chatbox/chatbox-view.fxml", "DORM CHAT", null);
+        }
+    }
 
     @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
     @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}
@@ -155,4 +167,39 @@ public class DashboardController {
             btn.getStyleClass().add("nav-tab");
         }
     }
+
+    @FXML
+    public void copyCode(MouseEvent mouseEvent) {
+        if (originalJoinCode == null) return;
+
+        // 1. Send original code to clipboard
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(originalJoinCode);
+        clipboard.setContent(content);
+
+        tenantJoinCodeLabel.setText("Copied!");
+        tenantJoinCodeLabel.setStyle("-fx-text-fill: #16aa53; -fx-cursor: hand; -fx-font-weight: bold;"); // Turns green
+    }
+
+    @FXML
+    public void renderCopyCodeBoxTooltip(MouseEvent mouseEvent) {
+        var eventType = mouseEvent.getEventType();
+
+        if (eventType == MouseEvent.MOUSE_ENTERED) {
+            originalJoinCode = tenantJoinCodeLabel.getText();
+
+            tenantJoinCodeLabel.setText("Copy Code?");
+
+            tenantJoinCodeLabel.setStyle("-fx-text-fill: #73b7f3; -fx-cursor: hand; -fx-font-weight: bold;");
+        }
+
+        else if (eventType == MouseEvent.MOUSE_EXITED) {
+            if (originalJoinCode != null) {
+                tenantJoinCodeLabel.setText(originalJoinCode);
+            }
+            tenantJoinCodeLabel.setStyle("-fx-text-fill: #3F69AF; -fx-cursor: hand; -fx-font-weight: bold;");
+        }
+    }
+
 }

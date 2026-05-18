@@ -7,10 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Service class for high-level dorm operations.
- * Provides a clean API for dorm creation, joining, and validation.
  */
 public class DormService {
 
@@ -48,12 +48,9 @@ public class DormService {
         }
 
         // 3. LOGIC SPLIT: If admin, finish here (Dorm stays empty).
-        // If regular user, attach them as the first resident/admin of that room.
+        // If a regular user, attach them as the first resident/admin of that room.
         if (isMasterAdmin) {
-            return DormOperationResult.success(
-                    "Dorm created! Join Code: " + createdDorm.getJoin_code(),
-                    createdDorm
-            );
+            return DormOperationResult.success("Dorm created! Join Code: " + createdDorm.getJoin_code(), createdDorm);
         }
 
         // Regular tenant logic:
@@ -90,7 +87,6 @@ public class DormService {
             return DormOperationResult.failure("No user session found");
         }
 
-        // Business Check: Is user already a member of any dorm?
         if (dormDAO.isUserInDorm(user.getUser_id())) {
             return DormOperationResult.failure("Failed to join dorm. You are already in a dorm.");
         }
@@ -199,8 +195,7 @@ public class DormService {
 
         @Override
         public String toString() {
-            return (success ? "✓ " : "✗ ") + message +
-                    (dorm != null ? " [Dorm ID: " + dorm.getDorm_id() + ", Code: " + dorm.getJoin_code() + "]" : "");
+            return (success ? "✓ " : "✗ ") + message + (dorm != null ? " [Dorm ID: " + dorm.getDorm_id() + ", Code: " + dorm.getJoin_code() + "]" : "");
         }
     }
 
@@ -218,5 +213,9 @@ public class DormService {
             e.printStackTrace();
         }
         return DormMember.Role.MEMBER;
+    }
+    // Add this method inside your DormService class:
+    public List<Dorm> getAllDorms() {
+        return dormDAO.findAllDorms();
     }
 }

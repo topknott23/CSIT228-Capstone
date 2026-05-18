@@ -123,8 +123,8 @@
                            <Insets bottom="5.0" top="5.0" />
                         </VBox.margin>
                      </Separator>
-                           <ComboBox fx:id="billTypeComboBox" maxWidth="Infinity" promptText="Select Type" />
-                           <ComboBox fx:id="recipientComboBox" maxWidth="Infinity" promptText="Select Recipient" />
+                          <TextField fx:id="billPurposeField" promptText="Enter Bill Purpose (e.g., Rent, Water)" styleClass="input-field" />
+                          <Button fx:id="selectRecipientBtn" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSelectRecipient" style="-fx-background-color: #E7E7E7; -fx-padding: 8px 12px; -fx-text-fill: #555;" styleClass="rounded-md" text="Select Recipient" />
                           <Region prefHeight="20.0" />
                           <Button onAction="#handleCreateAdminBill" styleClass="btn-primary" text="Add Bill" />
                      <padding>
@@ -133,7 +133,7 @@
                       </VBox>
                   </VBox>
                 <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
-                    <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="WORKSPACE">
+                    <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="DORM">
                         <styleClass>
                             <String fx:value="font-bold" />
                             <String fx:value="p-2" />
@@ -148,7 +148,7 @@
                         </padding>
                         <Label style="-fx-text-fill: #666; -fx-font-size: 12px;" text="Manage properties and generate new join codes for tenants." textAlignment="CENTER" wrapText="true" />
                         <Region VBox.vgrow="ALWAYS" />
-                        <Button maxWidth="Infinity" onAction="#handleCreateWorkspace" style="-fx-padding: 10px;" styleClass="btn-primary" text="Create New Workspace" />
+                        <Button maxWidth="Infinity" onAction="#handleCreateWorkspace" style="-fx-padding: 10px;" styleClass="btn-primary" text="Create New Dorm" />
                     </VBox>
                 </VBox>
             </children>

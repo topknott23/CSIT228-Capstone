@@ -59,4 +59,7 @@ public class ExpenseService {
         }
         return new UserBalanceSummary(totalBalance, alerts);
     }
+    public boolean markAsPaid(int splitId) {
+        return updateSplitStatus(splitId, true);
+    }
 }

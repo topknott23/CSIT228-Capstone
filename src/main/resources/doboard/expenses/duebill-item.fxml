@@ -9,5 +9,5 @@
     <Label fx:id="billLabel" text="Rent Name"/>
     <Label fx:id="amountLabel" text="Amount" />
     <Region prefHeight="21.0" prefWidth="0.0" HBox.hgrow="ALWAYS"/>
-    <Button onAction="#markAsPaid" styleClass="btn-small" text="Paid"/>
+    <Button fx:id="payBtn" mnemonicParsing="false" text="Paid" styleClass="btn-primary" style="-fx-cursor: hand;" />
 </HBox>
