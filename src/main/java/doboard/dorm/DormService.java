@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Service class for high-level dorm operations.
@@ -212,5 +213,9 @@ public class DormService {
             e.printStackTrace();
         }
         return DormMember.Role.MEMBER;
+    }
+    // Add this method inside your DormService class:
+    public List<Dorm> getAllDorms() {
+        return dormDAO.findAllDorms();
     }
 }

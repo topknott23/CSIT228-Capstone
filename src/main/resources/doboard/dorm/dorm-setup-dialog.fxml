@@ -20,7 +20,7 @@
         </styleClass>
 
         <VBox spacing="5.0">
-            <Label text="Workspace Setup">
+            <Label text="Dorm Setup">
                 <styleClass>
                     <String fx:value="text-xl" />
                     <String fx:value="font-bold" />

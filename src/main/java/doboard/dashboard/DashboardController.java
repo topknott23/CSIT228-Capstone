@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 
 public class DashboardController {
     @FXML private StackPane rootPane;
-    @FXML private ImageView profileImage;
     @FXML private Label usernameVal;
     @FXML private HBox navBarContainer;
 
@@ -97,7 +96,12 @@ public class DashboardController {
             loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", null);
         }
     }
-
+    @FXML
+    private void handleArchivedBills(ActionEvent event) {
+        if (!isAdmin) {
+            loadTab("/doboard/expenses/archived-bills-view.fxml", "ARCHIVED BILLS", null);
+        }
+    }
     @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
     @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}
     @FXML public void goExpenses() {if(!isAdmin)loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses);}

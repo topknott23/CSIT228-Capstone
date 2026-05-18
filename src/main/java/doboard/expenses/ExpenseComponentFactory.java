@@ -3,30 +3,46 @@ package doboard.expenses;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import java.io.IOException;
+import javafx.scene.control.Button;
 
 public class ExpenseComponentFactory {
 
-    public static Node createDueBill(String title, double amount) {
+    // Updated to accept a Runnable action for the payment button
+    public static Node createDueBill(String title, double amount, Runnable onPay) {
         try {
             FXMLLoader loader = new FXMLLoader(ExpenseComponentFactory.class.getResource("/doboard/expenses/duebill-item.fxml"));
             Node node = loader.load();
-            ((Label) node.lookup("#billLabel")).setText(title);
-            ((Label) node.lookup("#amountLabel")).setText(String.format("₱%.2f", amount));
+
+            Label titleLabel = (Label) node.lookup("#titleLabel");
+            Label amountLabel = (Label) node.lookup("#amountLabel");
+
+            if (titleLabel != null) titleLabel.setText(title);
+            if (amountLabel != null) amountLabel.setText("₱" + String.format("%.2f", amount));
+
+            // Locate the button by its fx:id and wire the callback
+            Button payBtn = (Button) node.lookup("#payBtn");
+            if (payBtn != null && onPay != null) {
+                payBtn.setOnAction(event -> onPay.run());
+            }
+
             return node;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public static Node createProcessedBill(String date) {
+    public static Node createProcessedBill(String description) {
         try {
             FXMLLoader loader = new FXMLLoader(ExpenseComponentFactory.class.getResource("/doboard/expenses/processedbill-item.fxml"));
             Node node = loader.load();
-            Label dateLbl = (Label) node.lookup("#dateLabel");
-            if (dateLbl != null) dateLbl.setText(date);
+
+            Label descLabel = (Label) node.lookup("#descLabel");
+            if (descLabel != null) descLabel.setText(description);
+
             return node;
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -35,16 +51,18 @@ public class ExpenseComponentFactory {
         try {
             FXMLLoader loader = new FXMLLoader(ExpenseComponentFactory.class.getResource("/doboard/expenses/transaction-item.fxml"));
             Node node = loader.load();
-            Label titleLbl = (Label) node.lookup("#transactionTitle");
-            Label dateLbl = (Label) node.lookup("#transactionDate");
-            Label amountLbl = (Label) node.lookup("#transactionAmount");
-            if (titleLbl != null) titleLbl.setText("Paid: " + title);
-            if (dateLbl != null) dateLbl.setText("Completed on " + date);
-            if (amountLbl != null) {
-                amountLbl.setText(String.format("-₱%,.2f", amount));
-            }
+
+            // --- FIXED: Updated to match your actual FXML IDs ---
+            Label titleLabel = (Label) node.lookup("#transactionTitle");
+            Label dateLabel = (Label) node.lookup("#transactionDate");
+            Label amountLabel = (Label) node.lookup("#transactionAmount");
+
+            if (titleLabel != null) titleLabel.setText(title);
+            if (dateLabel != null) dateLabel.setText(date);
+            if (amountLabel != null) amountLabel.setText("-₱" + String.format("%.2f", amount));
+
             return node;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

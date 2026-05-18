@@ -199,6 +199,26 @@ public class DormDAO {
     public boolean isUserInDorm(int userId) {
         return getDormIdByUserId(userId) != -1;
     }
+    // Add this method inside your DormDAO class:
+    public List<Dorm> findAllDorms() {
+        List<Dorm> dorms = new ArrayList<>();
+        String query = "SELECT * FROM dorms";
+        try (Connection c = SQLConnector.getConnection();
+             Statement s = c.createStatement();
+             ResultSet r = s.executeQuery(query)) {
+            while (r.next()) {
+                dorms.add(new Dorm(
+                        r.getInt("dorm_id"),
+                        r.getString("dorm_name"),
+                        r.getString("join_code"),
+                        r.getTimestamp("created_at").toInstant()
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dorms;
+    }
 }
 
 
