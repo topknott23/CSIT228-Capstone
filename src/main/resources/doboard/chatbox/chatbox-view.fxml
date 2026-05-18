@@ -9,40 +9,58 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="550.0" prefWidth="400.0" styleClass="bg-white, rounded-xl, shadow-md" stylesheets="@style.css" xmlns="http://javafx.scene.com/javafx/17" xmlns:fx="http://javafx.scene.com/fxml/1" fx:controller="ChatController">
+<VBox prefHeight="600.0" prefWidth="650.0" styleClass="bg-white, rounded-xl, shadow-md" stylesheets="@../../styles/styles.css" xmlns="http://javafx.scene.com/javafx/17" xmlns:fx="http://javafx.scene.com/fxml/1" fx:controller="doboard.chatbox.ChatController">
     <children>
 
-        <!-- 1. CHAT HEADER -->
-        <HBox alignment="CENTER_LEFT" prefHeight="60.0" styleClass="bg-brand-blue, p-4, rounded-xl-t">
+        <!-- 1. GROUP CHAT HEADER -->
+        <HBox alignment="CENTER_LEFT" prefHeight="65.0" styleClass="bg-brand-blue, p-4, rounded-xl-t">
             <children>
                 <VBox alignment="CENTER_LEFT" spacing="2">
                     <children>
-                        <Label styleClass="text-white, font-bold, text-md" text="Maintenant Chat" />
-                        <Label styleClass="text-brand-yellow, text-sm" text="Local Network Server" />
+                        <!-- Accessible IDs for dynamic naming via DormDAO -->
+                        <Label fx:id="dormNameLabel" styleClass="text-white, font-bold, text-lg" text="Loading Room Workspace..." />
+                        <Label fx:id="dormCodeLabel" styleClass="text-brand-yellow, text-sm" text="Group Chat" />
                     </children>
                 </VBox>
                 <Pane HBox.hgrow="ALWAYS" />
-                <!-- Connection status indicator -->
-                <Label styleClass="text-white, text-sm, font-bold" text="● Connected" />
+                <Label styleClass="text-white, text-sm, font-bold" text="● Community Channel" />
             </children>
         </HBox>
 
-        <!-- 2. CHAT HISTORY VIEW -->
-        <VBox styleClass="p-4" VBox.vgrow="ALWAYS">
+        <!-- 2. MAIN WORKSPACE CONTAINER (SPLIT DESIGN) -->
+        <HBox spacing="10" VBox.vgrow="ALWAYS">
             <children>
-                <ListView fx:id="chatListView" prefHeight="200.0" prefWidth="200.0" styleClass="list-view" VBox.vgrow="ALWAYS" />
-            </children>
-        </VBox>
 
-        <!-- 3. INPUT & SEND FOOTER -->
-        <HBox alignment="CENTER" prefHeight="70.0" styleClass="bg-gray-light, p-4, rounded-xl" spacing="10">
-            <children>
-                <TextField fx:id="messageInput" onAction="#handleSendMessage" promptText="Type a message..." styleClass="input-pill, text-md" HBox.hgrow="ALWAYS" />
-                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendMessage" prefHeight="38.0" prefWidth="85.0" styleClass="btn-primary" text="Send" />
+                <!-- LEFT PANE: CHAT STREAM & INPUT CONTAINER -->
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <children>
+                        <ListView fx:id="chatListView" styleClass="list-view" VBox.vgrow="ALWAYS" />
+
+                        <!-- INPUT & SEND FOOTER -->
+                        <HBox alignment="CENTER" prefHeight="60.0" styleClass="bg-gray-light, p-2, rounded-xl" spacing="10">
+                            <children>
+                                <TextField fx:id="messageInput" onAction="#handleSendMessage" promptText="Message your dormmates..." styleClass="input-pill, text-md" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendMessage" prefHeight="38.0" prefWidth="85.0" styleClass="btn-primary" text="Send" />
+                            </children>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" top="10.0" />
+                    </padding>
+                </VBox>
+
+                <!-- RIGHT PANE: DORM MEMBERS SIDEBAR -->
+                <VBox prefWidth="200.0" spacing="8" styleClass="p-2">
+                    <children>
+                        <Label styleClass="font-bold, text-gray, text-sm" text="ROOM MEMBERS" />
+                        <ListView fx:id="membersListView" styleClass="list-view" VBox.vgrow="ALWAYS" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </VBox>
+
             </children>
-            <VBox.margin>
-                <Insets bottom="10.0" left="10.0" right="10.0" />
-            </VBox.margin>
         </HBox>
 
     </children>

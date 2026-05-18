@@ -16,6 +16,8 @@ module doboard.core {
     opens doboard.common to javafx.fxml;
     opens doboard.common.util to javafx.fxml;
     opens doboard.dorm to javafx.fxml;
+    opens doboard.chatbox to javafx.fxml;
+
     // Graphics/CSS read
     opens images to javafx.graphics, javafx.fxml;
     opens styles to javafx.graphics, javafx.fxml;

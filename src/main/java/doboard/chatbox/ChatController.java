@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -25,8 +26,11 @@ public class ChatController {
     @FXML private ListView<String> chatListView;
     @FXML private TextField messageInput;
     @FXML private Button sendButton;
+    @FXML private Label dormNameLabel;
+    @FXML private Label dormCodeLabel;
+    @FXML private ListView<String> membersListView;
 
-    // Track state
+    private final ObservableList<String> memberNamesList = FXCollections.observableArrayList();
     private final ObservableList<String> messageList = FXCollections.observableArrayList();
     private final DormDAO dormDAO = new DormDAO();
 
@@ -52,6 +56,20 @@ public class ChatController {
             messageInput.setDisable(true);
             sendButton.setDisable(true);
             return;
+        }
+
+        // Inside initialize() after validating currentDormId != -1
+        dormNameLabel.setText(dormDAO.findById(currentDormId).getDorm_name()); // Or your equivalent getter
+        dormCodeLabel.setText("Dorm Workspace ID: #" + currentDormId);
+
+        // Populate the sidebar using your existing logic pattern
+        membersListView.setItems(memberNamesList);
+        java.util.List<doboard.dorm.DormMember> members = dormDAO.getMembersByDorm(currentDormId);
+        java.util.List<Integer> userIds = members.stream().map(m -> m.getUser_id()).collect(java.util.stream.Collectors.toList());
+        java.util.List<doboard.auth.User> users = doboard.auth.UserDAO.getUsersByIds(userIds);
+
+        for (doboard.auth.User u : users) {
+            memberNamesList.add(u.getFull_name());
         }
 
         // 3. Begin listening for group space events
@@ -96,7 +114,7 @@ public class ChatController {
             } catch (SQLException e) {
                 e.printStackTrace();
                 Platform.runLater(() -> {
-                    System.err.println("Failed to transmit workspace message.");
+                    System.err.println("Failed to send message.");
                     messageInput.setDisable(false);
                     sendButton.setDisable(false);
                 });
@@ -121,7 +139,6 @@ public class ChatController {
      * Queries the database for rows belonging to this dorm, created after our last checked ID.
      */
     private void fetchNewMessages() {
-        // SQL JOIN fetches the explicit string full_name straight from your users database structure
         String query = "SELECT c.message_id, c.sender_id, c.message_text, u.full_name " +
                 "FROM chat_messages c " +
                 "JOIN users u ON c.sender_id = u.user_id " +
@@ -141,7 +158,6 @@ public class ChatController {
                             String messageText = rs.getString("message_text");
                             String senderName = rs.getString("full_name");
 
-                            // Differentiate yourself from other group space dormmates
                             String formattedMessage = (senderId == currentUserId)
                                     ? "[You]: " + messageText
                                     : "[" + senderName + "]: " + messageText;
