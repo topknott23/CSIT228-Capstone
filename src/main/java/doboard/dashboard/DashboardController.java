@@ -83,11 +83,19 @@ public class DashboardController {
     @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
     @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
     @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
+    @FXML
+    private void handleProfileSettings(ActionEvent event) {
+        if (!isAdmin) {
+            loadTab("/doboard/dashboard/profile-view.fxml", "PROFILE", null);
+        }
+    }
 
-    @FXML private void handleProfileSettings(ActionEvent event){ }
-    @FXML private void handleNotificationSettings(ActionEvent event){ }
-    @FXML private void handleAutomationSettings(ActionEvent event){ }
-    @FXML private void handlePrivacySettings(ActionEvent event){ }
+    @FXML
+    private void handleDormmatesList(ActionEvent event) {
+        if (!isAdmin) {
+            loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", null);
+        }
+    }
 
     @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
     @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}

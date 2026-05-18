@@ -83,9 +83,7 @@
                             <Insets left="15.0" right="15.0" top="10.0" />
                         </padding>
                         <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleProfileSettings" styleClass="btn-secondary" text="Profile &amp; Personal Info" />
-                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleNotificationSettings" styleClass="btn-secondary" text="Notification Preferences" />
-                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleAutomationSettings" styleClass="btn-secondary" text="Automation" />
-                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handlePrivacySettings" styleClass="btn-secondary" text="Privacy &amp; Security" />
+                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleDormmatesList" styleClass="btn-secondary" text="Dormmates" />
                     </VBox>
                     <styleClass>
                         <String fx:value="shadow-sm" />

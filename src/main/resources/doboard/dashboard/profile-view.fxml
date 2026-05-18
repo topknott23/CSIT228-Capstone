@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.ProfileController">
+    <VBox maxWidth="600.0" spacing="15.0" styleClass="card" alignment="TOP_LEFT">
+        <Label text="PERSONAL INFORMATION">
+            <styleClass>
+                <String fx:value="font-bold" />
+                <String fx:value="text-lg" />
+                <String fx:value="text-brand-blue" />
+            </styleClass>
+        </Label>
+        <Separator />
+
+        <VBox spacing="5.0">
+            <Label text="Full Name:">
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                    <String fx:value="text-gray" />
+                </styleClass>
+            </Label>
+            <TextField fx:id="fullNameField" editable="false" styleClass="input-pill" />
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Username:">
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                    <String fx:value="text-gray" />
+                </styleClass>
+            </Label>
+            <TextField fx:id="usernameField" editable="false" styleClass="input-pill" />
+        </VBox>
+
+        <VBox spacing="5.0">
+            <Label text="Email Address:">
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-sm" />
+                    <String fx:value="text-gray" />
+                </styleClass>
+            </Label>
+            <TextField fx:id="emailField" editable="false" styleClass="input-pill" />
+        </VBox>
+    </VBox>
+</VBox>

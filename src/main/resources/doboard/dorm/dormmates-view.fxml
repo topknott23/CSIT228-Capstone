@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dorm.DormmatesController">
+    <VBox spacing="15.0" styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="DORMMATES LIST">
+            <styleClass>
+                <String fx:value="font-bold" />
+                <String fx:value="text-lg" />
+                <String fx:value="text-brand-blue" />
+            </styleClass>
+        </Label>
+
+        <TableView fx:id="dormmatesTable" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="nameCol" prefWidth="200.0" text="Full Name" />
+                <TableColumn fx:id="usernameCol" prefWidth="150.0" text="Username" />
+                <TableColumn fx:id="emailCol" prefWidth="250.0" text="Email Address" />
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </VBox>
+</VBox>
