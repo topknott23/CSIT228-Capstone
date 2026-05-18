@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1080.0" styleClass="bg-gray-medium" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.DashboardController">
+<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1080.0" styleClass="bg-gray-medium" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.DashboardController">
     <BorderPane>
 
         <top>
@@ -21,7 +14,7 @@
                 <padding><Insets left="15.0" right="15.0" /></padding>
                 <HBox alignment="CENTER_LEFT" spacing="15.0">
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../images/logo.png" requestedWidth="150" requestedHeight="150" preserveRatio="true" smooth="true" />
+                        <Image preserveRatio="true" requestedHeight="150" requestedWidth="150" smooth="true" url="@../../images/logo.png" />
                     </ImageView>
                     <Label fx:id="windowTitleLabel" alignment="CENTER" text="MAINTENANT - DASHBOARD">
                         <styleClass>
@@ -35,9 +28,9 @@
                 <Region HBox.hgrow="ALWAYS" />
 
                 <HBox alignment="CENTER" spacing="10.0">
-                    <Button text="—" onAction="#minimizeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-cursor: hand;"/>
-                    <Button text="☐" onAction="#maximizeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;"/>
-                    <Button text="X" onAction="#closeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;"/>
+                    <Button onAction="#minimizeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-cursor: hand;" text="—" />
+                    <Button onAction="#maximizeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;" text="☐" />
+                    <Button onAction="#closeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;" text="X" />
                 </HBox>
 
                 <styleClass>
@@ -49,7 +42,7 @@
 
 
         <center>
-            <HBox maxWidth="Infinity" maxHeight="Infinity" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+            <HBox maxHeight="Infinity" maxWidth="Infinity" spacing="20.0" style="-fx-background-color: #E7E7E7;">
 
                 <VBox prefWidth="220.0" spacing="10.0">
                     <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-width: 0 0 1 0;">
@@ -112,7 +105,7 @@
                                 <Label fx:id="tenantDormNameLabel" style="-fx-font-weight: bold; -fx-text-fill: #555; -fx-font-size: 13px;" text="Loading Workspace..." />
                                 <Label style="-fx-text-fill: #999;" text="•" />
                                 <Label style="-fx-text-fill: #888; -fx-font-size: 12px;" text="Join Code:" />
-                                <Label fx:id="tenantJoinCodeLabel" style="-fx-font-weight: bold; -fx-text-fill: #406AAF; -fx-font-size: 13px;" text="------" />
+                                <Label fx:id="tenantJoinCodeLabel" onMouseClicked="#copyCode" onMouseEntered="#renderCopyCodeBoxTooltip" onMouseExited="#renderCopyCodeBoxTooltip" style="-fx-font-weight: bold; -fx-text-fill: #406AAF; -fx-font-size: 13px;" text="------" />
                             </HBox>
                         </VBox>
                         <Region HBox.hgrow="ALWAYS" />
@@ -171,7 +164,7 @@
                         </HBox>
                     </HBox>
 
-                    <VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS"/>
+                    <VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" />
 
                     <styleClass>
                         <String fx:value="shadow-sm" />

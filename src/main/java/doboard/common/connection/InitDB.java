@@ -119,6 +119,7 @@ public class InitDB {
             ALTER TABLE `chore_assignments` ADD CONSTRAINT `chore_assignments_ibfk_1` FOREIGN KEY (`chore_id`) REFERENCES `chores` (`chore_id`) ON DELETE CASCADE, ADD CONSTRAINT `chore_assignments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
             ALTER TABLE `dorm_members` ADD CONSTRAINT `dorm_members_ibfk_1` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`) ON DELETE CASCADE, ADD CONSTRAINT `dorm_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
             ALTER TABLE `notifications` ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE, ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`dorm_id`) REFERENCES `dorms` (`dorm_id`) ON DELETE CASCADE;
+            
             """;
     }
 }

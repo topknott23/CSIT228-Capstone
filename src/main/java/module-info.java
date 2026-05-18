@@ -4,6 +4,7 @@ module doboard.core {
     requires javafx.fxml;
     requires java.sql;
     requires mysql.connector.j;
+    requires java.desktop;
 //    requires doboard.core;
 
     // JavaFX read
