@@ -124,7 +124,7 @@
                     <Insets left="10.0" right="10.0" />
                 </padding>
 
-                <TextField fx:id="maintenanceField" maxWidth="Infinity" promptText="Describe broken item or issue...">
+                <TextField fx:id="maintenanceField" maxWidth="Infinity" promptText="Describe issue...">
                     <VBox.margin>
                         <Insets bottom="10.0" />
                     </VBox.margin>

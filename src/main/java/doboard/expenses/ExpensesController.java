@@ -46,9 +46,49 @@ public class ExpensesController {
         if(row != null) processedBillContainer.getChildren().add(row);
     }
 
-    public void addTransaction(String title, String date, double amount){
-        Node row = ExpenseComponentFactory.createTransactionItem(title, date, amount);
-        if(row != null) transactionContainer.getChildren().add(row);
+    public void addTransaction(String title, String date, double amount, int splitId){
+        // Pass a lambda function down to the component factory loader layer
+        Node row = ExpenseComponentFactory.createTransactionItem(title, date, amount, () -> executeDirectUndo(splitId));
+        if (row != null) transactionContainer.getChildren().add(row);
+    }
+
+    private void executeDirectUndo(int splitId) {
+        // --- SECURITY LOCK ---
+        boolean isLocked = false;
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(
+                     "SELECT b.title, u.username FROM bill_splits bs " +
+                             "JOIN bills b ON bs.bill_id = b.bill_id " +
+                             "JOIN users u ON b.paid_by = u.user_id " +
+                             "WHERE bs.split_id = ?")) {
+            s.setInt(1, splitId);
+            try (ResultSet r = s.executeQuery()) {
+                if (r.next()) {
+                    String title = r.getString("title").toLowerCase();
+                    String username = r.getString("username").toLowerCase();
+
+                    if (title.contains("rent") || username.equals("admin")) {
+                        isLocked = true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (isLocked) {
+            Popup.show("Access Denied", "Rent and Admin-issued records cannot be modified.");
+            return;
+        }
+        // ---------------------
+
+        if (expenseService.updateSplitStatus(splitId, false)) {
+            doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+            cache.reload(cache.getDormId(), cache.getCurrentUserId());
+            cache.notifyListeners(); // This automatically redraws the UI with fresh values
+        } else {
+            Popup.show("Error", "Could not process the reversal request.");
+        }
     }
 
     @FXML
@@ -229,11 +269,10 @@ public class ExpensesController {
             for (BillSplit split : splits) {
                 if (split.getUser_id() == cache.getCurrentUserId()) {
                     if (!split.isPaid()) {
-                        // Pass the clean title and the database split_id for the callback
                         addBillRow(bill.getTitle(), split.getAmount(), split.getSplit_id());
                     } else {
-                        addTransaction(bill.getTitle(), bill.getBill_due_date().toString(), split.getAmount());
-                        addProcessedBill("Paid ID " + split.getSplit_id() + " on " + bill.getBill_due_date().toString());
+                        // UPDATED: Added split.getSplit_id() as a 4th parameter hook
+                        addTransaction(bill.getTitle(), bill.getBill_due_date().toString(), split.getAmount(), split.getSplit_id());
                     }
                 }
             }

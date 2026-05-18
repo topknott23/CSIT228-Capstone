@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -27,7 +28,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
+
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AdminContentController {
 
@@ -41,7 +48,7 @@ public class AdminContentController {
     @FXML private TableColumn<MaintenanceTicket, Integer> idColumn;
     @FXML private TableColumn<MaintenanceTicket, String> unitColumn;
     @FXML private TableColumn<MaintenanceTicket, String> issueColumn;
-    @FXML private TableColumn<MaintenanceTicket, Void> actionColumn;
+    @FXML private TableColumn<MaintenanceTicket, Void> actionColumn; // Custom interactive button column
 
     @FXML private TextField rentAmountField;
     @FXML private TextField billPurposeField;
@@ -83,10 +90,14 @@ public class AdminContentController {
             unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
             issueColumn.setCellValueFactory(new PropertyValueFactory<>("issue"));
 
+            // INTEGRATED: Configures the Action column button mechanics
+            setupActionColumn();
+
             maintenanceTableView.setItems(ticketList);
         }
     }
 
+    // INTEGRATED: Pulls data records from maintenance_requests instead of old signals loop
     private void loadLandlordFeeds() {
         if (dormId == -1 && (SessionHandler.loadSession() == null || !SessionHandler.loadSession().getUsername().equalsIgnoreCase("admin"))) {
             return;
@@ -96,27 +107,96 @@ public class AdminContentController {
         if (signalsNotifContainer != null) signalsNotifContainer.getChildren().clear();
         ticketList.clear();
 
-        doboard.dorm.DormDAO dormDAO = new doboard.dorm.DormDAO();
-        java.util.List<Dorm> dormsToProcess = new java.util.ArrayList<>();
-        if (dormId == -1) {
-            dormsToProcess.addAll(dormDAO.findAllDorms());
-        } else {
-            Dorm d = dormService.getDormById(dormId);
-            if (d != null) dormsToProcess.add(d);
-        }
+        String query = "SELECT mr.request_id, d.dorm_name, u.username, mr.issue_description " +
+                "FROM maintenance_requests mr " +
+                "JOIN dorms d ON mr.dorm_id = d.dorm_id " +
+                "JOIN users u ON mr.user_id = u.user_id " +
+                "WHERE mr.status = 'PENDING' " +
+                (dormId != -1 ? "AND mr.dorm_id = ? " : "") +
+                "ORDER BY mr.created_at DESC";
 
-        for (Dorm dorm : dormsToProcess) {
-            java.util.List<doboard.signals.SignalDAO.Signal> dormSignals = signalService.getAllSignalsForDorm(dorm.getDorm_id());
+        try (Connection conn = doboard.common.connection.SQLConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            for (doboard.signals.SignalDAO.Signal signal : dormSignals) {
-                String locationContext = dorm.getDorm_name() + " (" + signal.senderName() + ")";
-
-                ticketList.add(new MaintenanceTicket(
-                        signal.id(),
-                        locationContext,
-                        signal.complaint()
-                ));
+            if (dormId != -1) {
+                stmt.setInt(1, dormId);
             }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("request_id");
+                    String dormName = rs.getString("dorm_name");
+                    String username = rs.getString("username");
+                    String issue = rs.getString("issue_description");
+
+                    String locationContext = dormName + " (" + username + ")";
+
+                    ticketList.add(new MaintenanceTicket(
+                            id,
+                            locationContext,
+                            issue
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to synchronize active maintenance request views for admin panel.");
+            e.printStackTrace();
+        }
+    }
+
+    // INTEGRATED: Populates the Action column with functional "Resolve" buttons
+    private void setupActionColumn() {
+        Callback<TableColumn<MaintenanceTicket, Void>, TableCell<MaintenanceTicket, Void>> cellFactory =
+                new Callback<>() {
+                    @Override
+                    public TableCell<MaintenanceTicket, Void> call(final TableColumn<MaintenanceTicket, Void> param) {
+                        return new TableCell<>() {
+                            private final Button btn = new Button("Resolve");
+
+                            {
+                                btn.getStyleClass().add("btn-small");
+                                btn.setStyle("-fx-background-color: #406AAF; -fx-text-fill: white; -fx-cursor: hand; -fx-font-size: 11px;");
+
+                                btn.setOnAction(event -> {
+                                    MaintenanceTicket selectedTicket = getTableView().getItems().get(getIndex());
+                                    handleResolveTicket(selectedTicket.getId());
+                                });
+                            }
+
+                            @Override
+                            public void updateItem(Void item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                } else {
+                                    setGraphic(btn);
+                                }
+                            }
+                        };
+                    }
+                };
+
+        actionColumn.setCellFactory(cellFactory);
+    }
+
+    // INTEGRATED: Processes resolution updates directly against the SQL context
+    private void handleResolveTicket(int ticketId) {
+        String updateSQL = "UPDATE maintenance_requests SET status = 'RESOLVED' WHERE request_id = ?";
+
+        try (Connection conn = doboard.common.connection.SQLConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+            stmt.setInt(1, ticketId);
+            int rowsUpdated = stmt.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                // Re-fetch the live collections stream to remove the item dynamically
+                loadLandlordFeeds();
+            }
+        } catch (SQLException e) {
+            System.err.println("Database context failed to update maintenance ticket resolution.");
+            e.printStackTrace();
+            Popup.show("SQL Error", "Could not complete request processing over live server transaction.");
         }
     }
 

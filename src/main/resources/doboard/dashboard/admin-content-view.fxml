@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -12,14 +13,16 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.AdminContentController">
+<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.AdminContentController">
     <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
+
         <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">
             <styleClass>
                 <String fx:value="font-bold" />
                 <String fx:value="text-lg" />
             </styleClass>
         </Label>
+
         <HBox maxWidth="Infinity" spacing="15.0">
             <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED">
@@ -38,6 +41,7 @@
                     <VBox fx:id="systemNotifContainer" spacing="5.0" />
                 </ScrollPane>
             </VBox>
+
             <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label maxWidth="Infinity" text="MAINTENANCE SIGNALS">
                     <styleClass>
@@ -66,86 +70,84 @@
             </styleClass>
         </Label>
 
-        <HBox alignment="CENTER" maxHeight="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
-            <HBox alignment="TOP_CENTER" spacing="15.0">
-                <children>
-                    <VBox prefHeight="313.0" prefWidth="280.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                        <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="MAINTENANCE VIEW">
-                            <styleClass>
-                                <String fx:value="font-bold" />
-                                <String fx:value="p-2" />
-                                <String fx:value="text-md" />
-                                <String fx:value="bg-brand-blue1" />
-                                <String fx:value="rounded-lg-t" />
-                            </styleClass>
-                        </Label>
-                        <TableView fx:id="maintenanceTableView" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
-                            <columns>
-                                <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
-                                <TableColumn fx:id="unitColumn" prefWidth="55.0" text="Unit" />
-                                <TableColumn fx:id="issueColumn" prefWidth="150.0" text="Issue" />
-                                <TableColumn fx:id="actionColumn" prefWidth="75.0" text="Action" />
-                            </columns>
-                            <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                            </columnResizePolicy>
-                        </TableView>
-                    </VBox>
+        <HBox alignment="TOP_CENTER" maxHeight="Infinity" spacing="15.0" VBox.vgrow="ALWAYS" maxWidth="Infinity">
 
-                    <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
-                        <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="BILLING">
-                            <styleClass>
-                                <String fx:value="font-bold" />
-                                <String fx:value="p-2" />
-                                <String fx:value="text-md" />
-                                <String fx:value="bg-brand-blue1" />
-                                <String fx:value="rounded-lg-t" />
-                            </styleClass>
-                        </Label>
-                        <VBox alignment="CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
-                            <VBox spacing="4.0">
-                                <Label styleClass="text-sm, text-gray" text="Add Bill:" />
-                                <HBox alignment="CENTER_LEFT">
-                                    <Label styleClass="text-lg, font-bold" text="₱" />
-                                    <TextField fx:id="rentAmountField" maxWidth="Infinity" promptText="0.00" HBox.hgrow="ALWAYS" />
-                                </HBox>
-                            </VBox>
-                            <Separator prefWidth="200.0">
-                                <VBox.margin>
-                                    <Insets bottom="5.0" top="5.0" />
-                                </VBox.margin>
-                            </Separator>
-                            <TextField fx:id="billPurposeField" promptText="Enter Bill Purpose" styleClass="input-field" />
-                            <Button fx:id="selectRecipientBtn" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSelectRecipient" style="-fx-background-color: #E7E7E7; -fx-padding: 8px 12px; -fx-text-fill: #555;" styleClass="rounded-md" text="Select Recipient" />
-                            <Region prefHeight="20.0" />
-                            <Button onAction="#handleCreateAdminBill" styleClass="btn-primary" text="Add Bill" />
-                            <padding>
-                                <Insets left="10.0" right="10.0" />
-                            </padding>
-                        </VBox>
-                    </VBox>
-                    <VBox alignment="TOP_CENTER" prefWidth="250.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
-                        <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="DORM">
-                            <styleClass>
-                                <String fx:value="font-bold" />
-                                <String fx:value="p-2" />
-                                <String fx:value="text-md" />
-                                <String fx:value="bg-brand-blue1" />
-                                <String fx:value="rounded-lg-t" />
-                            </styleClass>
-                        </Label>
-                        <VBox alignment="CENTER" spacing="15.0" VBox.vgrow="ALWAYS">
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </padding>
-                            <Label style="-fx-text-fill: #666; -fx-font-size: 12px;" text="Manage properties and generate new join codes for tenants." textAlignment="CENTER" wrapText="true" />
-                            <Region VBox.vgrow="ALWAYS" />
-                            <Button maxWidth="Infinity" onAction="#handleCreateWorkspace" style="-fx-padding: 10px;" styleClass="btn-primary" text="Create New Dorm" />
-                        </VBox>
+            <VBox minWidth="260.0" prefWidth="300.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="MAINTENANCE VIEW">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <TableView fx:id="maintenanceTableView" styleClass="table-view" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="55.0" text="ID" />
+                        <TableColumn fx:id="unitColumn" prefWidth="85.0" text="Unit" />
+                        <TableColumn fx:id="issueColumn" prefWidth="180.0" text="Issue" />
+                        <TableColumn fx:id="actionColumn" prefWidth="95.0" text="Action" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
 
+            <VBox alignment="TOP_CENTER" minWidth="260.0" prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="BILLING">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <VBox alignment="CENTER" spacing="12.0" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets left="15.0" right="15.0" />
+                    </padding>
+                    <VBox spacing="4.0" maxWidth="Infinity">
+                        <Label styleClass="text-sm, text-gray" text="Add Bill:" />
+                        <HBox alignment="CENTER_LEFT" maxWidth="Infinity">
+                            <Label styleClass="text-lg, font-bold" text="₱" />
+                            <TextField fx:id="rentAmountField" maxWidth="Infinity" promptText="0.00" HBox.hgrow="ALWAYS" />
+                        </HBox>
                     </VBox>
-                </children>
-            </HBox>
+                    <Separator maxWidth="Infinity">
+                        <VBox.margin>
+                            <Insets bottom="5.0" top="5.0" />
+                        </VBox.margin>
+                    </Separator>
+                    <TextField fx:id="billPurposeField" maxWidth="Infinity" promptText="Enter Bill Purpose" styleClass="input-field" />
+                    <Button fx:id="selectRecipientBtn" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSelectRecipient" style="-fx-background-color: #E7E7E7; -fx-padding: 8px 12px; -fx-text-fill: #555;" styleClass="rounded-md" text="Select Recipient" />
+                    <Region prefHeight="15.0" VBox.vgrow="ALWAYS" />
+                    <Button onAction="#handleCreateAdminBill" styleClass="btn-primary" text="Add Bill" />
+                </VBox>
+            </VBox>
+
+            <VBox alignment="TOP_CENTER" minWidth="260.0" prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="DORM">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <VBox alignment="CENTER" spacing="15.0" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                    </padding>
+                    <Label style="-fx-text-fill: #666; -fx-font-size: 13px;" text="Manage properties and generate new join codes for tenants." textAlignment="CENTER" wrapText="true" />
+                    <Region VBox.vgrow="ALWAYS" />
+                    <Button maxWidth="Infinity" onAction="#handleCreateWorkspace" style="-fx-padding: 10px;" styleClass="btn-primary" text="Create New Dorm" />
+                </VBox>
+            </VBox>
+
         </HBox>
     </VBox>
 </VBox>

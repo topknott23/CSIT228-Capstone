@@ -85,8 +85,8 @@ public class NavigationManager {
     }
 
     // --- UPDATED ROUTING LOGIC ---
-// --- UPDATED ROUTING LOGIC ---
-    public static void handlePostLoginRouting(Stage stage, User user){
+
+    public static void handlePostLoginRouting(Stage stage, User user) {
         // 1. GLOBAL ADMIN BYPASS
         if (user.getUsername().equalsIgnoreCase("admin")) {
             SceneLoader.loadScene(stage, NavigationManager.class, "/doboard/dashboard/dashboard-view.fxml", "DoBoard - Master Portal");

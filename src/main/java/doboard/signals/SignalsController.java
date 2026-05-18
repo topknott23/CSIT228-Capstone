@@ -5,6 +5,7 @@ import doboard.common.session.SessionHandler;
 import doboard.common.util.ComponentFactory;
 import doboard.common.util.NavigationManager;
 import doboard.common.util.Popup;
+import doboard.dashboard.MaintenanceDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -180,8 +181,49 @@ public class SignalsController {
         nudgeCount1.setSelected(true);
     }
 
+    // 1. Add this instance field asset variable at the top of your controller class:
+    private final MaintenanceDAO maintenanceDAO = new MaintenanceDAO();
+
+    // 2. Replace your sendMaintenance routine with this updated method block:
     @FXML
-    private void sendMaintenance(ActionEvent event){
-        // TODO: Implement connection to admin notif and maintenance box
+    private void sendMaintenance(ActionEvent event) {
+        String issue = maintenanceField.getText();
+
+        // Validation check to prevent blank submissions
+        if (issue == null || issue.trim().isEmpty()) {
+            Popup.show("Validation Error", "Please describe the maintenance issue before sending.");
+            return;
+        }
+
+        // Fetch the active tenant user session state context
+        User currentUser = SessionHandler.loadSession();
+        if (currentUser == null) {
+            Popup.show("Session Error", "Could not resolve user context. Please re-authenticate.");
+            return;
+        }
+
+        // Resolve the tenant's current workspace dorm mapping ID
+        doboard.dorm.DormService dormService = new doboard.dorm.DormService();
+        int tenantDormId = dormService.getUserDormId(currentUser.getUser_id());
+
+        if (tenantDormId == -1) {
+            Popup.show("Workspace Error", "You must be associated with a valid dorm room to file maintenance requests.");
+            return;
+        }
+
+        // DELEGATED TASK: No more raw SQL or connection handling here, simply call the DAO worker method
+        boolean databaseInsertSuccess = maintenanceDAO.createRequest(tenantDormId, currentUser.getUser_id(), issue.trim());
+
+        if (databaseInsertSuccess) {
+            Popup.show("Signal Sent", "Your maintenance alert has been successfully logged and sent to the Admin Portal.");
+
+             maintenanceField.clear();
+
+             doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+             cache.reload(tenantDormId, currentUser.getUser_id());
+             cache.notifyListeners();
+        } else {
+            Popup.show("SQL Error", "Could not submit signal over network database context layer.");
+        }
     }
 }

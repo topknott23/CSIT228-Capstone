@@ -5,6 +5,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 
+import java.io.IOException;
+
 public class ExpenseComponentFactory {
 
     // Updated to accept a Runnable action for the payment button
@@ -47,22 +49,28 @@ public class ExpenseComponentFactory {
         }
     }
 
-    public static Node createTransactionItem(String title, String date, double amount) {
+    public static Node createTransactionItem(String title, String date, double amount, Runnable onUndoAction) {
         try {
             FXMLLoader loader = new FXMLLoader(ExpenseComponentFactory.class.getResource("/doboard/expenses/transaction-item.fxml"));
             Node node = loader.load();
 
-            // --- FIXED: Updated to match your actual FXML IDs ---
-            Label titleLabel = (Label) node.lookup("#transactionTitle");
-            Label dateLabel = (Label) node.lookup("#transactionDate");
-            Label amountLabel = (Label) node.lookup("#transactionAmount");
+            // Target component programmatic ID references
+            Label titleLabel = (Label) node.lookup("#titleLabel");
+            Label dateLabel = (Label) node.lookup("#dateLabel");
+            Label amountLabel = (Label) node.lookup("#amountLabel");
+            Button undoButton = (Button) node.lookup("#undoButton"); // Look up the button component
 
             if (titleLabel != null) titleLabel.setText(title);
             if (dateLabel != null) dateLabel.setText(date);
             if (amountLabel != null) amountLabel.setText("-₱" + String.format("%.2f", amount));
 
+            // If the element and callback exist, attach the action listener dynamically
+            if (undoButton != null && onUndoAction != null) {
+                undoButton.setOnAction(event -> onUndoAction.run());
+            }
+
             return node;
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
