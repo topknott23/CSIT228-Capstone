@@ -1,6 +1,7 @@
 package doboard.dashboard;
 
 import doboard.auth.User;
+import doboard.common.TitleBarController;
 import doboard.common.session.SessionHandler;
 import doboard.common.util.*;
 import doboard.dorm.Dorm;
@@ -23,7 +24,6 @@ public class DashboardController {
     @FXML private StackPane rootPane;
     @FXML private Label usernameVal;
     @FXML private HBox navBarContainer;
-
     @FXML private Label currentScreenTitleLabel;
 
     // --- NEW LABELS FOR THE WORKSPACE BADGE ---
@@ -36,10 +36,11 @@ public class DashboardController {
     @FXML private Button navExpenses;
     @FXML private Button navSignals;
     @FXML private VBox contentArea;
-    @FXML private HBox topNavBar;
-    @FXML private Label windowTitleLabel;
+
     @FXML private VBox tenantSidebar;
     @FXML private VBox adminSidebar;
+
+    @FXML private TitleBarController embeddedTitleBarController;
 
     private final CustomTitleBar titleBar = new CustomTitleBar();
     private final DormService dormService = new DormService();
@@ -48,10 +49,11 @@ public class DashboardController {
 
     @FXML
     public void initialize(){
-        NavigationManager.setWindowTitleLabel(windowTitleLabel);
+        if(embeddedTitleBarController != null){
+            NavigationManager.setWindowTitleLabel(embeddedTitleBarController.getWindowTitleLabel());
+        }
         NavigationManager.setContentArea(contentArea);
         NavigationManager.setDashboardController(this);
-        titleBar.makeDraggable(topNavBar);
 
         User currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
@@ -93,35 +95,10 @@ public class DashboardController {
         loadLayout();
     }
 
-    @FXML private void minimizeWindow(ActionEvent event) { titleBar.minimize(event); }
-    @FXML private void maximizeWindow(ActionEvent event) { titleBar.maximize(event); }
-    @FXML private void closeWindow(ActionEvent event) { titleBar.close(event); }
-    @FXML
-    private void handleProfileSettings(ActionEvent event) {
-        if (!isAdmin) {
-            loadTab("/doboard/dashboard/profile-view.fxml", "PROFILE", null);
-        }
-    }
-
-    @FXML
-    private void handleDormmatesList(ActionEvent event) {
-        if (!isAdmin) {
-            loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", null);
-        }
-    }
-    @FXML
-    private void handleArchivedBills(ActionEvent event) {
-        if (!isAdmin) {
-            loadTab("/doboard/expenses/archived-bills-view.fxml", "ARCHIVED BILLS", null);
-        }
-    }
-
-    public void handleOpenDormChat(ActionEvent actionEvent) {
-        if (!isAdmin) {
-            loadTab("/doboard/chatbox/chatbox-view.fxml", "DORM CHAT", null);
-        }
-    }
-
+    @FXML private void handleProfileSettings(ActionEvent event) {if (!isAdmin) loadTab("/doboard/dashboard/profile-view.fxml", "PROFILE", null);}
+    @FXML private void handleDormmatesList(ActionEvent event) {if (!isAdmin) loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", null);}
+    @FXML private void handleArchivedBills(ActionEvent event) {if (!isAdmin) loadTab("/doboard/expenses/archived-bills-view.fxml", "ARCHIVED BILLS", null);}
+    public void handleOpenDormChat(ActionEvent actionEvent) {if (!isAdmin) loadTab("/doboard/chatbox/chatbox-view.fxml", "DORM CHAT", null);}
     @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
     @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}
     @FXML public void goExpenses() {if(!isAdmin)loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses);}
