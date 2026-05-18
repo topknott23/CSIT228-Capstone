@@ -72,18 +72,23 @@ public class DataSyncService {
             return; // Not in a dorm or not logged in
 
         try {
-            // Attempt to reload the cache. reload() returns true if the hash changed.
-            boolean hasChanges = cache.reload(dormId, userId);
+            // reload() now returns a result with both the changed flag AND specific notifications
+            DormDataCache.CacheReloadResult result = cache.reload(dormId, userId);
 
-            if (hasChanges) {
+            if (result.hasChanges) {
                 System.out.println("DataSyncService: Remote changes detected! Notifying UI listeners...");
 
-                // Optional: Show a subtle toast notification that data synced
-                Platform.runLater(() -> {
-                    Popup.showSubtleToast("Sarah Workspace synced with latest changes");
-                });
+                // Fire one targeted toast per specific event (on the FX thread)
+                // e.g. "🔔 John: Kitchen Messy", "✅ Maria completed: Sweep Floor"
+                if (!result.notifications.isEmpty()) {
+                    Platform.runLater(() -> {
+                        for (String msg : result.notifications) {
+                            Popup.showSubtleToast(msg);
+                        }
+                    });
+                }
 
-                // Tell the cache to fire all registered controller update callbacks
+                // Fire all controller update callbacks to refresh the UI
                 cache.notifyListeners();
             }
         } catch (Exception e) {

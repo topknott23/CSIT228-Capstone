@@ -7,7 +7,8 @@ import javafx.concurrent.Task;
 /**
  * Background Task that preloads ALL dorm data into DormDataCache after login.
  * Runs on a separate thread so the UI stays responsive during loading.
- * Reports progress updates for the loading screen's progress bar and status label.
+ * Reports progress updates for the loading screen's progress bar and status
+ * label.
  */
 public class DataPreloader extends Task<Void> {
 
@@ -36,13 +37,14 @@ public class DataPreloader extends Task<Void> {
         updateProgress(2, 5);
 
         // 2. Reload all data into the singleton cache
-        // This single call fetches: dorm info, members, chores, bills, splits, signals, leaderboard
+        // This single call fetches: dorm info, members, chores, bills, splits, signals,
+        // leaderboard
         DormDataCache cache = DormDataCache.getInstance();
 
         updateMessage("Fetching chores and bills...");
         updateProgress(3, 5);
 
-        cache.reload(dormId, user.getUser_id());
+        DormDataCache.CacheReloadResult result = cache.reload(dormId, user.getUser_id());
 
         updateMessage("Syncing notifications...");
         updateProgress(4, 5);
