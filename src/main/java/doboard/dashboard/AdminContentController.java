@@ -9,7 +9,6 @@ import doboard.signals.SignalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -32,25 +31,18 @@ import java.io.IOException;
 
 public class AdminContentController {
 
-    // --- MAIN LAYOUT ---
     @FXML private VBox contentArea;
-
-    // --- LABELS FOR THE DORM INFO ---
     @FXML private Label dormNameLabel;
     @FXML private Label joinCodeLabel;
-
-    // --- CONTAINERS ---
     @FXML private VBox systemNotifContainer;
     @FXML private VBox signalsNotifContainer;
 
-    // --- MAINTENANCE TABLE ---
     @FXML private TableView<MaintenanceTicket> maintenanceTableView;
     @FXML private TableColumn<MaintenanceTicket, Integer> idColumn;
     @FXML private TableColumn<MaintenanceTicket, String> unitColumn;
     @FXML private TableColumn<MaintenanceTicket, String> issueColumn;
     @FXML private TableColumn<MaintenanceTicket, Void> actionColumn;
 
-    // --- ADMIN BILLING ---
     @FXML private TextField rentAmountField;
     @FXML private TextField billPurposeField;
     @FXML private Button selectRecipientBtn;
@@ -69,12 +61,9 @@ public class AdminContentController {
 
         if (currentUser != null) {
             if (currentUser.getUsername().equalsIgnoreCase("admin")) {
-                // --- MASTER LANDLORD VIEW ---
                 if (dormNameLabel != null) dormNameLabel.setText("MASTER PORTAL");
                 if (joinCodeLabel != null) joinCodeLabel.setText("GLOBAL");
-
             } else {
-                // --- SINGLE-DORM ADMIN VIEW (Legacy) ---
                 dormId = dormService.getUserDormId(currentUser.getUser_id());
                 Dorm dorm = dormService.getDormById(dormId);
                 if (dorm != null) {
@@ -89,7 +78,6 @@ public class AdminContentController {
     }
 
     private void setupTableColumns() {
-        // Reactive maintenance table data-binding
         if (maintenanceTableView != null) {
             maintenanceTableView.setItems(ticketList);
         }
@@ -103,8 +91,6 @@ public class AdminContentController {
         if (systemNotifContainer != null) systemNotifContainer.getChildren().clear();
         if (signalsNotifContainer != null) signalsNotifContainer.getChildren().clear();
         ticketList.clear();
-
-        // TODO: Component-factory notification pipeline
     }
 
     @FXML
@@ -133,14 +119,13 @@ public class AdminContentController {
                 return;
             }
 
-            // Pull from the new TextField
             String purpose = billPurposeField.getText();
             boolean success = expenseService.processBillSplit(selectedDorm.getDorm_id(), purpose, amount);
 
             if (success) {
                 Popup.show("Success", "Bill dispatched to " + selectedDorm.getDorm_name() + " tenants.");
                 rentAmountField.clear();
-                billPurposeField.clear(); // Clear the text field
+                billPurposeField.clear();
                 selectedDorm = null;
                 selectRecipientBtn.setText("Select Recipient...");
             } else {
@@ -153,14 +138,15 @@ public class AdminContentController {
 
     @FXML
     private void handleCreateWorkspace(ActionEvent event) {
-        // Spawn the dialog and attach a success callback
         NavigationManager.showDormSetupDialog(((Node) event.getSource()).getScene().getWindow(), () -> {
             Popup.show("Dorm Created", "New dorm registered successfully! Check the Join Code.");
-            // You can call loadLandlordFeeds() or refresh logic here in the future
         });
     }
 
-    // --- UTILITY METHODS ---
+    @FXML
+    private void handleManageDorms(ActionEvent event) {
+        showDialog("/doboard/dashboard/admin-managed-dorms-view.fxml", null);
+    }
 
     private void showDialog(String fxmlPath, java.util.function.Consumer<Object> controllerConfigurer) {
         try {

@@ -38,6 +38,8 @@ public class DashboardController {
     @FXML private VBox contentArea;
     @FXML private HBox topNavBar;
     @FXML private Label windowTitleLabel;
+    @FXML private VBox tenantSidebar;
+    @FXML private VBox adminSidebar;
 
     private final CustomTitleBar titleBar = new CustomTitleBar();
     private final DormService dormService = new DormService();
@@ -122,14 +124,26 @@ public class DashboardController {
     }
 
 
-    private void loadLayout(){
-        if(isAdmin){
+    private void loadLayout() {
+        if (isAdmin) {
             navBarContainer.setVisible(false);
             navBarContainer.setManaged(false);
+
+            tenantSidebar.setVisible(false);
+            tenantSidebar.setManaged(false);
+            adminSidebar.setVisible(true);
+            adminSidebar.setManaged(true);
+
             loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", null);
-        }else{
+        } else {
             navBarContainer.setVisible(true);
             navBarContainer.setManaged(true);
+
+            tenantSidebar.setVisible(true);
+            tenantSidebar.setManaged(true);
+            adminSidebar.setVisible(false);
+            adminSidebar.setManaged(false);
+
             loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);
         }
     }
@@ -187,6 +201,23 @@ public class DashboardController {
             }
             tenantJoinCodeLabel.setStyle("-fx-text-fill: #3F69AF; -fx-cursor: hand; -fx-font-weight: bold;");
         }
+    }
+
+    @FXML
+    private void handleAdminDashboard(ActionEvent event) {
+        loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", null);
+    }
+
+    @FXML
+    private void handleManageDormsAdmin(ActionEvent event) {
+
+        loadTab("/doboard/dashboard/admin-managed-dorms-view.fxml", "MANAGE DORMS", null);
+    }
+
+    @FXML
+    private void handleBillHistoryAdmin(ActionEvent event) {
+
+        Popup.show("Coming Soon", "Bill History module is currently being prepared.");
     }
 
 }

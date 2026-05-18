@@ -70,15 +70,28 @@
                             <Insets bottom="8.0" left="15.0" right="10.0" top="8.0" />
                         </padding>
                     </HBox>
-                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
-                        <padding>
-                            <Insets left="15.0" right="15.0" top="10.0" />
-                        </padding>
-                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleProfileSettings" styleClass="btn-secondary" text="Profile &amp; Personal Info" />
-                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleDormmatesList" styleClass="btn-secondary" text="Dormmates" />
-                        <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleArchivedBills" styleClass="btn-secondary" text="Archived Bills" />
-                  <Button alignment="BASELINE_LEFT" layoutX="25.0" layoutY="55.0" maxWidth="Infinity" onAction="#handleOpenDormChat" styleClass="btn-secondary" text="Dorm Chat" />
-                    </VBox>
+
+                    <StackPane>
+                        <VBox fx:id="tenantSidebar" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                            <padding>
+                                <Insets left="15.0" right="15.0" top="10.0" />
+                            </padding>
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleProfileSettings" styleClass="btn-secondary" text="Profile &amp; Personal Info" />
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleDormmatesList" styleClass="btn-secondary" text="Dormmates" />
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleArchivedBills" styleClass="btn-secondary" text="Archived Bills" />
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleOpenDormChat" styleClass="btn-secondary" text="Dorm Chat" />
+                        </VBox>
+
+                        <VBox fx:id="adminSidebar" prefHeight="200.0" prefWidth="100.0" spacing="10.0" visible="false" managed="false">
+                            <padding>
+                                <Insets left="15.0" right="15.0" top="10.0" />
+                            </padding>
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleAdminDashboard" styleClass="btn-secondary" text="Overview" />
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleManageDormsAdmin" styleClass="btn-secondary" text="Manage Dorms" />
+                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleBillHistoryAdmin" styleClass="btn-secondary" text="Bill History" />
+                        </VBox>
+                    </StackPane>
+
                     <styleClass>
                         <String fx:value="shadow-sm" />
                         <String fx:value="rounded-xl" />
