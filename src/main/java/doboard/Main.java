@@ -33,14 +33,7 @@ public class Main extends Application {
         if(savedUser != null) {
             Popup.show("Welcome Back", "Session restored: welcome back " + savedUser.getUsername());
             System.out.println("USER ID: " + savedUser.getUser_id());
-
-            if(dormService.isUserInDorm(savedUser.getUser_id()))
-                SceneLoader.loadScene(stage, Main.class,    "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
-            else {
-                Popup.show("Enter a dorm", "You are not in any dorm. Please enter or create a dorm to continue");
-                SceneLoader.loadScene(stage, Main.class, "/doboard/dorm/dorm-view.fxml", "Maintenant - Dashboard");
-            }
-
+            SceneLoader.loadScene(stage, Main.class,    "/doboard/dashboard/dashboard-view.fxml", "Maintenant - Dashboard");
         } else {
             showLogInScreen(stage);
         }

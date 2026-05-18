@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import doboard.common.util.Popup;
 
 public class SQLConnector {
+//    public static final String URL = "jdbc:mysql://192.168.0.99:3306/dorm_app";
+//    public static final String USER = "user";
+//    public static final String PASS = "123";
     public static final String URL = "jdbc:mysql://localhost:3306/dorm_app";
     public static final String USER = "root";
     public static final String PASS = "";
-
     public static Connection getConnection() {
         Connection conn = null;
         try {
