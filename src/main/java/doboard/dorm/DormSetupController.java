@@ -130,7 +130,6 @@ public class DormSetupController {
 
     @FXML
     public void renderCopyCodeBoxTooltip(MouseEvent mouseEvent) {
-        // Guard Clause: Only trigger hover animations if a join code actually exists to show/copy
         if (rawJoinCode == null || rawJoinCode.isEmpty()) {
             return;
         }
@@ -138,7 +137,6 @@ public class DormSetupController {
         var eventType = mouseEvent.getEventType();
 
         if (eventType == MouseEvent.MOUSE_ENTERED) {
-            // Only show the prompt if it hasn't just been copied
             if (!statusLabel.getText().equals("Copied!")) {
                 statusLabel.setText("Copy Code?");
                 statusLabel.setStyle("-fx-text-fill: #73b7f3; -fx-cursor: hand; -fx-font-weight: bold;");

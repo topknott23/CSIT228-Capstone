@@ -98,7 +98,7 @@ public class ArchivedBillsController {
             // Reload this specific view scene to make the un-archived row disappear instantly
             loadArchivedBills();
 
-            // Notify other active background listeners (like the main Expenses dashboard) to update too
+            // Notify other active background listeners (like the main Expenses dashboard) to updateDorm too
             cache.notifyListeners();
         } else {
             Popup.show("Error", "Could not process the archive reversal request.");

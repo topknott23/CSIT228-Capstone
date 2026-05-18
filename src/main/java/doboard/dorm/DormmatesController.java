@@ -27,7 +27,6 @@ public class DormmatesController {
     public void initialize() {
         NavigationManager.setTitle("Dormmates");
 
-        // The property values correspond to the User class getter methods
         nameCol.setCellValueFactory(new PropertyValueFactory<>("full_name"));
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));

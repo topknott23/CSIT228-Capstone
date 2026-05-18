@@ -140,7 +140,7 @@ public class ChoreFormController {
                 assignSelectedUsers(choreToEdit.getChore_id());
                 finishAndRefresh();
             } else {
-                showAlert("Error", "Failed to update chore.");
+                showAlert("Error", "Failed to updateDorm chore.");
             }
         }
     }

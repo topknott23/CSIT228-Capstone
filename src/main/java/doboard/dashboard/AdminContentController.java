@@ -194,7 +194,7 @@ public class AdminContentController {
                 loadLandlordFeeds();
             }
         } catch (SQLException e) {
-            System.err.println("Database context failed to update maintenance ticket resolution.");
+            System.err.println("Database context failed to updateDorm maintenance ticket resolution.");
             e.printStackTrace();
             Popup.show("SQL Error", "Could not complete request processing over live server transaction.");
         }

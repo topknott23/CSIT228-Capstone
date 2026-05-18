@@ -71,7 +71,7 @@ public class DormController {
     }
 
     /**
-     * Helper to update the UI status message
+     * Helper to updateDorm the UI status message
      */
     private void showStatus(String message, boolean isError) {
         statusLabel.setText(message);

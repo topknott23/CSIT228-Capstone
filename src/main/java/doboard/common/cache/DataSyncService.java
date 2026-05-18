@@ -88,7 +88,7 @@ public class DataSyncService {
                     });
                 }
 
-                // Fire all controller update callbacks to refresh the UI
+                // Fire all controller updateDorm callbacks to refresh the UI
                 cache.notifyListeners();
             }
         } catch (Exception e) {

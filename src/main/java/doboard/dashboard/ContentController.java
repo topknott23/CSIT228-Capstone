@@ -174,7 +174,7 @@ public class ContentController {
 
     private void markChoreAsDone(Chore chore) {
         choreService.completeAndRotateChore(chore);
-        // Force an immediate reload and UI update
+        // Force an immediate reload and UI updateDorm
         doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
         cache.reload(cache.getDormId(), cache.getCurrentUserId());
         cache.notifyListeners();

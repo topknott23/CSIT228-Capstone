@@ -9,7 +9,7 @@ import java.util.List;
 public class DormDAO {
 
     // ---CORE OPERATIONS---
-    public boolean insert(Dorm dorm) {
+    public boolean insertDorm(Dorm dorm) {
         String query = "INSERT INTO dorms(dorm_name, join_code, created_at) VALUES(?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
@@ -22,7 +22,8 @@ public class DormDAO {
         }
         return false;
     }
-    public boolean delete(int dormId) {
+
+    public boolean deleteDorm(int dormId) {
         String query = "DELETE FROM dorms WHERE dorm_id = ?";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
@@ -34,7 +35,7 @@ public class DormDAO {
         return false;
     }
 
-    public static Dorm findByJoinCode(String joinCode) {
+    public static Dorm findDormByJoinCode(String joinCode) {
         String query = "SELECT * FROM dorms WHERE UPPER(join_code) = ?";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
@@ -54,7 +55,7 @@ public class DormDAO {
         return null;
     }
 
-    public boolean update(Dorm dorm) {
+    public boolean updateDorm(Dorm dorm) {
         String query = "UPDATE dorms SET dorm_name = ?, join_code = ? WHERE dorm_id = ?";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
@@ -75,16 +76,16 @@ public class DormDAO {
      * @return The created Dorm object with generated join code, or null if creation failed
      */
     public Dorm createDormWithCode(String dormName) {
-        String joinCode = generateUniqueCode();
+        String joinCode = generateUniqueDormCode();
         if (joinCode == null) {
             System.err.println("Failed to generate unique join code");
             return null;
         }
 
         Dorm dorm = new Dorm(0, dormName, joinCode);
-        if (insert(dorm)) {
+        if (insertDorm(dorm)) {
             // Retrieve the auto-generated dorm_id
-            return findByJoinCode(joinCode);
+            return findDormByJoinCode(joinCode);
         }
         return null;
     }
@@ -95,11 +96,11 @@ public class DormDAO {
      *
      * @return A unique join code, or null if generation fails after max attempts
      */
-    private String generateUniqueCode() {
+    private String generateUniqueDormCode() {
         int maxAttempts = 10;
         for (int i = 0; i < maxAttempts; i++) {
             String code = JoinCodeGenerator.generateCode();
-            if (!codeExists(code)) {
+            if (!dormCodeExists(code)) {
                 return code;
             }
         }
@@ -113,8 +114,8 @@ public class DormDAO {
      * @param joinCode The code to check
      * @return true if the code exists, false otherwise
      */
-    public boolean codeExists(String joinCode) {
-        return findByJoinCode(JoinCodeGenerator.normalize(joinCode)) != null;
+    public boolean dormCodeExists(String joinCode) {
+        return findDormByJoinCode(JoinCodeGenerator.normalize(joinCode)) != null;
     }
 
     /**
@@ -154,11 +155,11 @@ public class DormDAO {
         if (!JoinCodeGenerator.isValidFormat(joinCode)) {
             return false;
         }
-        return codeExists(joinCode);
+        return dormCodeExists(joinCode);
     }
 
     // ---MEMBER OPERATIONS---
-    public boolean addMember(DormMember member) {
+    public boolean addDormMember(DormMember member) {
         String query = "INSERT INTO dorm_members(dorm_id, user_id, role) VALUES(?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement ps = c.prepareStatement(query)) {

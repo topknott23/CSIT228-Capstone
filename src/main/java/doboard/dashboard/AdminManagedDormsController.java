@@ -60,16 +60,16 @@ public class AdminManagedDormsController {
             deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;");
             deleteBtn.setOnAction(e -> {
                 Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-                        "Are you sure you want to delete " + dName + " permanently? ",
+                        "Are you sure you want to deleteDorm " + dName + " permanently? ",
                         ButtonType.YES, ButtonType.NO);
                 confirm.showAndWait();
 
                 if (confirm.getResult() == ButtonType.YES) {
-                    if (dormDAO.delete(dorm.getDorm_id())) {
+                    if (dormDAO.deleteDorm(dorm.getDorm_id())) {
                         Popup.show("Success", "Dorm deleted successfully.");
                         loadDorms();
                     } else {
-                        Popup.show("Error", "Failed to delete dorm. Make sure there are no active dependencies.");
+                        Popup.show("Error", "Failed to deleteDorm dorm. Make sure there are no active dependencies.");
                     }
                 }
             });

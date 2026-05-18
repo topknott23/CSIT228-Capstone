@@ -60,7 +60,7 @@ public class DormService {
                 DormMember.Role.ADMIN
         );
 
-        if (dormDAO.addMember(ownerMember)) {
+        if (dormDAO.addDormMember(ownerMember)) {
             return DormOperationResult.success(
                     "Dorm created successfully",
                     createdDorm
@@ -95,7 +95,7 @@ public class DormService {
             return DormOperationResult.failure("Invalid join code format");
         }
 
-        Dorm dorm = DormDAO.findByJoinCode(joinCode);
+        Dorm dorm = DormDAO.findDormByJoinCode(joinCode);
         if (dorm == null) {
             return DormOperationResult.failure("Join code not found. Please check the code and try again.");
         }
@@ -106,7 +106,7 @@ public class DormService {
                 DormMember.Role.MEMBER
         );
 
-        if (dormDAO.addMember(member)) {
+        if (dormDAO.addDormMember(member)) {
             return DormOperationResult.success(
                     "Successfully joined dorm '" + dorm.getDorm_name() + "'",
                     dorm

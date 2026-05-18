@@ -112,7 +112,7 @@ public class DormDataCache {
         List<Chore> freshChores = choreDAO.findAllByDormId(dormId);
 
         // 4. Fetch bills and their splits
-        List<Bill> freshBills = billDAO.findByDormId(dormId);
+        List<Bill> freshBills = billDAO.findBillByDormId(dormId);
         Map<Integer, List<BillSplit>> freshSplitsMap = new HashMap<>();
         for (Bill bill : freshBills) {
             freshSplitsMap.put(bill.getBill_id(), billDAO.findSplitsByBillId(bill.getBill_id()));

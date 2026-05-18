@@ -74,7 +74,7 @@ public class DashboardController {
                     isAdmin = cache.getMembers().stream()
                         .filter(u -> u.getUser_id() == currentUser.getUser_id())
                         .findFirst()
-                        .map(u -> dormService.getUserRoleInDorm(currentUser.getUser_id(), dorm.getDorm_id()) == DormMember.Role.ADMIN) // Role is not in User model, keep this or update User model. But dormService works for now. 
+                        .map(u -> dormService.getUserRoleInDorm(currentUser.getUser_id(), dorm.getDorm_id()) == DormMember.Role.ADMIN) // Role is not in User model, keep this or updateDorm User model. But dormService works for now.
                         .orElse(false);
                 }
                 

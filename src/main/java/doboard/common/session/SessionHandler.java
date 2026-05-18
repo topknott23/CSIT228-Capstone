@@ -22,7 +22,7 @@ public class SessionHandler {
             if (file.delete()) {
                 System.out.println("Session ended: Deleted file");
             } else {
-                System.err.println("Could not delete session file.");
+                System.err.println("Could not deleteDorm session file.");
             }
         }
     }

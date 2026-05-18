@@ -17,7 +17,7 @@ public class ExpenseService {
         return dormDAO.getDormIdByUserId(userId);
     }
     public List<Bill> getDormBills(int dormId) {
-        return billDAO.findByDormId(dormId);
+        return billDAO.findBillByDormId(dormId);
     }
     public List<BillSplit> getSplitsForBill(int billId) {
         return billDAO.findSplitsByBillId(billId);
@@ -28,7 +28,7 @@ public class ExpenseService {
 
     public boolean processBillSplit(int dormId, String purpose, double amount) {
         Bill newBill = new Bill(0, dormId, purpose, amount, LocalDate.now().plusDays(7));
-        int insertedBillId = billDAO.insertAndGetId(newBill);
+        int insertedBillId = billDAO.insertAndGetBillId(newBill);
 
         if (insertedBillId == -1) return false;
 
@@ -37,7 +37,7 @@ public class ExpenseService {
             double splitAmount = amount / members.size();
             for (DormMember member : members) {
                 BillSplit split = new BillSplit(0, insertedBillId, member.getUser_id(), splitAmount, false);
-                billDAO.insertSplit(split);
+                billDAO.insertBillSplit(split);
             }
         }
         return true;
@@ -46,7 +46,7 @@ public class ExpenseService {
     public UserBalanceSummary getUserBalanceDetails(int dormId, int userId) {
         double totalBalance = 0.0;
         List<String> alerts = new ArrayList<>();
-        List<Bill> dormBills = billDAO.findByDormId(dormId);
+        List<Bill> dormBills = billDAO.findBillByDormId(dormId);
 
         for (Bill bill : dormBills) {
             List<BillSplit> splits = billDAO.findSplitsByBillId(bill.getBill_id());

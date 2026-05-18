@@ -8,7 +8,7 @@ import java.util.List;
 public class BillDAO {
 
     // ---CORE OPERATIONS--
-    public boolean insert(Bill bill) {
+    public boolean insertBill(Bill bill) {
         String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
@@ -24,7 +24,7 @@ public class BillDAO {
         return false;
     }
 
-    public int insertAndGetId(Bill bill) {
+    public int insertAndGetBillId(Bill bill) {
         String query = "INSERT INTO bills(dorm_id, title, total_amount, due_date, created_at) VALUES(?, ?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -48,7 +48,7 @@ public class BillDAO {
         return -1;
     }
 
-    public List<Bill> findByDormId(int dormId) {
+    public List<Bill> findBillByDormId(int dormId) {
         List<Bill> bills = new ArrayList<>();
         String query = "SELECT * FROM bills WHERE dorm_id = ?";
         try (Connection c = SQLConnector.getConnection();
@@ -70,7 +70,7 @@ public class BillDAO {
         return bills;
     }
 
-    public boolean delete(int billId) {
+    public boolean deleteBill(int billId) {
         String query = "DELETE FROM bills WHERE bill_id = ?";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
@@ -83,7 +83,7 @@ public class BillDAO {
     }
 
     // ---SPLIT OPERATIONS---
-    public boolean insertSplit(BillSplit split) {
+    public boolean insertBillSplit(BillSplit split) {
         String query = "INSERT INTO bill_splits(bill_id, user_id, amount_owed, is_paid) VALUES(?, ?, ?, ?)";
         try (Connection c = SQLConnector.getConnection();
              PreparedStatement s = c.prepareStatement(query)) {
