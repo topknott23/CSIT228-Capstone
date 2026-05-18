@@ -74,7 +74,7 @@ public class ChoreController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Chore");
             alert.setHeaderText("Remove Chore Assignment");
-            alert.setContentText("Are you sure you want to permanently delete '" + chore.getTitle() + "'?");
+            alert.setContentText("Are you sure?" + chore.getTitle() + "'?");
 
             ButtonType confirmBtn = new ButtonType("Delete", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelBtn = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);

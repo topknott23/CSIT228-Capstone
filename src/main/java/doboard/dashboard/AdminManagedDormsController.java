@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert;
 
 import java.util.List;
 
@@ -33,14 +35,11 @@ public class AdminManagedDormsController {
 
             VBox infoBox = new VBox(4);
 
-
-            String dName = dorm.getDorm_name();
-            if (dName == null || dName.trim().isEmpty()) {
-                dName = "Unnamed Dorm";
-            }
+            final String dName = (dorm.getDorm_name() == null || dorm.getDorm_name().trim().isEmpty())
+                    ? "Unnamed Dorm"
+                    : dorm.getDorm_name();
 
             Label nameLbl = new Label(dName);
-
             nameLbl.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #333333;");
 
             Label codeLbl = new Label("Join Code: " + dorm.getJoin_code());
@@ -57,7 +56,25 @@ public class AdminManagedDormsController {
                 Popup.show("Nudge Sent", "Sent a reminder to the tenants of " + dorm.getDorm_name());
             });
 
-            row.getChildren().addAll(infoBox, spacer, nudgeBtn);
+            Button deleteBtn = new Button("Delete");
+            deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;");
+            deleteBtn.setOnAction(e -> {
+                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Are you sure you want to delete " + dName + " permanently? ",
+                        ButtonType.YES, ButtonType.NO);
+                confirm.showAndWait();
+
+                if (confirm.getResult() == ButtonType.YES) {
+                    if (dormDAO.delete(dorm.getDorm_id())) {
+                        Popup.show("Success", "Dorm deleted successfully.");
+                        loadDorms();
+                    } else {
+                        Popup.show("Error", "Failed to delete dorm. Make sure there are no active dependencies.");
+                    }
+                }
+            });
+
+            row.getChildren().addAll(infoBox, spacer, nudgeBtn, deleteBtn);
             dormsListContainer.getChildren().add(row);
         }
     }

@@ -22,6 +22,17 @@ public class DormDAO {
         }
         return false;
     }
+    public boolean delete(int dormId) {
+        String query = "DELETE FROM dorms WHERE dorm_id = ?";
+        try (Connection c = SQLConnector.getConnection();
+             PreparedStatement s = c.prepareStatement(query)) {
+            s.setInt(1, dormId);
+            return s.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static Dorm findByJoinCode(String joinCode) {
         String query = "SELECT * FROM dorms WHERE UPPER(join_code) = ?";
