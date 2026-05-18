@@ -7,16 +7,15 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dorm.DormmatesController">
-    <VBox spacing="15.0" styleClass="card" VBox.vgrow="ALWAYS">
-        <Label text="DORMMATES LIST">
-            <styleClass>
-                <String fx:value="font-bold" />
-                <String fx:value="text-lg" />
-                <String fx:value="text-brand-blue" />
-            </styleClass>
-        </Label>
 
-        <TableView fx:id="dormmatesTable" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+    <VBox spacing="15.0" styleClass="card" VBox.vgrow="ALWAYS">
+
+        <VBox spacing="4.0">
+            <Label styleClass="font-bold text-lg text-brand-blue" text="DORMMATES LIST" />
+            <Label styleClass="text-sm text-gray" text="View and manage the members sharing your current room workspace." />
+        </VBox>
+
+        <TableView fx:id="dormmatesTable" styleClass="list-view" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="nameCol" prefWidth="200.0" text="Full Name" />
                 <TableColumn fx:id="usernameCol" prefWidth="150.0" text="Username" />
@@ -26,5 +25,6 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
+
     </VBox>
 </VBox>

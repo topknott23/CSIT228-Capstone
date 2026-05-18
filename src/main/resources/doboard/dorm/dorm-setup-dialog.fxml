@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<StackPane style="-fx-background-color: transparent; -fx-padding: 20;" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dorm.DormSetupController">
+<StackPane style="-fx-background-color: transparent; -fx-padding: 20;" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dorm.DormSetupController">
 
     <VBox prefWidth="420.0" spacing="20.0" style="-fx-border-color: #cacaca; -fx-border-radius: 15px;">
         <styleClass>
@@ -27,12 +22,12 @@
                     <String fx:value="text-brand-blue" />
                 </styleClass>
             </Label>
-            <Label text="Join your roommates in your shared space." style="-fx-text-fill: #666;" />
+            <Label style="-fx-text-fill: #666;" text="Join your roommates in your shared space." />
             <Separator />
         </VBox>
 
         <VBox fx:id="createSection" managed="false" spacing="10.0" style="-fx-background-color: #F9F9F9; -fx-padding: 15px;" styleClass="rounded-lg" visible="false">
-            <Label text="Create New Dorm (Landlord Only)" style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Create New Dorm (Landlord Only)" />
             <TextField fx:id="dormNameField" promptText="e.g., Baker Hall 302" styleClass="input-pill" />
             <Button maxWidth="Infinity" onAction="#handleCreateDorm" style="-fx-padding: 8px;" styleClass="btn-primary" text="Create &amp; Register" />
         </VBox>
@@ -44,12 +39,12 @@
         </HBox>
 
         <VBox spacing="10.0" style="-fx-background-color: #F9F9F9; -fx-padding: 15px;" styleClass="rounded-lg">
-            <Label text="Join Existing Dorm" style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+            <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Join Existing Dorm" />
             <TextField fx:id="joinCodeField" promptText="Enter 6-Digit Code" styleClass="input-pill" />
             <Button maxWidth="Infinity" onAction="#handleJoinDorm" style="-fx-padding: 8px; -fx-text-fill: #406AAF; -fx-font-weight: bold;" styleClass="btn-action" text="Join Dorm" />
         </VBox>
 
-        <Label fx:id="statusLabel" alignment="CENTER" maxWidth="Infinity" style="-fx-font-size: 12px; -fx-font-weight: bold;" wrapText="true" />
+        <Label fx:id="statusLabel" alignment="CENTER" maxWidth="Infinity" onMouseClicked="#copyCode" onMouseEntered="#renderCopyCodeBoxTooltip" onMouseExited="#renderCopyCodeBoxTooltip" style="-fx-font-size: 12px; -fx-font-weight: bold;" wrapText="true" />
 
         <HBox alignment="CENTER_RIGHT">
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancel" text="Cancel">
