@@ -26,7 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 
 public class AdminContentController {
@@ -79,6 +79,10 @@ public class AdminContentController {
 
     private void setupTableColumns() {
         if (maintenanceTableView != null) {
+            idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+            unitColumn.setCellValueFactory(new PropertyValueFactory<>("unit"));
+            issueColumn.setCellValueFactory(new PropertyValueFactory<>("issue"));
+
             maintenanceTableView.setItems(ticketList);
         }
     }
@@ -91,6 +95,29 @@ public class AdminContentController {
         if (systemNotifContainer != null) systemNotifContainer.getChildren().clear();
         if (signalsNotifContainer != null) signalsNotifContainer.getChildren().clear();
         ticketList.clear();
+
+        doboard.dorm.DormDAO dormDAO = new doboard.dorm.DormDAO();
+        java.util.List<Dorm> dormsToProcess = new java.util.ArrayList<>();
+        if (dormId == -1) {
+            dormsToProcess.addAll(dormDAO.findAllDorms());
+        } else {
+            Dorm d = dormService.getDormById(dormId);
+            if (d != null) dormsToProcess.add(d);
+        }
+
+        for (Dorm dorm : dormsToProcess) {
+            java.util.List<doboard.signals.SignalDAO.Signal> dormSignals = signalService.getAllSignalsForDorm(dorm.getDorm_id());
+
+            for (doboard.signals.SignalDAO.Signal signal : dormSignals) {
+                String locationContext = dorm.getDorm_name() + " (" + signal.senderName() + ")";
+
+                ticketList.add(new MaintenanceTicket(
+                        signal.id(),
+                        locationContext,
+                        signal.complaint()
+                ));
+            }
+        }
     }
 
     @FXML
