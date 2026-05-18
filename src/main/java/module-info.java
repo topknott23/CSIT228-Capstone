@@ -15,6 +15,7 @@ module doboard.core {
     opens doboard.common to javafx.fxml;
     opens doboard.common.util to javafx.fxml;
     opens doboard.dorm to javafx.fxml;
+    opens doboard.common.cache to javafx.fxml;
     // Graphics/CSS read
     opens images to javafx.graphics, javafx.fxml;
     opens styles to javafx.graphics, javafx.fxml;
@@ -25,5 +26,6 @@ module doboard.core {
     exports doboard.expenses;
     exports doboard.signals;
     exports doboard.common.util;
+    exports doboard.common.cache;
     exports doboard;
 }

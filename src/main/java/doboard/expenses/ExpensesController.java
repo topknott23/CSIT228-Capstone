@@ -29,6 +29,9 @@ public class ExpensesController {
     public void initialize() {
         NavigationManager.setTitle("Expenses"); // init title
         purposeComboBox.getItems().addAll("Rent", "Electricity", "Water", "Internet", "Groceries", "Other");
+        
+        doboard.common.cache.DormDataCache.getInstance().addListener(this::refreshExpensesUI);
+        
         refreshExpensesUI();
     }
 
@@ -85,7 +88,10 @@ public class ExpensesController {
                 Popup.show("Success", "Bill structured for: " + purpose + " at ₱" + String.format("%.2f", amount));
                 billAmountTextField.clear();
                 purposeComboBox.getSelectionModel().clearSelection();
-                refreshExpensesUI();
+                
+                doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                cache.notifyListeners();
             } else {
                 Popup.show("Error", "Failed to create bill splits.");
             }
@@ -103,7 +109,9 @@ public class ExpensesController {
             try {
                 int id = Integer.parseInt(input.trim());
                 if(expenseService.updateSplitStatus(id, true)){
-                    refreshExpensesUI();
+                    doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                    cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                    cache.notifyListeners();
                 }
             } catch (NumberFormatException ignored) {
                 Popup.show("Error", "Please enter a valid numeric ID.");
@@ -119,7 +127,9 @@ public class ExpensesController {
             try {
                 int id = Integer.parseInt(input.trim());
                 if(expenseService.updateSplitStatus(id, false)){
-                    refreshExpensesUI();
+                    doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                    cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                    cache.notifyListeners();
                 }
             } catch (NumberFormatException ignored) {
                 Popup.show("Error", "Please enter a valid numeric ID.");
@@ -132,19 +142,16 @@ public class ExpensesController {
         processedBillContainer.getChildren().clear();
         transactionContainer.getChildren().clear();
 
-        User currentUser = SessionHandler.loadSession();
-        if (currentUser == null) return;
+        doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+        if (cache.getCurrentUserId() == -1) return;
 
-        int userDormId = expenseService.getDormIdForUser(currentUser.getUser_id());
-        if (userDormId == -1) return;
-
-        List<Bill> dormBills = expenseService.getDormBills(userDormId);
+        List<Bill> dormBills = cache.getBills();
 
         for (Bill bill : dormBills) {
-            List<BillSplit> splits = expenseService.getSplitsForBill(bill.getBill_id());
+            List<BillSplit> splits = cache.getSplitsForBill(bill.getBill_id());
 
             for (BillSplit split : splits) {
-                if (split.getUser_id() == currentUser.getUser_id()) {
+                if (split.getUser_id() == cache.getCurrentUserId()) {
                     if (!split.isPaid()) {
                         addBillRow(bill.getTitle() + " (ID: " + split.getSplit_id() + ")", split.getAmount());
                     } else {

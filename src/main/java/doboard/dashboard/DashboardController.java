@@ -61,17 +61,28 @@ public class DashboardController {
                 // Hide the badge container completely for the Master Admin
                 if (workspaceBadgeContainer != null) workspaceBadgeContainer.setVisible(false);
             } else {
-                int dormId = dormService.getUserDormId(currentUser.getUser_id());
-
-                // Set the Workspace Badge for Normal Tenants
-                Dorm dorm = dormService.getDormById(dormId);
+                doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                Dorm dorm = cache.getDorm();
+                
                 if (dorm != null) {
                     if (tenantDormNameLabel != null) tenantDormNameLabel.setText(dorm.getDorm_name().toUpperCase());
                     if (tenantJoinCodeLabel != null) tenantJoinCodeLabel.setText(dorm.getJoin_code());
 
-                    DormMember.Role role = dormService.getUserRoleInDorm(currentUser.getUser_id(), dormId);
-                    if(role == DormMember.Role.ADMIN) isAdmin = true;
+                    // Find current user's role from cached members
+                    isAdmin = cache.getMembers().stream()
+                        .filter(u -> u.getUser_id() == currentUser.getUser_id())
+                        .findFirst()
+                        .map(u -> dormService.getUserRoleInDorm(currentUser.getUser_id(), dorm.getDorm_id()) == DormMember.Role.ADMIN) // Role is not in User model, keep this or update User model. But dormService works for now. 
+                        .orElse(false);
                 }
+                
+                // Keep workspace badge updated if dorm name changes
+                cache.addListener(() -> {
+                    Dorm updatedDorm = cache.getDorm();
+                    if (updatedDorm != null) {
+                        if (tenantDormNameLabel != null) tenantDormNameLabel.setText(updatedDorm.getDorm_name().toUpperCase());
+                    }
+                });
             }
         } else {
             usernameVal.setText("Guest");
@@ -104,6 +115,8 @@ public class DashboardController {
 
     @FXML
     private void handleLogout(ActionEvent event) {
+        doboard.common.cache.DataSyncService.getInstance().stop();
+        doboard.common.cache.DormDataCache.getInstance().clear();
         SessionHandler.endSession();
         Stage stage = StageUtil.getStage(event);
         SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");

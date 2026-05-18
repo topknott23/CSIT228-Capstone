@@ -63,28 +63,41 @@ public class SignalsController {
 
         currentUser = SessionHandler.loadSession();
         if (currentUser != null) {
-            dormId = signalService.getDormIdForUser(currentUser.getUser_id());
+            dormId = doboard.common.cache.DormDataCache.getInstance().getDormId();
+            doboard.common.cache.DormDataCache.getInstance().addListener(this::refreshData);
         }
 
+        refreshData();
+    }
+
+    private void refreshData() {
         loadTenants();
-        loadSignalLogs(); // Initializing the logs on startup
+        loadSignalLogs();
     }
 
     private void loadTenants() {
         if(currentUser == null || dormId == -1) return;
 
-        tenantMap = signalService.getDormmatesMap(currentUser.getUser_id(), dormId);
+        tenantMap.clear();
+        tenantComboBox.getItems().clear();
+        
+        List<User> members = doboard.common.cache.DormDataCache.getInstance().getMembers();
+        for (User u : members) {
+            if (u.getUser_id() != currentUser.getUser_id()) {
+                tenantMap.put(u.getUsername(), u.getUser_id());
+            }
+        }
+        
         tenantComboBox.getItems().addAll(tenantMap.keySet());
     }
 
-    // New method to fetch and populate the left column history log
     private void loadSignalLogs() {
         if (signalLogContainer == null) return;
         signalLogContainer.getChildren().clear();
 
         if (currentUser == null || dormId == -1) return;
 
-        List<SignalDAO.Signal> signals = signalService.getRecentSignals(currentUser.getUser_id(), dormId);
+        List<SignalDAO.Signal> signals = doboard.common.cache.DormDataCache.getInstance().getSignals();
 
         if (signals.isEmpty()) {
             // Set up a nice cartoony/blue empty state
@@ -122,7 +135,9 @@ public class SignalsController {
         // Persist the DND status to database
         if (currentUser != null && dormId != -1) {
             signalService.saveDndStatus(currentUser.getUser_id(), dormId, reason, hours);
-            loadSignalLogs(); // Refresh the log to show the DND system message
+            doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+            cache.reload(cache.getDormId(), cache.getCurrentUserId());
+            cache.notifyListeners();
         }
 
         Popup.show("Do Not Disturb", "Notifications disabled for " + hours + " hours. Reason: " + reason);
@@ -152,7 +167,9 @@ public class SignalsController {
 
             if (sent) {
                 Popup.show("Signal Sent", "Sent " + nudges + " nudge(s) to " + tenant + " for: " + complaint);
-                loadSignalLogs(); // Instantly refresh the UI so the user sees what they just sent
+                doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
+                cache.reload(cache.getDormId(), cache.getCurrentUserId());
+                cache.notifyListeners();
             } else {
                 Popup.show("Error", "Failed to send signal. Please try again.");
             }

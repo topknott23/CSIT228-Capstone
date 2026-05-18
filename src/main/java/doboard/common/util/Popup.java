@@ -80,6 +80,43 @@ public class Popup {
         });
     }
 
+    public static void showSubtleToast(String message) {
+        Platform.runLater(() -> {
+            Window activeWindow = getActiveWindow();
+            if (activeWindow == null) return;
+
+            Stage toastStage = new Stage();
+            toastStage.initOwner(activeWindow);
+            toastStage.initStyle(StageStyle.TRANSPARENT);
+            toastStage.initModality(Modality.NONE);
+
+            HBox root = new HBox();
+            root.setAlignment(Pos.CENTER);
+            root.getStyleClass().addAll("bg-brand-blue", "rounded-md", "shadow-md");
+            root.setStyle("-fx-padding: 8px 15px;");
+
+            try { root.getStylesheets().add(Popup.class.getResource("/styles/styles.css").toExternalForm()); } catch (Exception ignored) {}
+
+            Label msgLbl = new Label(message);
+            msgLbl.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 11px;");
+
+            root.getChildren().add(msgLbl);
+
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            toastStage.setScene(scene);
+
+            PauseTransition delay = new PauseTransition(Duration.seconds(3));
+            delay.setOnFinished(e -> toastStage.close());
+
+            toastStage.show();
+            // Position at top center
+            toastStage.setX(activeWindow.getX() + (activeWindow.getWidth() - toastStage.getWidth()) / 2);
+            toastStage.setY(activeWindow.getY() + 40); // 40px from top
+            delay.play();
+        });
+    }
+
     // --- GLOBAL CONFIRMATION DIALOG (Yes/No) ---
     public static boolean showConfirmation(String title, String message, String confirmText) {
         AtomicBoolean result = new AtomicBoolean(false);
