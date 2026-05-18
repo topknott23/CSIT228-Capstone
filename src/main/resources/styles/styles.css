@@ -137,6 +137,7 @@
     -fx-border-color: #cacaca;
     -fx-border-radius: 10px;
     -fx-padding: 2px;
+    -fx-hbar-policy: never; /* Removes the horizontal scrollbar */
 }
 
 /* Kills the faint blue glow when clicked */
@@ -152,6 +153,7 @@
     -fx-border-color: transparent transparent #f0f0f0 transparent; /* Bottom separator line */
     -fx-border-width: 0 0 1 0;
     -fx-font-size: 13px;
+    -fx-wrap-text: true; /* Wraps text to fit the cell width */
 }
 
 /* Removes the separator line on empty slots so it doesn't look broken */
