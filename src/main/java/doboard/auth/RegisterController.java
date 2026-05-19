@@ -54,11 +54,6 @@ public class RegisterController {
             return;
         }
 
-        if (passwordInput.length() < 8 || !passwordInput.matches(".*\\d.*") || !passwordInput.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
-            Popup.show("Registration Failed", "Password must be at least 8 characters long, contain a number, and a special character.");
-            return;
-        }
-
         User newUser = new User(usernameInput, emailInput, fullNameInput, passwordInput);
 
         boolean isRegistered = UserDAO.Register(newUser);
