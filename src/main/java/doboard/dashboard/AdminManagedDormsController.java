@@ -60,7 +60,7 @@ public class AdminManagedDormsController {
             deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15; -fx-background-radius: 5; -fx-cursor: hand;");
             deleteBtn.setOnAction(e -> {
                 Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-                        "Are you sure you want to deleteDorm " + dName + " permanently? ",
+                        "Are you sure you want to delete    Dorm " + dName + " permanently? ",
                         ButtonType.YES, ButtonType.NO);
                 confirm.showAndWait();
 

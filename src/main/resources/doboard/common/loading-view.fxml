@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" spacing="20.0" styleClass="bg-brand-blue" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.common.LoadingController">
    <children>
-      <Label text="DoBoard" textFill="#ffd94c">
+      <Label text="MAINTENANT" textFill="#ffd94c">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>
