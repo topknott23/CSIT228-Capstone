@@ -1,15 +1,21 @@
 /* --- 1. COLORS & BRANDING --- */
-.bg-white { -fx-background-color: #FFFFFF; }
-.bg-gray-light { -fx-background-color: #F4F4F4; }
-.bg-gray-medium { -fx-background-color: #E7E7E7; }
+.bg-white { -fx-background-color: rgba(255, 255, 255, 0.75); }
+.bg-gray-light { -fx-background-color: rgba(248, 250, 252, 0.5); }
 .bg-brand-blue { -fx-background-color: #406AAF; }
-.bg-brand-blue1 { -fx-background-color: #cedbf3; }
+.bg-brand-blue1 { -fx-background-color: rgba(64, 106, 175, 0.12); }
 .bg-brand-yellow { -fx-background-color: #FFD94C; }
+.bg-dashboard-canvas {
+    -fx-background-image: url("../images/background.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
 
-.text-brand-blue { -fx-text-fill: #406AAF; }
-.text-brand-yellow { -fx-text-fill: #FFD94C; }
+.text-brand-blue { -fx-text-fill: #31548F; }
+.text-brand-yellow { -fx-text-fill: #EAB308; }
 .text-white { -fx-text-fill: #FFFFFF; }
-.text-gray { -fx-text-fill: #666666; }
+.text-gray { -fx-text-fill: #4A5568; }
+.text-dark { -fx-text-fill: #0F172A; }
 
 /* --- 2. LAYOUT & SPACING --- */
 .p-2 { -fx-padding: 8px; }
@@ -21,163 +27,231 @@
 .spacing-4 { -fx-spacing: 16px; }
 
 /* --- 3. BORDERS & RADIUS --- */
-.br-gray-md{ -fx-border-color: #cacaca; }
-.br-red { -fx-border-color: red; }
-.br-blue{ -fx-border-color: #427AB5; }
-.br-linear-y-b{ -fx-border-color: linear-gradient(to bottom, #427AB5, #FFD94C); }
-.br-dashed{
-    -fx-border-style: segments(12, 6) phase 0 line-cap butt;
+.br-gray-md { -fx-border-color: rgba(255, 255, 255, 0.45); }
+.br-red { -fx-border-color: #EF4444; }
+.br-blue { -fx-border-color: #406AAF; }
+.br-linear-y-b { -fx-border-color: transparent; }
+.br-dashed {
+    -fx-border-style: segments(8, 4) phase 0 line-cap butt;
+    -fx-border-color: rgba(64, 106, 175, 0.3);
 }
 
 .rounded-md { -fx-background-radius: 8px; -fx-border-radius: 8px; }
-.rounded-md-t { -fx-background-radius: 8 8 0 0; -fx-border-radius: 8 8 0 0; }
+.rounded-md-t { -fx-background-radius: 8px 8px 0 0; -fx-border-radius: 8px 8px 0 0; }
 .rounded-lg { -fx-background-radius: 12px; -fx-border-radius: 12px; }
-.rounded-lg-t { -fx-background-radius: 12 12 0 0; -fx-border-radius: 12 12 0 0; }
-.rounded-xl { -fx-background-radius: 15px; -fx-border-radius: 15px; }
-.rounded-xl-t { -fx-background-radius: 15 15 0 0; -fx-border-radius: 15 15 0 0; }
-.rounded-full { -fx-background-radius: 50px; -fx-border-radius: 50px; }
-.rounded-full-t { -fx-background-radius: 50 50 0 0; -fx-border-radius: 50 50 0 0; }
+.rounded-lg-t { -fx-background-radius: 12px 12px 0 0; -fx-border-radius: 12px 12px 0 0; }
+.rounded-xl { -fx-background-radius: 20px; -fx-border-radius: 20px; }
+.rounded-xl-t { -fx-background-radius: 20px 20px 0 0; -fx-border-radius: 20px 20px 0 0; }
+.rounded-full { -fx-background-radius: 40px; -fx-border-radius: 40px; }
 
-/* --- 4. SHADOWS & EFFECTS --- */
-.shadow-sm { -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0); }
-.shadow-md { -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 0); }
+/* --- 4. GLASSMORPHISM SHADOWS --- */
+.shadow-sm { -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.04), 6, 0, 0, 2); }
+.shadow-md { -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.09), 20, 0, 0, 8); }
 
 /* --- 5. TYPOGRAPHY --- */
 .font-bold { -fx-font-weight: bold; }
-.text-ssm { -fx-font-size: 6px; }
-.text-sm { -fx-font-size: 11px; }
+.text-ssm { -fx-font-size: 10px; }
+.text-sm { -fx-font-size: 12px; }
 .text-md { -fx-font-size: 14px; }
 .text-lg { -fx-font-size: 18px; }
 .text-xl { -fx-font-size: 24px; }
-.text-wrap-l {
-    -fx-wrap-text: true;
-    -fx-text-alignment: left;
-}
+.text-wrap-l { -fx-wrap-text: true; -fx-text-alignment: left; }
 
-/* --- 6. COMMON COMPONENT BASE CLASSES --- */
+/* --- 6. GLASSMORPHISM COMPONENT MODULES --- */
 .card {
-    -fx-background-color: white;
-    -fx-background-radius: 15px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-background-color: rgba(255, 255, 255, 0.72);
+    -fx-border-color: rgba(255, 255, 255, 0.55);
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 18px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.06), 16, 0, 0, 6);
     -fx-padding: 20px;
 }
+
+.glass-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.65);
+    -fx-border-color: rgba(255, 255, 255, 0.45);
+    -fx-border-width: 1.5px;
+    -fx-background-radius: 24px;
+    -fx-border-radius: 22px;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.08), 24, 0, 0, 10);
+}
+
 .btn-primary {
     -fx-background-color: #406AAF;
-    -fx-text-fill: #FFD94C;
-    -fx-background-radius: 12px;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
-.btn-primary:hover{
-    -fx-background-color: derive(#406AAF, 20%);
-    -fx-border-color: transparent;
-    -fx-font-weight: bold;
-    -fx-font-size: 13px;
-    -fx-text-fill: derive(#FFD94C, 10%);
-}
-.btn-secondary{
+.btn-primary:hover { -fx-background-color: #31548F; }
+
+.btn-secondary {
     -fx-background-color: transparent;
-    -fx-text-fill: #333;
+    -fx-text-fill: #1E293B;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
     -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 14px;
 }
-.btn-secondary:hover{
-    -fx-background-color: #F4F4F4;
+.btn-secondary:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-text-fill: #406AAF;
 }
+
 .btn-small {
     -fx-background-color: #406AAF;
     -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
     -fx-cursor: hand;
-    -fx-font-size: 10;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 14px;
 }
-.btn-action{
-    -fx-background-color: white;
+.btn-small:hover { -fx-background-color: #31548F; }
+
+.btn-action {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-border-color: rgb(64 106 175 / 0.43);
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #1E293B;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.02), 4, 0, 0, 1);
+}
+.btn-action:hover {
+    -fx-background-color: rgba(64, 106, 175, 0.1);
     -fx-border-color: #406AAF;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
+    -fx-text-fill: #406AAF;
 }
+
 .input-pill {
-    -fx-background-color: #E7E7E7;
+    -fx-background-color: rgba(241, 245, 249, 0.7);
     -fx-background-radius: 20px;
-    -fx-padding: 10px;
+    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.5);
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 0, 0, -1, 2);
+    -fx-padding: 10px 16px;
 }
+
 .notif-item {
-    -fx-padding: 8 10 8 10;
-    -fx-border-color: rgba(0,0,0,0.05);
+    -fx-padding: 10px 12px;
+    -fx-border-color: rgba(0, 0, 0, 0.04);
     -fx-border-width: 0 0 1 0;
 }
 .task-item {
-    -fx-background-color: #ffffff;
-    -fx-padding: 8;
-    -fx-background-radius: 10;
-    -fx-border-color: #dcdcdc;
-    -fx-border-radius: 10;
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-padding: 12px;
+    -fx-background-radius: 12px;
+    -fx-border-color: rgba(255, 255, 255, 0.6);
+    -fx-border-radius: 12px;
 }
+
 .nav-tab {
     -fx-background-color: transparent;
     -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 3px 0;
+    -fx-padding: 6px 4px;
 }
+
+.nav-tab:hover { -fx-border-color: rgba(64, 106, 175, 0.4); }
+
 .nav-tab-active {
     -fx-background-color: transparent;
-    -fx-font-weight: bold;
+    -fx-cursor: hand;
     -fx-border-color: #406AAF;
-    -fx-border-width: 0 0 2 0;
+    -fx-border-width: 0 0 3px 0;
+    -fx-padding: 6px 4px;
 }
-.hyperlink{
-    -fx-text-fill: #427AB5;
+.nav-tab-active .label {
+    -fx-text-fill: #406AAF;
     -fx-font-weight: bold;
 }
-/* --- 7. LIST VIEW & DIALOG COMPONENT STYLING --- */
-
-/* Removes the ugly default light-blue focus ring and formats the box */
-.list-view {
+.sidebar-btn {
     -fx-background-color: transparent;
+    -fx-text-fill: #1E293B;
     -fx-background-radius: 10px;
-    -fx-border-color: #cacaca;
     -fx-border-radius: 10px;
-    -fx-padding: 2px;
-    -fx-hbar-policy: never; /* Removes the horizontal scrollbar */
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 14px;
+}
+.sidebar-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-text-fill: #406AAF;
 }
 
-/* Kills the faint blue glow when clicked */
+.sidebar-btn-active {
+    -fx-background-color: #406AAF;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(64, 106, 175, 0.2), 6, 0, 0, 2);
+}
+.sidebar-btn-active:hover {
+    -fx-background-color: #31548F;
+}
+
+/* --- 7. JAVAFX CONTROLS POLISH --- */
+.scroll-pane { -fx-background-color: transparent; -fx-padding: 0; }
+.scroll-pane .viewport { -fx-background-color: transparent; }
+.separator *.line { -fx-border-color: rgba(15, 23, 42, 0.08) transparent transparent transparent; }
+
+.list-view {
+    -fx-background-color: rgba(255, 255, 255, 0.35);
+    -fx-background-radius: 12px;
+    -fx-border-color: rgba(255, 255, 255, 0.45);
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 12px;
+    -fx-padding: 4px;
+    -fx-hbar-policy: never;
+    -fx-effect: dropshadow(three-pass-box, rgba(15, 23, 42, 0.04), 10, 0, 0, 4);
+}
+
 .list-view:focused {
     -fx-background-color: transparent;
 }
 
-/* Styles the individual items inside the list */
 .list-cell {
     -fx-background-color: transparent;
-    -fx-text-fill: #555555;
+    -fx-text-fill: #1E293B;
     -fx-padding: 12px;
-    -fx-border-color: transparent transparent #f0f0f0 transparent; /* Bottom separator line */
-    -fx-border-width: 0 0 1 0;
+    -fx-border-color: transparent transparent rgba(255, 255, 255, 0.3) transparent;
+    -fx-border-width: 0 0 1px 0;
     -fx-font-size: 13px;
-    -fx-wrap-text: true; /* Wraps text to fit the cell width */
+    -fx-wrap-text: true;
 }
 
-/* Removes the separator line on empty slots so it doesn't look broken */
 .list-cell:empty {
     -fx-border-color: transparent;
+    -fx-background-color: transparent;
 }
 
-/* Hover effect */
 .list-cell:hover {
-    -fx-background-color: #F4F4F4;
+    -fx-background-color: rgba(255, 255, 255, 0.45);
     -fx-cursor: hand;
 }
 
-/* Selected state (Matches your brand blue) */
 .list-cell:selected {
-    -fx-background-color: #406AAF;
-    -fx-text-fill: white;
+    -fx-background-color: rgba(64, 106, 175, 0.85);
+    -fx-text-fill: #FFFFFF;
     -fx-font-weight: bold;
-    -fx-border-radius: 8px;
     -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(64, 106, 175, 0.15), 6, 0, 0, 2);
 }
-/* --- 8. COMBO BOX STYLING --- */
 
-/* 1. The main outer box */
+/* --- 8. COMBO BOX STYLING --- */
 .combo-box {
     -fx-background-color: #E7E7E7;
     -fx-background-radius: 8px;
@@ -185,33 +259,26 @@
     -fx-padding: 2px;
 }
 
-/* Hover state for the outer box */
 .combo-box:hover {
     -fx-background-color: #dcdcdc;
     -fx-cursor: hand;
 }
 
-/* 2. Strip the ugly gradient off the dropdown button */
 .combo-box .arrow-button {
     -fx-background-color: transparent;
     -fx-padding: 0 10px 0 10px;
 }
 
-/* 3. Style the little arrow icon */
 .combo-box .arrow {
     -fx-background-color: #666666;
 }
 
-/* 4. The selected text inside the closed box */
 .combo-box > .list-cell {
     -fx-background-color: transparent;
     -fx-text-fill: #333333;
     -fx-font-weight: bold;
 }
 
-/* --- THE POPUP DROPDOWN MENU --- */
-
-/* The floating menu wrapper */
 .combo-box-popup .list-view {
     -fx-background-color: white;
     -fx-background-radius: 8px;
@@ -221,7 +288,6 @@
     -fx-padding: 4px;
 }
 
-/* Individual items in the dropdown */
 .combo-box-popup .list-cell {
     -fx-padding: 8px 12px;
     -fx-background-color: transparent;
@@ -230,7 +296,6 @@
     -fx-border-width: 0; /* overrides the border from your other list-cell css */
 }
 
-/* Item hover */
 .combo-box-popup .list-cell:hover {
     -fx-background-color: #F4F4F4;
     -fx-text-fill: #333333;
@@ -238,7 +303,6 @@
     -fx-background-radius: 5px;
 }
 
-/* Item selected */
 .combo-box-popup .list-cell:selected {
     -fx-background-color: #406AAF;
     -fx-text-fill: white;
@@ -247,8 +311,6 @@
 }
 
 /* --- 9. TABLE VIEW STYLING --- */
-
-/* Main outer table wrapper */
 .table-view {
     -fx-background-color: transparent;
     -fx-background-radius: 12px;
@@ -257,19 +319,16 @@
     -fx-padding: 0px;
 }
 
-/* Kills the default focus border glow */
 .table-view:focused {
     -fx-background-color: transparent;
 }
 
-/* The header bar container row */
 .table-view .column-header-background {
-    -fx-background-color: #F4F4F4; /* Matches bg-gray-light */
+    -fx-background-color: #F4F4F4;
     -fx-background-radius: 12px 12px 0 0;
     -fx-padding: 0 0 1 0;
 }
 
-/* Individual column headers */
 .table-view .column-header {
     -fx-background-color: transparent;
     -fx-size: 38px; /* Gives the header comfortable vertical height */
@@ -277,14 +336,12 @@
     -fx-border-width: 0 1 0 0;
 }
 
-/* Text inside the headers */
 .table-view .column-header .label {
     -fx-text-fill: #406AAF; /* Matches text-brand-blue */
     -fx-font-weight: bold;
     -fx-font-size: 12px;
 }
 
-/* Standard row cell styling */
 .table-cell {
     -fx-padding: 12px; /* Clean padding matching your list cells */
     -fx-text-fill: #555555;
@@ -293,12 +350,10 @@
     -fx-border-width: 0 0 1 0;
 }
 
-/* Smooth hover effect on rows */
 .table-row-cell:hover {
     -fx-background-color: #F4F4F4;
 }
 
-/* Selected row state matching your brand theme */
 .table-row-cell:selected {
     -fx-background-color: #406AAF;
     -fx-background-radius: 4px;
@@ -308,14 +363,12 @@
     -fx-text-fill: white;
 }
 
-/* Cleans up and hides empty rows so the table doesn't look broken at the bottom */
 .table-row-cell:empty,
 .table-row-cell:empty .table-cell {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
-/* Removes the extra blank filler header slot on the far right */
 .table-view .filler {
     -fx-background-color: transparent;
 }

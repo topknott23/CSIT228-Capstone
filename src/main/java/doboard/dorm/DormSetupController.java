@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 public class DormSetupController {
 
     @FXML private VBox createSection;
+    @FXML private VBox joinDorm;
     @FXML private HBox orSeparator;
     @FXML private TextField dormNameField;
     @FXML private TextField joinCodeField;
@@ -36,8 +37,8 @@ public class DormSetupController {
         if (currentUser != null && currentUser.getUsername().equalsIgnoreCase("admin")) {
             createSection.setVisible(true);
             createSection.setManaged(true);
-            orSeparator.setVisible(true);
-            orSeparator.setManaged(true);
+            joinDorm.setVisible(false);
+            joinDorm.setManaged(false);
         }
     }
 

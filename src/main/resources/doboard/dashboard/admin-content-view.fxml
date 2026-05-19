@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.AdminContentController">
+<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.AdminContentController">
     <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
 
         <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">
@@ -70,9 +62,9 @@
             </styleClass>
         </Label>
 
-        <HBox alignment="TOP_CENTER" maxHeight="Infinity" spacing="15.0" VBox.vgrow="ALWAYS" maxWidth="Infinity">
+        <HBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
 
-            <VBox minWidth="260.0" prefWidth="300.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+            <VBox maxWidth="1.7976931348623157E308" minWidth="260.0" prefWidth="300.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="MAINTENANCE VIEW">
                     <styleClass>
                         <String fx:value="font-bold" />
@@ -95,7 +87,7 @@
                 </TableView>
             </VBox>
 
-            <VBox alignment="TOP_CENTER" minWidth="260.0" prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="260.0" prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="BILLING">
                     <styleClass>
                         <String fx:value="font-bold" />
@@ -109,26 +101,26 @@
                     <padding>
                         <Insets left="15.0" right="15.0" />
                     </padding>
-                    <VBox spacing="4.0" maxWidth="Infinity">
+                    <VBox maxWidth="Infinity" spacing="4.0">
                         <Label styleClass="text-sm, text-gray" text="Add Bill:" />
                         <HBox alignment="CENTER_LEFT" maxWidth="Infinity">
                             <Label styleClass="text-lg, font-bold" text="₱" />
-                            <TextField fx:id="rentAmountField" maxWidth="Infinity" promptText="0.00" HBox.hgrow="ALWAYS" />
+                            <TextField fx:id="rentAmountField" maxWidth="Infinity" promptText="0.00" styleClass="input-pill" HBox.hgrow="ALWAYS" />
                         </HBox>
                     </VBox>
+                    <TextField fx:id="billPurposeField" maxWidth="Infinity" promptText="Enter Bill Purpose" styleClass="input-pill" />
                     <Separator maxWidth="Infinity">
                         <VBox.margin>
                             <Insets bottom="5.0" top="5.0" />
                         </VBox.margin>
                     </Separator>
-                    <TextField fx:id="billPurposeField" maxWidth="Infinity" promptText="Enter Bill Purpose" styleClass="input-field" />
-                    <Button fx:id="selectRecipientBtn" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSelectRecipient" style="-fx-background-color: #E7E7E7; -fx-padding: 8px 12px; -fx-text-fill: #555;" styleClass="rounded-md" text="Select Recipient" />
+                    <Button fx:id="selectRecipientBtn" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSelectRecipient" styleClass="btn-action" text="Select Recipient" />
                     <Region prefHeight="15.0" VBox.vgrow="ALWAYS" />
                     <Button onAction="#handleCreateAdminBill" styleClass="btn-primary" text="Add Bill" />
                 </VBox>
             </VBox>
 
-            <VBox alignment="TOP_CENTER" minWidth="260.0" prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS" maxWidth="1.7976931348623157E308">
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" minWidth="260.0" prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="DORM">
                     <styleClass>
                         <String fx:value="font-bold" />

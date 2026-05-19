@@ -32,13 +32,7 @@
             <Button maxWidth="Infinity" onAction="#handleCreateDorm" style="-fx-padding: 8px;" styleClass="btn-primary" text="Create &amp; Register" />
         </VBox>
 
-        <HBox fx:id="orSeparator" alignment="CENTER" managed="false" spacing="10.0" visible="false">
-            <Separator HBox.hgrow="ALWAYS" />
-            <Label style="-fx-text-fill: #999; -fx-font-weight: bold; -fx-font-size: 12px;" text="OR" />
-            <Separator HBox.hgrow="ALWAYS" />
-        </HBox>
-
-        <VBox spacing="10.0" style="-fx-background-color: #F9F9F9; -fx-padding: 15px;" styleClass="rounded-lg">
+        <VBox fx:id="joinDorm" spacing="10.0" style="-fx-background-color: #F9F9F9; -fx-padding: 15px;" styleClass="rounded-lg">
             <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Join Existing Dorm" />
             <TextField fx:id="joinCodeField" promptText="Enter 6-Digit Code" styleClass="input-pill" />
             <Button maxWidth="Infinity" onAction="#handleJoinDorm" style="-fx-padding: 8px; -fx-text-fill: #406AAF; -fx-font-weight: bold;" styleClass="btn-action" text="Join Dorm" />

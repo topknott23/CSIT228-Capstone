@@ -26,7 +26,6 @@ public class DashboardController {
     @FXML private HBox navBarContainer;
     @FXML private Label currentScreenTitleLabel;
 
-    // --- NEW LABELS FOR THE WORKSPACE BADGE ---
     @FXML private HBox workspaceBadgeContainer;
     @FXML private Label tenantDormNameLabel;
     @FXML private Label tenantJoinCodeLabel;
@@ -39,6 +38,15 @@ public class DashboardController {
 
     @FXML private VBox tenantSidebar;
     @FXML private VBox adminSidebar;
+
+    // --- NEW INJECTIONS FOR SIDEBAR BUTTONS ---
+    @FXML private Button sideProfile;
+    @FXML private Button sideDormmates;
+    @FXML private Button sideArchivedBills;
+    @FXML private Button sideChat;
+    @FXML private Button sideAdminOverview;
+    @FXML private Button sideAdminManage;
+    @FXML private Button sideAdminHistory;
 
     @FXML private TitleBarController embeddedTitleBarController;
 
@@ -59,28 +67,24 @@ public class DashboardController {
         if (currentUser != null) {
             usernameVal.setText(currentUser.getUsername());
 
-            // --- GLOBAL LANDLORD CHECK & DORM DATA FETCH ---
             if (currentUser.getUsername().equalsIgnoreCase("admin")) {
                 isAdmin = true;
-                // Hide the badge container completely for the Master Admin
                 if (workspaceBadgeContainer != null) workspaceBadgeContainer.setVisible(false);
             } else {
                 doboard.common.cache.DormDataCache cache = doboard.common.cache.DormDataCache.getInstance();
                 Dorm dorm = cache.getDorm();
-                
+
                 if (dorm != null) {
                     if (tenantDormNameLabel != null) tenantDormNameLabel.setText(dorm.getDorm_name().toUpperCase());
                     if (tenantJoinCodeLabel != null) tenantJoinCodeLabel.setText(dorm.getJoin_code());
 
-                    // Find current user's role from cached members
                     isAdmin = cache.getMembers().stream()
-                        .filter(u -> u.getUser_id() == currentUser.getUser_id())
-                        .findFirst()
-                        .map(u -> dormService.getUserRoleInDorm(currentUser.getUser_id(), dorm.getDorm_id()) == DormMember.Role.ADMIN) // Role is not in User model, keep this or updateDorm User model. But dormService works for now.
-                        .orElse(false);
+                            .filter(u -> u.getUser_id() == currentUser.getUser_id())
+                            .findFirst()
+                            .map(u -> dormService.getUserRoleInDorm(currentUser.getUser_id(), dorm.getDorm_id()) == DormMember.Role.ADMIN)
+                            .orElse(false);
                 }
-                
-                // Keep workspace badge updated if dorm name changes
+
                 cache.addListener(() -> {
                     Dorm updatedDorm = cache.getDorm();
                     if (updatedDorm != null) {
@@ -95,10 +99,11 @@ public class DashboardController {
         loadLayout();
     }
 
-    @FXML private void handleProfileSettings(ActionEvent event) {if (!isAdmin) loadTab("/doboard/dashboard/profile-view.fxml", "PROFILE", null);}
-    @FXML private void handleDormmatesList(ActionEvent event) {if (!isAdmin) loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", null);}
-    @FXML private void handleArchivedBills(ActionEvent event) {if (!isAdmin) loadTab("/doboard/expenses/archived-bills-view.fxml", "ARCHIVED BILLS", null);}
-    public void handleOpenDormChat(ActionEvent actionEvent) {if (!isAdmin) loadTab("/doboard/chatbox/chatbox-view.fxml", "DORM CHAT", null);}
+    @FXML private void handleProfileSettings(ActionEvent event) {if (!isAdmin) loadTab("/doboard/dashboard/profile-view.fxml", "PROFILE", sideProfile);}
+    @FXML private void handleDormmatesList(ActionEvent event) {if (!isAdmin) loadTab("/doboard/dorm/dormmates-view.fxml", "DORMMATES", sideDormmates);}
+    @FXML private void handleArchivedBills(ActionEvent event) {if (!isAdmin) loadTab("/doboard/expenses/archived-bills-view.fxml", "ARCHIVED BILLS", sideArchivedBills);}
+    public void handleOpenDormChat(ActionEvent actionEvent) {if (!isAdmin) loadTab("/doboard/chatbox/chatbox-view.fxml", "DORM CHAT", sideChat);}
+
     @FXML public void goDashboard() {if(!isAdmin) loadTab("/doboard/dashboard/content-view.fxml", "DASHBOARD", navDashboard);}
     @FXML public void goChores() {if(!isAdmin)loadTab("/doboard/chores/chore-view.fxml", "CHORES", navChores);}
     @FXML public void goExpenses() {if(!isAdmin)loadTab("/doboard/expenses/expenses-view.fxml", "EXPENSES", navExpenses);}
@@ -113,7 +118,6 @@ public class DashboardController {
         SceneLoader.loadScene(stage, getClass(), "/doboard/auth/login-view.fxml", "Login");
     }
 
-
     private void loadLayout() {
         if (isAdmin) {
             navBarContainer.setVisible(false);
@@ -124,7 +128,7 @@ public class DashboardController {
             adminSidebar.setVisible(true);
             adminSidebar.setManaged(true);
 
-            loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", null);
+            loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", sideAdminOverview);
         } else {
             navBarContainer.setVisible(true);
             navBarContainer.setManaged(true);
@@ -146,46 +150,55 @@ public class DashboardController {
         resetNavButtonStyles();
 
         if(activeTargetButton != null){
-            activeTargetButton.getStyleClass().removeAll("nav-tab", "nav-tab-active");
-            activeTargetButton.getStyleClass().add("nav-tab-active");
+            // Determine if it belongs to top-nav or sidebar and assign style properties safely
+            if (activeTargetButton.getStyleClass().contains("sidebar-btn")) {
+                activeTargetButton.getStyleClass().removeAll("sidebar-btn", "sidebar-btn-active");
+                activeTargetButton.getStyleClass().add("sidebar-btn-active");
+            } else {
+                activeTargetButton.getStyleClass().removeAll("nav-tab", "nav-tab-active");
+                activeTargetButton.getStyleClass().add("nav-tab-active");
+            }
         }
     }
 
     private void resetNavButtonStyles() {
+        // Reset top tabs
         Button[] tabs = {navDashboard, navChores, navExpenses, navSignals};
         for (Button btn : tabs) {
             btn.getStyleClass().removeAll("nav-tab", "nav-tab-active");
             btn.getStyleClass().add("nav-tab");
+        }
+
+        // Reset sidebar buttons
+        Button[] sideButtons = {sideProfile, sideDormmates, sideArchivedBills, sideChat, sideAdminOverview, sideAdminManage, sideAdminHistory};
+        for (Button btn : sideButtons) {
+            if (btn != null) {
+                btn.getStyleClass().removeAll("sidebar-btn", "sidebar-btn-active");
+                btn.getStyleClass().add("sidebar-btn");
+            }
         }
     }
 
     @FXML
     public void copyCode(MouseEvent mouseEvent) {
         if (originalJoinCode == null) return;
-
-        // 1. Send original code to clipboard
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();
         content.putString(originalJoinCode);
         clipboard.setContent(content);
 
         tenantJoinCodeLabel.setText("Copied!");
-        tenantJoinCodeLabel.setStyle("-fx-text-fill: #16aa53; -fx-cursor: hand; -fx-font-weight: bold;"); // Turns green
+        tenantJoinCodeLabel.setStyle("-fx-text-fill: #16aa53; -fx-cursor: hand; -fx-font-weight: bold;");
     }
 
     @FXML
     public void renderCopyCodeBoxTooltip(MouseEvent mouseEvent) {
         var eventType = mouseEvent.getEventType();
-
         if (eventType == MouseEvent.MOUSE_ENTERED) {
             originalJoinCode = tenantJoinCodeLabel.getText();
-
             tenantJoinCodeLabel.setText("Copy Code?");
-
             tenantJoinCodeLabel.setStyle("-fx-text-fill: #73b7f3; -fx-cursor: hand; -fx-font-weight: bold;");
-        }
-
-        else if (eventType == MouseEvent.MOUSE_EXITED) {
+        } else if (eventType == MouseEvent.MOUSE_EXITED) {
             if (originalJoinCode != null) {
                 tenantJoinCodeLabel.setText(originalJoinCode);
             }
@@ -195,19 +208,18 @@ public class DashboardController {
 
     @FXML
     private void handleAdminDashboard(ActionEvent event) {
-        loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", null);
+        loadTab("/doboard/dashboard/admin-content-view.fxml", "OVERVIEW", sideAdminOverview);
     }
 
     @FXML
     private void handleManageDormsAdmin(ActionEvent event) {
-
-        loadTab("/doboard/dashboard/admin-managed-dorms-view.fxml", "MANAGE DORMS", null);
+        loadTab("/doboard/dashboard/admin-managed-dorms-view.fxml", "MANAGE DORMS", sideAdminManage);
     }
 
     @FXML
     private void handleBillHistoryAdmin(ActionEvent event) {
-
+        // Temporarily passing target button state so it updates even when intercepted by an alert/popup
+        loadTab(null, "BILL HISTORY", sideAdminHistory);
         Popup.show("Coming Soon", "Bill History module is currently being prepared.");
     }
-
 }

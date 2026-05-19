@@ -1,103 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.expenses.ExpensesController">
+<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.expenses.ExpensesController">
     <HBox alignment="CENTER" maxHeight="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
         <VBox alignment="TOP_CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
 
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-padding: 0 0 10 0;" styleClass="card" VBox.vgrow="ALWAYS">
                 <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="DUE BILL">
                     <styleClass>
-                        <String fx:value="font-bold"/>
-                        <String fx:value="p-2"/>
-                        <String fx:value="text-md"/>
-                        <String fx:value="bg-brand-blue1"/>
-                        <String fx:value="rounded-lg-t"/>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
                     </styleClass>
                 </Label>
                 <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="p-2" VBox.vgrow="ALWAYS">
                     <VBox.margin>
-                        <Insets left="10.0" right="10.0"/>
+                        <Insets left="10.0" right="10.0" />
                     </VBox.margin>
                     <VBox fx:id="dueBillContainer" spacing="5.0" />
                 </ScrollPane>
             </VBox>
 
-            <Separator prefWidth="200.0"/>
+            <Separator prefWidth="200.0" />
 
             <HBox alignment="TOP_CENTER" spacing="15.0">
                 <VBox prefWidth="200.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
                     <Label maxWidth="1.7976931348623157E308" text="ADD BILL" VBox.vgrow="ALWAYS">
                         <styleClass>
-                            <String fx:value="font-bold"/>
-                            <String fx:value="p-2"/>
-                            <String fx:value="text-md"/>
-                            <String fx:value="bg-brand-blue1"/>
-                            <String fx:value="rounded-lg-t"/>
+                            <String fx:value="font-bold" />
+                            <String fx:value="p-2" />
+                            <String fx:value="text-md" />
+                            <String fx:value="bg-brand-blue1" />
+                            <String fx:value="rounded-lg-t" />
                         </styleClass>
                     </Label>
 
                     <VBox>
                         <styleClass>
-                            <String fx:value="p-2"/>
-                            <String fx:value="spacing-2"/>
+                            <String fx:value="p-2" />
+                            <String fx:value="spacing-2" />
                         </styleClass>
                         <VBox.margin>
-                            <Insets left="8.0" right="8.0"/>
+                            <Insets left="8.0" right="8.0" />
                         </VBox.margin>
                         <Label text="Amount:">
                             <styleClass>
-                                <String fx:value="text-sm"/>
-                                <String fx:value="text-gray"/>
+                                <String fx:value="text-sm" />
+                                <String fx:value="text-gray" />
                             </styleClass>
                         </Label>
                         <HBox alignment="CENTER_LEFT">
                             <Label text="₱">
                                 <styleClass>
-                                    <String fx:value="text-lg"/>
-                                    <String fx:value="font-bold"/>
+                                    <String fx:value="text-lg" />
+                                    <String fx:value="font-bold" />
                                 </styleClass>
                                 <HBox.margin>
                                     <Insets right="4.0" />
                                 </HBox.margin>
                             </Label>
-                            <TextField fx:id="billAmountTextField" prefWidth="171.0" promptText="0.00"/>
+                            <TextField fx:id="billAmountTextField" prefWidth="171.0" promptText="0.00" styleClass="input-pill" />
                         </HBox>
                     </VBox>
 
                     <VBox alignment="CENTER" spacing="10.0">
                         <VBox.margin>
-                            <Insets left="12.0" right="12.0"/>
+                            <Insets left="12.0" right="12.0" />
                         </VBox.margin>
 
-                        <TextField fx:id="purposeField" maxWidth="171.0" promptText="Enter Purpose (e.g., Groceries)" styleClass="input-field" />
+                        <TextField fx:id="purposeField" maxWidth="171.0" promptText="Enter Purpose (e.g., Groceries)" styleClass="input-pill" />
 
-                        <Button onAction="#splitBill" styleClass="btn-action" text="Split Bill"/>
+                        <Button onAction="#splitBill" styleClass="btn-action" text="Split Bill" />
                     </VBox>
                 </VBox>
 
                 <VBox maxHeight="1.7976931348623157E308" prefWidth="200.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
                     <Label maxWidth="1.7976931348623157E308" text="PROCESSED BILL" VBox.vgrow="ALWAYS">
                         <styleClass>
-                            <String fx:value="font-bold"/>
-                            <String fx:value="p-2"/>
-                            <String fx:value="text-md"/>
-                            <String fx:value="bg-brand-blue1"/>
-                            <String fx:value="rounded-lg-t"/>
+                            <String fx:value="font-bold" />
+                            <String fx:value="p-2" />
+                            <String fx:value="text-md" />
+                            <String fx:value="bg-brand-blue1" />
+                            <String fx:value="rounded-lg-t" />
                         </styleClass>
                     </Label>
                     <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="Infinity" styleClass="p-2" VBox.vgrow="ALWAYS">
                         <VBox.margin>
-                            <Insets left="10.0" right="10.0"/>
+                            <Insets left="10.0" right="10.0" />
                         </VBox.margin>
                         <VBox fx:id="processedBillContainer" spacing="5.0" />
                     </ScrollPane>
@@ -105,22 +100,22 @@
             </HBox>
         </VBox>
 
-        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <Separator orientation="VERTICAL" prefHeight="200.0" />
 
         <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" HBox.hgrow="ALWAYS">
             <VBox maxHeight="1.7976931348623157E308" style="-fx-padding: 0 0 10 0;" styleClass="card" VBox.vgrow="ALWAYS">
                 <Label maxWidth="Infinity" text="TRANSACTION HISTORY">
                     <styleClass>
-                        <String fx:value="font-bold"/>
-                        <String fx:value="p-2"/>
-                        <String fx:value="text-md"/>
-                        <String fx:value="bg-brand-blue1"/>
-                        <String fx:value="rounded-lg-t"/>
+                        <String fx:value="font-bold" />
+                        <String fx:value="p-2" />
+                        <String fx:value="text-md" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
                     </styleClass>
                 </Label>
                 <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="p-2" VBox.vgrow="ALWAYS">
                     <VBox.margin>
-                        <Insets left="10.0" right="10.0"/>
+                        <Insets left="10.0" right="10.0" />
                     </VBox.margin>
                     <VBox fx:id="transactionContainer" spacing="5.0" />
                 </ScrollPane>

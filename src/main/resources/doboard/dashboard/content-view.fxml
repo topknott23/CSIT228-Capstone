@@ -6,70 +6,69 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.ContentController">
-    <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
-        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">
+    <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="16.0" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="12.0" />
+        </padding>
+
+        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #475569; -fx-letter-spacing: 0.5px;" text="NOTIFICATIONS">
             <styleClass>
                 <String fx:value="font-bold" />
-                <String fx:value="text-lg" />
+                <String fx:value="text-sm" />
             </styleClass>
         </Label>
-        <HBox maxWidth="Infinity" spacing="15.0">
-            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED">
-                    <styleClass>
-                        <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
-                        <String fx:value="bg-brand-blue1" />
-                        <String fx:value="rounded-lg-t" />
-                    </styleClass></Label>
-                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                    </VBox.margin>
-                    <VBox fx:id="systemNotifContainer" spacing="5.0">
 
-                    </VBox>
-                </ScrollPane>
-                <HBox.margin>
-                    <Insets />
-                </HBox.margin>
-            </VBox>
-            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label maxWidth="Infinity" text="NUDGES">
+        <HBox maxWidth="Infinity" spacing="16.0">
+            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 12 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED" style="-fx-text-fill: #2E538F; -fx-padding: 10px 14px;">
                     <styleClass>
                         <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
+                        <String fx:value="text-sm" />
                         <String fx:value="bg-brand-blue1" />
                         <String fx:value="rounded-lg-t" />
                     </styleClass>
                 </Label>
-                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2">
+                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="110.0" styleClass="scroll-pane">
                     <VBox.margin>
-                        <Insets left="10.0" right="10.0" />
+                        <Insets left="12.0" right="12.0" top="8.0" />
                     </VBox.margin>
-                    <VBox fx:id="nudgeNotifContainer" spacing="5.0">
+                    <VBox fx:id="systemNotifContainer" spacing="6.0" />
+                </ScrollPane>
+            </VBox>
 
-                    </VBox>
+            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 12 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label maxWidth="Infinity" text="NUDGES" style="-fx-text-fill: #2E538F; -fx-padding: 10px 14px;">
+                    <styleClass>
+                        <String fx:value="font-bold" />
+                        <String fx:value="text-sm" />
+                        <String fx:value="bg-brand-blue1" />
+                        <String fx:value="rounded-lg-t" />
+                    </styleClass>
+                </Label>
+                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="110.0" styleClass="scroll-pane">
+                    <VBox.margin>
+                        <Insets left="12.0" right="12.0" top="8.0" />
+                    </VBox.margin>
+                    <VBox fx:id="nudgeNotifContainer" spacing="6.0" />
                 </ScrollPane>
             </VBox>
         </HBox>
 
         <Separator />
 
-        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="UTILITIES">
+        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #475569; -fx-letter-spacing: 0.5px;" text="UTILITIES">
             <styleClass>
                 <String fx:value="font-bold" />
-                <String fx:value="text-lg" />
-            </styleClass></Label>
-        <HBox maxWidth="Infinity" minHeight="250.0" spacing="15.0" VBox.vgrow="ALWAYS">
-            <VBox maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="CHORE">
+                <String fx:value="text-sm" />
+            </styleClass>
+        </Label>
+
+        <HBox maxWidth="Infinity" minHeight="290.0" spacing="16.0" VBox.vgrow="ALWAYS">
+            <VBox maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 12 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="CHORE" style="-fx-text-fill: #2E538F; -fx-padding: 10px 14px;">
                     <styleClass>
                         <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
+                        <String fx:value="text-sm" />
                         <String fx:value="bg-brand-blue1" />
                         <String fx:value="rounded-lg-t" />
                     </styleClass>
@@ -79,42 +78,41 @@
                         <String fx:value="p-2" />
                         <String fx:value="spacing-2" />
                     </styleClass>
-                    <Label text="Next Due:">
+                    <Label text="Next Due:" style="-fx-text-fill: #334155;">
                         <styleClass>
                             <String fx:value="text-sm" />
-                            <String fx:value="text-gray" />
+                            <String fx:value="font-bold" />
                         </styleClass>
                         <VBox.margin>
-                            <Insets left="5.0" />
+                            <Insets left="4.0" top="2.0" />
                         </VBox.margin>
                     </Label>
-                    <VBox fx:id="dueChoreContainer">
-                    </VBox>
+                    <VBox fx:id="dueChoreContainer" />
 
-                    <Separator />
+                    <Separator style="-fx-padding: 4px 0;" />
 
-                    <Label text="Upcoming:">
+                    <Label text="Upcoming:" style="-fx-text-fill: #475569;">
                         <styleClass>
                             <String fx:value="text-sm" />
-                            <String fx:value="text-gray" />
+                            <String fx:value="font-bold" />
                         </styleClass>
                         <VBox.margin>
-                            <Insets left="5.0" />
+                            <Insets left="4.0" />
                         </VBox.margin>
                     </Label>
-               <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2" VBox.vgrow="ALWAYS">
-                  <content>
-                     <VBox fx:id="upcomingChoreContainer" spacing="5.0" />
-                  </content>
-               </ScrollPane>
+                    <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="90.0" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+                        <content>
+                            <VBox fx:id="upcomingChoreContainer" spacing="6.0" />
+                        </content>
+                    </ScrollPane>
                 </VBox>
             </VBox>
-            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="EXPENSES">
+
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="10.0" style="-fx-padding: 0 0 12 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="EXPENSES" style="-fx-text-fill: #2E538F; -fx-padding: 10px 14px;">
                     <styleClass>
                         <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
+                        <String fx:value="text-sm" />
                         <String fx:value="bg-brand-blue1" />
                         <String fx:value="rounded-lg-t" />
                     </styleClass>
@@ -124,26 +122,26 @@
                         <String fx:value="p-2" />
                         <String fx:value="spacing-2" />
                     </styleClass>
-                    <Label text="Balance:">
+                    <Label text="Balance:" style="-fx-text-fill: #334155;">
                         <styleClass>
                             <String fx:value="text-sm" />
-                            <String fx:value="text-gray" />
+                            <String fx:value="font-bold" />
                         </styleClass>
                         <VBox.margin>
-                            <Insets left="5.0" />
+                            <Insets left="4.0" top="2.0" />
                         </VBox.margin>
                     </Label>
-                    <HBox>
+                    <HBox alignment="BASELINE_LEFT" spacing="4.0">
                         <padding>
-                            <Insets left="5.0" right="5.0" />
+                            <Insets left="4.0" right="4.0" bottom="4.0" />
                         </padding>
-                        <Label text="₱">
+                        <Label text="₱" style="-fx-text-fill: #0F172A;">
                             <styleClass>
                                 <String fx:value="text-lg" />
                                 <String fx:value="font-bold" />
                             </styleClass>
                         </Label>
-                        <Label fx:id="balanceValue" text="0.00">
+                        <Label fx:id="balanceValue" text="0.00" style="-fx-text-fill: #0F172A;">
                             <styleClass>
                                 <String fx:value="text-lg" />
                                 <String fx:value="font-bold" />
@@ -151,33 +149,35 @@
                         </Label>
                     </HBox>
                     <Button maxWidth="Infinity" onAction="#goExpenses" styleClass="btn-action" text="View &amp; Settle Payments" />
-                    <Separator />
-                    <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="Infinity" prefHeight="100.0" styleClass="p-2" VBox.vgrow="ALWAYS">
-                        <VBox fx:id="expensesAlertContainer" spacing="5.0">
-                        </VBox>
+
+                    <Separator style="-fx-padding: 4px 0;" />
+
+                    <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="Infinity" prefHeight="90.0" styleClass="scroll-pane" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="expensesAlertContainer" spacing="6.0" />
                     </ScrollPane>
                 </VBox>
             </VBox>
-            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="8.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SEND SIGNALS">
+
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" prefWidth="215.0" spacing="8.0" style="-fx-padding: 0 0 12 0;" styleClass="card" HBox.hgrow="ALWAYS">
+                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SEND SIGNALS" style="-fx-text-fill: #2E538F; -fx-padding: 10px 14px;">
                     <styleClass>
                         <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
+                        <String fx:value="text-sm" />
                         <String fx:value="bg-brand-blue1" />
                         <String fx:value="rounded-lg-t" />
                     </styleClass>
                 </Label>
-                <VBox alignment="CENTER">
+                <VBox alignment="CENTER" spacing="6.0" VBox.vgrow="ALWAYS">
                     <styleClass>
                         <String fx:value="p-2" />
-                        <String fx:value="spacing-2" />
                     </styleClass>
                     <Button fx:id="signalBtnShrtct1" maxWidth="Infinity" onAction="#signalAct1" styleClass="btn-action" text="Noise level" />
                     <Button fx:id="signalBtnShrtct2" maxWidth="Infinity" onAction="#signalAct2" styleClass="btn-action" text="Messy kitchen" />
                     <Button fx:id="signalBtnShrtct3" maxWidth="Infinity" onAction="#signalAct3" styleClass="btn-action" text="Take out trash" />
                     <Button fx:id="signalBtnShrtct4" maxWidth="Infinity" onAction="#signalAct4" styleClass="btn-action" text="Wash dishes" />
-                    <Separator prefWidth="200.0" />
+
+                    <Separator style="-fx-padding: 4px 0;" />
+
                     <Button alignment="CENTER" mnemonicParsing="false" onAction="#goSignals" styleClass="btn-small" text="Signal Details" />
                 </VBox>
             </VBox>

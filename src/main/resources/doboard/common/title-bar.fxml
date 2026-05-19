@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import java.lang.String?>
-<HBox fx:id="topNavBar" alignment="CENTER_LEFT" maxHeight="55.0" prefHeight="55.0" spacing="30.0" StackPane.alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.common.TitleBarController">
-    <padding><Insets left="15.0" right="15.0" /></padding>
-    <HBox alignment="CENTER_LEFT" spacing="15.0">
-        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+<HBox fx:id="topNavBar" alignment="CENTER_LEFT" maxHeight="50.0" prefHeight="50.0" spacing="30.0" style="-fx-background-color: rgba(255, 255, 255, 0.45); -fx-border-color: rgba(255, 255, 255, 0.55); -fx-border-width: 0 0 1.5px 0;" styleClass="shadow-sm" StackPane.alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.common.TitleBarController">
+    <padding>
+        <Insets bottom="5.0" left="20.0" right="15.0" top="5.0" />
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="12.0">
+        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../images/logo.png" />
         </ImageView>
         <Label fx:id="windowTitleLabel" alignment="CENTER" text="MAINTENANT">
             <styleClass>
                 <String fx:value="font-bold" />
                 <String fx:value="text-lg" />
-                <String fx:value="text-white" />
+                <String fx:value="text-dark" />
             </styleClass>
         </Label>
     </HBox>
 
     <Region HBox.hgrow="ALWAYS" />
 
-    <HBox alignment="CENTER" spacing="10.0">
-        <Button onAction="#minimizeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-cursor: hand;" text="—" />
-        <Button onAction="#maximizeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;" text="☐" />
-        <Button onAction="#closeWindow" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-cursor: hand;" text="X" />
+    <HBox alignment="CENTER" spacing="4.0">
+        <Button onAction="#minimizeWindow" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 13px; -fx-cursor: hand;" text="—">
+            <styleClass>
+                <String fx:value="text-gray" />
+                <String fx:value="btn-secondary" />
+            </styleClass>
+        </Button>
+        <Button onAction="#maximizeWindow" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 15px; -fx-cursor: hand;" text="☐">
+            <styleClass>
+                <String fx:value="text-gray" />
+                <String fx:value="btn-secondary" />
+            </styleClass>
+        </Button>
+        <Button onAction="#closeWindow" style="-fx-background-color: transparent; -fx-font-weight: bold; -fx-font-size: 14px; -fx-cursor: hand;" text="✕">
+            <styleClass>
+                <String fx:value="text-gray" />
+                <String fx:value="btn-secondary" />
+            </styleClass>
+        </Button>
     </HBox>
-    <styleClass>
-        <String fx:value="bg-brand-blue" />
-        <String fx:value="shadow-md" />
-    </styleClass>
 </HBox>

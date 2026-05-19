@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1080.0" styleClass="bg-gray-medium" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.DashboardController">
+<StackPane fx:id="rootPane" prefHeight="720.0" prefWidth="1080.0" styleClass="bg-dashboard-canvas" stylesheets="@../../styles/styles.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.DashboardController">
     <BorderPane>
 
         <top>
@@ -20,151 +20,136 @@
         </top>
 
         <center>
-            <HBox maxHeight="Infinity" maxWidth="Infinity" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+            <HBox maxHeight="Infinity" maxWidth="Infinity" spacing="24.0" style="-fx-background-color: transparent;">
 
-                <VBox minWidth="-Infinity" prefWidth="220.0" spacing="10.0">
-
-                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-width: 0 0 1 0;">
-                        <Label fx:id="usernameVal" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Username" />
+                <VBox minWidth="-Infinity" prefWidth="235.0" spacing="12.0">
+                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: rgba(255, 255, 255, 0.45);">
+                        <Label fx:id="usernameVal" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #0F172A;" text="Username" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#handleLogout" style="-fx-text-fill: #e74c3c; -fx-padding: 6px 12px; -fx-cursor: hand;" text="Logout">
+                        <Button mnemonicParsing="false" onAction="#handleLogout" style="-fx-text-fill: red; -fx-background-color: rgba(239, 68, 68, 0.1); -fx-border-color: rgba(239, 68, 68, 0.25); -fx-padding: 6px 14px; -fx-cursor: hand;" text="Logout">
                             <styleClass>
                                 <String fx:value="text-sm" />
                                 <String fx:value="btn-secondary" />
                                 <String fx:value="font-bold" />
                                 <String fx:value="rounded-md" />
-                                <String fx:value="br-red" />
                             </styleClass>
                         </Button>
                         <styleClass>
-                            <String fx:value="bg-white" />
                             <String fx:value="rounded-xl-t" />
-                            <String fx:value="shadow-md" />
-                            <String fx:value="br-blue" />
                         </styleClass>
                         <padding>
-                            <Insets bottom="8.0" left="15.0" right="10.0" top="8.0" />
+                            <Insets bottom="12.0" left="16.0" right="12.0" top="12.0" />
                         </padding>
                     </HBox>
 
-                    <StackPane>
-                        <VBox fx:id="tenantSidebar" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                    <StackPane VBox.vgrow="ALWAYS">
+                        <VBox fx:id="tenantSidebar" prefHeight="200.0" prefWidth="100.0" spacing="6.0">
                             <padding>
-                                <Insets left="15.0" right="15.0" top="10.0" />
+                                <Insets left="8.0" right="8.0" top="8.0" />
                             </padding>
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleProfileSettings" styleClass="btn-secondary" text="Profile &amp; Personal Info" />
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleDormmatesList" styleClass="btn-secondary" text="Dormmates" />
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleArchivedBills" styleClass="btn-secondary" text="Archived Bills" />
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleOpenDormChat" styleClass="btn-secondary" text="Dorm Chat" />
+                            <Button fx:id="sideProfile" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleProfileSettings" styleClass="sidebar-btn" text="Profile &amp; Personal Info" />
+                            <Button fx:id="sideDormmates" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleDormmatesList" styleClass="sidebar-btn" text="Dormmates" />
+                            <Button fx:id="sideArchivedBills" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleArchivedBills" styleClass="sidebar-btn" text="Archived Bills" />
+                            <Button fx:id="sideChat" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleOpenDormChat" styleClass="sidebar-btn" text="Dorm Chat" />
                         </VBox>
 
-                        <VBox fx:id="adminSidebar" prefHeight="200.0" prefWidth="100.0" spacing="10.0" visible="false" managed="false">
+                        <VBox fx:id="adminSidebar" prefHeight="200.0" prefWidth="100.0" spacing="6.0" visible="false" managed="false">
                             <padding>
-                                <Insets left="15.0" right="15.0" top="10.0" />
+                                <Insets left="8.0" right="8.0" top="8.0" />
                             </padding>
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleAdminDashboard" styleClass="btn-secondary" text="Overview" />
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleManageDormsAdmin" styleClass="btn-secondary" text="Manage Dorms" />
-                            <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleBillHistoryAdmin" styleClass="btn-secondary" text="Bill History" />
+                            <Button fx:id="sideAdminOverview" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleAdminDashboard" styleClass="sidebar-btn" text="Overview" />
+                            <Button fx:id="sideAdminManage" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleManageDormsAdmin" styleClass="sidebar-btn" text="Manage Dorms" />
+                            <Button fx:id="sideAdminHistory" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleBillHistoryAdmin" styleClass="sidebar-btn" text="Bill History" />
                         </VBox>
                     </StackPane>
 
                     <styleClass>
-                        <String fx:value="shadow-sm" />
-                        <String fx:value="rounded-xl" />
-                        <String fx:value="br-linear-y-b" />
-                        <String fx:value="bg-gray-light" />
+                        <String fx:value="glass-panel" />
                     </styleClass>
+                    <padding>
+                        <Insets bottom="12.0" />
+                    </padding>
                 </VBox>
 
                 <VBox maxWidth="Infinity" prefHeight="605.0" prefWidth="699.0" spacing="20.0" HBox.hgrow="ALWAYS">
-
                     <HBox alignment="CENTER_LEFT" styleClass="dashboard-header-bar">
-                        <VBox alignment="CENTER_LEFT">
-                            <HBox.margin>
-                                <Insets top="15.0" />
-                            </HBox.margin>
-                            <Label fx:id="currentScreenTitleLabel" text="DASHBOARD">
+                        <padding>
+                            <Insets bottom="4.0" left="4.0" right="4.0" top="12.0" />
+                        </padding>
+                        <VBox alignment="CENTER_LEFT" spacing="2.0">
+                            <Label fx:id="currentScreenTitleLabel" text="DASHBOARD" style="-fx-text-fill: #0F172A;">
                                 <styleClass>
                                     <String fx:value="text-xl" />
                                     <String fx:value="font-bold" />
                                 </styleClass>
                             </Label>
 
-                            <HBox fx:id="workspaceBadgeContainer" alignment="CENTER_LEFT" spacing="5.0">
-                                <Label fx:id="tenantDormNameLabel" style="-fx-font-weight: bold; -fx-text-fill: #555; -fx-font-size: 13px;" text="Loading Workspace..." />
-                                <Label style="-fx-text-fill: #999;" text="•" />
-                                <Label style="-fx-text-fill: #888; -fx-font-size: 12px;" text="Join Code:" />
-                                <Label fx:id="tenantJoinCodeLabel" onMouseClicked="#copyCode" onMouseEntered="#renderCopyCodeBoxTooltip" onMouseExited="#renderCopyCodeBoxTooltip" style="-fx-font-weight: bold; -fx-text-fill: #406AAF; -fx-font-size: 13px;" text="------" />
+                            <HBox fx:id="workspaceBadgeContainer" alignment="CENTER_LEFT" spacing="6.0">
+                                <Label fx:id="tenantDormNameLabel" style="-fx-font-weight: bold; -fx-text-fill: #334155; -fx-font-size: 13px;" text="Loading Workspace..." />
+                                <Label style="-fx-text-fill: rgba(15, 23, 42, 0.2);" text="•" />
+                                <Label style="-fx-text-fill: #475569; -fx-font-size: 12px;" text="Join Code:" />
+                                <Label fx:id="tenantJoinCodeLabel" onMouseClicked="#copyCode" onMouseEntered="#renderCopyCodeBoxTooltip" onMouseExited="#renderCopyCodeBoxTooltip" style="-fx-font-weight: bold; -fx-text-fill: #406AAF; -fx-font-size: 13px; -fx-cursor: hand;" text="------" />
                             </HBox>
                         </VBox>
+
                         <Region HBox.hgrow="ALWAYS" />
 
-                        <HBox fx:id="navBarContainer" alignment="CENTER" maxWidth="340.0" prefWidth="340.0" spacing="20.0" style="-fx-border-radius: 0 20 0 30; -fx-background-radius: 0 20 0 30; -fx-border-width: 0 0 1 1;" translateX="20.0">
+                        <HBox fx:id="navBarContainer" alignment="BOTTOM_CENTER" spacing="20.0">
                             <Button fx:id="navDashboard" mnemonicParsing="false" onAction="#goDashboard" styleClass="nav-tab-active">
                                 <graphic>
-                                    <VBox alignment="CENTER">
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                    <VBox alignment="CENTER" spacing="4.0">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="@../../images/house-chimney.png" />
                                         </ImageView>
-                                        <Label styleClass="text-ssm" text="Dashboard" />
+                                        <Label styleClass="text-ssm" text="Dashboard" style="-fx-text-fill: #406AAF;" />
                                     </VBox>
                                 </graphic>
                             </Button>
                             <Button fx:id="navChores" mnemonicParsing="false" onAction="#goChores" styleClass="nav-tab">
                                 <graphic>
-                                    <VBox alignment="CENTER">
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                    <VBox alignment="CENTER" spacing="4.0">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="@../../images/broom.png" />
                                         </ImageView>
-                                        <Label styleClass="text-ssm" text="Chores" />
+                                        <Label styleClass="text-ssm" text="Chores" style="-fx-text-fill: #475569;" />
                                     </VBox>
                                 </graphic>
                             </Button>
                             <Button fx:id="navExpenses" mnemonicParsing="false" onAction="#goExpenses" styleClass="nav-tab">
                                 <graphic>
-                                    <VBox alignment="CENTER">
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                    <VBox alignment="CENTER" spacing="4.0">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="@../../images/expense.png" />
                                         </ImageView>
-                                        <Label styleClass="text-ssm" text="Expenses" />
+                                        <Label styleClass="text-ssm" text="Expenses" style="-fx-text-fill: #475569;" />
                                     </VBox>
                                 </graphic>
                             </Button>
                             <Button fx:id="navSignals" mnemonicParsing="false" onAction="#goSignals" styleClass="nav-tab">
                                 <graphic>
-                                    <VBox alignment="CENTER">
-                                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                    <VBox alignment="CENTER" spacing="4.0">
+                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                             <Image url="@../../images/ghost.png" />
                                         </ImageView>
-                                        <Label styleClass="text-ssm" text="Signals" />
+                                        <Label styleClass="text-ssm" text="Signals" style="-fx-text-fill: #475569;" />
                                     </VBox>
                                 </graphic>
                             </Button>
-                            <styleClass>
-                                <String fx:value="bg-white" />
-                                <String fx:value="br-blue" />
-                            </styleClass>
-                            <padding>
-                                <Insets left="20.0" right="20.0" />
-                            </padding>
                         </HBox>
                     </HBox>
 
                     <VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" />
 
                     <styleClass>
-                        <String fx:value="shadow-sm" />
-                        <String fx:value="rounded-xl" />
-                        <String fx:value="br-linear-y-b" />
-                        <String fx:value="bg-gray-light" />
+                        <String fx:value="glass-panel" />
                     </styleClass>
                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                        <Insets bottom="24.0" left="24.0" right="24.0" />
                     </padding>
                 </VBox>
 
                 <BorderPane.margin>
-                    <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+                    <Insets bottom="24.0" left="32.0" right="32.0" top="16.0" />
                 </BorderPane.margin>
             </HBox>
         </center>

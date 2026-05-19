@@ -36,7 +36,7 @@
         <Separator prefWidth="200.0" />
     <HBox alignment="CENTER" maxHeight="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
         <HBox alignment="TOP_CENTER" spacing="15.0">
-            <VBox prefWidth="200.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
+            <VBox prefWidth="300.0" spacing="10.0" style="-fx-padding: 0 0 10 0;" styleClass="card">
                 <Label maxWidth="1.7976931348623157E308" text="CHORE MANAGER" VBox.vgrow="ALWAYS">
                     <styleClass>
                         <String fx:value="font-bold"/>
@@ -53,11 +53,11 @@
                             <String fx:value="text-gray"/>
                         </styleClass>
                     </Label>
-                    <Button fx:id="addChoreBtn" onAction="#addChore" prefWidth="100.0"
+                    <Button fx:id="addChoreBtn" onAction="#addChore" prefWidth="200.0"
                             styleClass="btn-action" text="Add Chore"/>
-                    <Button fx:id="updateChoreBtn" onAction="#updateChore" prefWidth="100.0"
+                    <Button fx:id="updateChoreBtn" onAction="#updateChore" prefWidth="200.0"
                             styleClass="btn-action" text="Update Chore"/>
-                    <Button fx:id="removeChoreBtn" onAction="#removeChore" prefWidth="100.0"
+                    <Button fx:id="removeChoreBtn" onAction="#removeChore" prefWidth="200.0"
                             styleClass="btn-action" text="Remove Chore"/>
                 </VBox>
             </VBox>
