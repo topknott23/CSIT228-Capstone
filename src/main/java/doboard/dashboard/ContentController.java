@@ -23,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ContentController {
@@ -162,12 +163,16 @@ public class ContentController {
 
     public void addChore(VBox container, Chore chore, boolean isDue) {
         Node choreNode = DashboardComponentFactory.createChoreItem(
-                chore.getTitle(), () -> markChoreAsDone(chore));
+                chore.getTitle(),
+                chore.getDue_date(),
+                () -> markChoreAsDone(chore)
+        );
+
         if (choreNode != null) {
-            if (!isDue) {
-                Node doneBtn = choreNode.lookup("#doneBtn");
-                if (doneBtn != null) doneBtn.setVisible(false);
-            }
+//            if (!isDue) {
+//                Node doneBtn = choreNode.lookup("#doneBtn");
+//                if (doneBtn != null) doneBtn.setVisible(false);
+//            }
             container.getChildren().add(choreNode);
         }
     }
