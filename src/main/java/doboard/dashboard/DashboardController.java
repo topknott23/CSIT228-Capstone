@@ -219,7 +219,7 @@ public class DashboardController {
     @FXML
     private void handleBillHistoryAdmin(ActionEvent event) {
         // Temporarily passing target button state so it updates even when intercepted by an alert/popup
-        loadTab(null, "BILL HISTORY", sideAdminHistory);
+//        loadTab(null, "BILL HISTORY", sideAdminHistory);
         Popup.show("Coming Soon", "Bill History module is currently being prepared.");
     }
 }

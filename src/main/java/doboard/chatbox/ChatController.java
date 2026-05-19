@@ -395,7 +395,7 @@ public class ChatController {
      */
     private void fetchMemberStatus() {
         String query = "SELECT u.full_name, " +
-                "(u.last_seen IS NOT NULL AND (UNIX_TIMESTAMP() - u.last_seen) <= 10) AS is_online " +
+                "(u.last_seen IS NOT NULL AND (UNIX_TIMESTAMP() - u.last_seen) <= 60) AS is_online " +
                 "FROM dorm_members dm " +
                 "JOIN users u ON dm.user_id = u.user_id " +
                 "WHERE dm.dorm_id = ? " +
