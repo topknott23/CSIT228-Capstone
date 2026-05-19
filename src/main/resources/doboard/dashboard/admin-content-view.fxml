@@ -8,50 +8,50 @@
 <VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.AdminContentController">
     <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
 
-        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">
-            <styleClass>
-                <String fx:value="font-bold" />
-                <String fx:value="text-lg" />
-            </styleClass>
-        </Label>
+<!--        <Label alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #555;" text="NOTIFICATIONS">-->
+<!--            <styleClass>-->
+<!--                <String fx:value="font-bold" />-->
+<!--                <String fx:value="text-lg" />-->
+<!--            </styleClass>-->
+<!--        </Label>-->
 
-        <HBox maxWidth="Infinity" spacing="15.0">
-            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED">
-                    <styleClass>
-                        <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
-                        <String fx:value="bg-brand-blue1" />
-                        <String fx:value="rounded-lg-t" />
-                    </styleClass>
-                </Label>
-                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="150.0" styleClass="p-2">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                    </VBox.margin>
-                    <VBox fx:id="systemNotifContainer" spacing="5.0" />
-                </ScrollPane>
-            </VBox>
+<!--        <HBox maxWidth="Infinity" spacing="15.0">-->
+<!--            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">-->
+<!--                <Label alignment="BOTTOM_LEFT" maxWidth="Infinity" text="SYSTEM FEED">-->
+<!--                    <styleClass>-->
+<!--                        <String fx:value="font-bold" />-->
+<!--                        <String fx:value="p-2" />-->
+<!--                        <String fx:value="text-md" />-->
+<!--                        <String fx:value="bg-brand-blue1" />-->
+<!--                        <String fx:value="rounded-lg-t" />-->
+<!--                    </styleClass>-->
+<!--                </Label>-->
+<!--                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="150.0" styleClass="p-2">-->
+<!--                    <VBox.margin>-->
+<!--                        <Insets left="10.0" right="10.0" />-->
+<!--                    </VBox.margin>-->
+<!--                    <VBox fx:id="systemNotifContainer" spacing="5.0" />-->
+<!--                </ScrollPane>-->
+<!--            </VBox>-->
 
-            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">
-                <Label maxWidth="Infinity" text="MAINTENANCE SIGNALS">
-                    <styleClass>
-                        <String fx:value="font-bold" />
-                        <String fx:value="p-2" />
-                        <String fx:value="text-md" />
-                        <String fx:value="bg-brand-blue1" />
-                        <String fx:value="rounded-lg-t" />
-                    </styleClass>
-                </Label>
-                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="150.0" styleClass="p-2">
-                    <VBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                    </VBox.margin>
-                    <VBox fx:id="signalsNotifContainer" spacing="5.0" />
-                </ScrollPane>
-            </VBox>
-        </HBox>
+<!--            <VBox maxWidth="1.7976931348623157E308" prefWidth="319.0" style="-fx-padding: 0 0 10 0;" styleClass="card" HBox.hgrow="ALWAYS">-->
+<!--                <Label maxWidth="Infinity" text="MAINTENANCE SIGNALS">-->
+<!--                    <styleClass>-->
+<!--                        <String fx:value="font-bold" />-->
+<!--                        <String fx:value="p-2" />-->
+<!--                        <String fx:value="text-md" />-->
+<!--                        <String fx:value="bg-brand-blue1" />-->
+<!--                        <String fx:value="rounded-lg-t" />-->
+<!--                    </styleClass>-->
+<!--                </Label>-->
+<!--                <ScrollPane fitToWidth="true" maxWidth="Infinity" prefHeight="150.0" styleClass="p-2">-->
+<!--                    <VBox.margin>-->
+<!--                        <Insets left="10.0" right="10.0" />-->
+<!--                    </VBox.margin>-->
+<!--                    <VBox fx:id="signalsNotifContainer" spacing="5.0" />-->
+<!--                </ScrollPane>-->
+<!--            </VBox>-->
+<!--        </HBox>-->
 
         <Separator />
 

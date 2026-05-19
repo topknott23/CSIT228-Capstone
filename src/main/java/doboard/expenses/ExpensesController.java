@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -22,7 +23,8 @@ public class ExpensesController {
     @FXML private VBox contentArea;
     @FXML private VBox dueBillContainer;
     @FXML private TextField billAmountTextField;
-    @FXML private TextField purposeField; // Replaced ComboBox
+    @FXML private TextField purposeField;
+    @FXML private Label billLabel;
     @FXML private VBox processedBillContainer;
     @FXML private VBox transactionContainer;
 

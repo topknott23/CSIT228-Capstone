@@ -15,10 +15,10 @@ public class ExpenseComponentFactory {
             FXMLLoader loader = new FXMLLoader(ExpenseComponentFactory.class.getResource("/doboard/expenses/duebill-item.fxml"));
             Node node = loader.load();
 
-            Label titleLabel = (Label) node.lookup("#titleLabel");
+            Label billLabel = (Label) node.lookup("#billLabel");
             Label amountLabel = (Label) node.lookup("#amountLabel");
 
-            if (titleLabel != null) titleLabel.setText(title);
+            if (billLabel != null) billLabel.setText(title);
             if (amountLabel != null) amountLabel.setText("₱" + String.format("%.2f", amount));
 
             // Locate the button by its fx:id and wire the callback
