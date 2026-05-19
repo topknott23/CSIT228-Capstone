@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dorm.DormmatesController">
+<VBox spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dorm.DormmatesController">
 
     <VBox spacing="15.0" styleClass="card" VBox.vgrow="ALWAYS">
 
-        <VBox spacing="4.0">
-            <Label styleClass="font-bold text-lg text-brand-blue" text="DORMMATES LIST" />
-            <Label styleClass="text-sm text-gray" text="View and manage the members sharing your current room workspace." />
-        </VBox>
+        <VBox spacing="4.0" />
 
         <TableView fx:id="dormmatesTable" styleClass="list-view" VBox.vgrow="ALWAYS">
             <columns>
