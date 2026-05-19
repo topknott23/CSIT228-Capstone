@@ -18,7 +18,7 @@ public class SceneLoader {
                 currentScene.setRoot(root);
             } else {
                 // First time setup (like initial app launch)
-                Scene scene = new Scene(root);
+                Scene scene = new Scene(root, 1280  , 800);
                 stage.setScene(scene);
             }
             stage.setTitle(title);
@@ -37,7 +37,7 @@ public class SceneLoader {
             if (currentScene != null) {
                 currentScene.setRoot(root);
             } else {
-                Scene scene = new Scene(root);
+                Scene scene = new Scene(root, 1280, 800);
                 stage.setScene(scene);
             }
             stage.setTitle(title);
