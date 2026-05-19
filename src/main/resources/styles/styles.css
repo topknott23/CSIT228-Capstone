@@ -372,3 +372,20 @@
 .table-view .filler {
     -fx-background-color: transparent;
 }
+
+/* --- 10. LOADING SCREEN GLOW POLISH --- */
+.progress-bar-loading {
+    -fx-background-color: rgba(15, 23, 42, 0.06);
+    -fx-background-radius: 10px;
+    -fx-padding: 2px;
+}
+
+.progress-bar-loading .track {
+    -fx-background-color: transparent;
+}
+
+.progress-bar-loading .bar {
+    -fx-background-color: linear-gradient(to right, #406AAF, #FFD94C);
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(64, 106, 175, 0.3), 6, 0, 0, 1);
+}

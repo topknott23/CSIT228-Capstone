@@ -21,6 +21,11 @@ public class SceneLoader {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
             }
+            if (!fxmlPath.contains("loading-view.fxml")) {
+                stage.setWidth(1280);
+                stage.setHeight(800);
+                stage.centerOnScreen();
+            }
             stage.setTitle(title);
             stage.show();
         } catch (IOException e) {
