@@ -38,7 +38,7 @@ We created this system to serve as a neutral third party that handles the awkwar
 ---
 
 ##  Built With
-`Java` | `JavaFX` | `JDBC` | `SQLite`
+`Java` | `JavaFX` | `JDBC` | `MySQL`
 
 ---
 
@@ -53,3 +53,15 @@ We created this system to serve as a neutral third party that handles the awkwar
 ### Design Patterns
 * **Singleton Pattern:** Used for secure and efficient Database Connection management.
 * **Observer Pattern:** Implemented for real-time dashboard state updates to keep all views synchronized.
+
+---
+
+## Database Configuration
+
+The system runs on an automated **MySQL** relational database pipeline (`dorm_app`) structured as follows:
+* **`users`**: Manages member accounts, encrypted passwords, and user-profile data.
+* **`dorms`**: Handles dorm spaces accessed through highly validated secure join tokens.
+* **`chores`**: Tracks chore profiles, periodic frequencies, due dates, and completion status flags.
+* **`chore_assignments`**: Links users directly to their designated household tasks.
+* **`bills`**: Records global shared utility requirements, total statements, and due dates.
+* **`bill_splits`**: Tracks split monetary allocations per user and their corresponding payment state (`is_paid`).
