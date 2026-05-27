@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="contentArea" spacing="20.0" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="doboard.dashboard.AdminBillHistoryController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <VBox alignment="TOP_CENTER" maxWidth="Infinity" spacing="15.0" VBox.vgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="card">
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+            <Label text="Select Workspace:">
+                <styleClass>
+                    <String fx:value="font-bold" />
+                    <String fx:value="text-md" />
+                </styleClass>
+            </Label>
+            <ComboBox fx:id="dormFilterComboBox" prefWidth="250.0" promptText="All Workspaces" styleClass="combo-box" />
+        </HBox>
+
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-padding: 0; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+            <VBox fx:id="billHistoryListContainer" spacing="15.0" />
+        </ScrollPane>
+    </VBox>
+</VBox>
